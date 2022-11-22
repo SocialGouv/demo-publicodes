@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`a besoin de variables pour fonctionner 1`] = `
+{
+  "patient . age": 12,
+  "patient . antécédents de maladie cardiovasculaire": 7,
+  "patient . cancert évolutif": 7,
+  "patient . cirrhose": 7,
+  "patient . diabète mal équilibré ou avec des complications": 7,
+  "patient . drépanocytose": 7,
+  "patient . enceinte": 7,
+  "patient . immunodépression": 7,
+  "patient . insuffisance rénale": 7,
+  "patient . maladie respiratoire chronique": 7,
+  "patient . poids": 7,
+  "patient . taille": 9,
+  "symptômes . alimenter ou boire impossible": 7,
+  "symptômes . manque de souffle": 7,
+}
+`;
+
+exports[`ne fonctionne pas si age < 15 1`] = `
+"Cette application n’est pas faite pour les personnes de moins de 15 ans.
+Prenez contact avec votre médecin généraliste au moindre doute.
+
+En cas d’urgence, appelez le 15.
+"
+`;

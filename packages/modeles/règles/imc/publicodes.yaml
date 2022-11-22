@@ -1,0 +1,15 @@
+patient: oui
+
+patient . taille:
+  question: Quelle est votre taille (en cm) ?
+  unité: cm
+
+patient . poids:
+  question: Quel est votre poids (en kg) ?
+  unité: kg
+
+patient . imc:
+  valeur: poids / ((taille / 100) * (taille / 100))
+  unité: kg / m²
+
+résultat: patient . imc

@@ -1,0 +1,153 @@
+#symptômes: oui
+
+symptômes . température:
+  question: Quelle a été votre température la plus élevée ces dernières 48 heures ?
+
+symptômes . fièvre:
+  applicable si: symptômes . température >= 39
+
+symptômes . toux:
+  question: Avez-vous une toux ou votre toux habituelle s’est-elle modifiée ces derniers jours ?
+
+symptômes . perte goût ou odorat:
+  question: Avez-vous noté une perte ou une forte diminution de votre goût ou de votre odorat ces derniers jours ?
+
+symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels:
+  question: Avez-vous un mal de gorge ou des douleurs musculaires ou des courbatures inhabituelles ou des maux de tête inhabituels ces derniers jours ?
+
+symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels . notification:
+  applicable si: mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
+  notification: |
+    Si vous avez des maux de tête qui ne disparaissent pas après la prise de médicaments anti-douleurs (dont paracétamol) et que vous décririez comme intolérables : Appelez le 15
+
+symptômes . diarrhée:
+  question: Avez-vous de la diarrhée ces dernières 24 heures (au moins 3 selles molles) ?
+
+symptômes . fatigue:
+  question: Avez-vous une fatigue inhabituelle ces derniers jours ?
+
+symptômes . fatigue importante:
+  applicable si: fatigue = oui
+  question: Cette fatigue vous oblige-t-elle à vous reposer plus de la moitié de la journée ?
+
+symptômes . alimenter ou boire impossible:
+  question: Êtes-vous dans l'impossibilité de vous alimenter ou de boire DEPUIS 24 HEURES OU PLUS ?
+
+symptômes . manque de souffle:
+  question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
+
+symptômes . facteurs gravité mineurs:
+  applicable si:
+    une de ces conditions:
+      - symptômes . fatigue importante = oui
+      - une de ces conditions:
+          - symptômes . température < 35.5
+          - symptômes . température >= 39
+
+symptômes . facteurs gravité majeurs:
+  applicable si:
+    une de ces conditions:
+      - symptômes . manque de souffle = oui
+      - symptômes . alimenter ou boire impossible = oui
+
+patient: oui
+
+patient . age:
+  question: Quel est votre âge ?
+  unité: an
+
+patient . taille:
+  question: Quelle est votre taille (en cm) ?
+  unité: cm
+
+patient . poids:
+  question: Quel est votre poids (en kg) ?
+  unité: kg
+
+patient . imc:
+  valeur: (poids / (taille * taille * 100))
+  #unité: kg/m²
+
+patient . antécédents de maladie cardiovasculaire:
+  question: |
+    Avez-vous des antécédents de maladie cardiovasculaire : hypertension artérielle compliquée (avec complications cardiaques, rénales), accident vasculaire cérébral, maladie coronaire (infarctus), chirurgie cardiaque, insuffisance cardiaque avec essoufflement au moindre effort ?
+
+patient . diabète mal équilibré ou avec des complications:
+  question: Avez-vous un diabète mal équilibré ou avec des complications (yeux, reins) ?
+
+patient . cancert évolutif:
+  question: Avez-vous un cancer évolutif sous traitement (hors hormonothérapie) ?
+
+patient . maladie respiratoire chronique:
+  question: |
+    Avez-vous une maladie respiratoire chronique (bronchopneumopathie obstructive, asthme sévère, fibrose pulmonaire, syndrome d’apnées du sommeil, mucoviscidose) ou êtes-vous suivi par un pneumologue ?
+
+patient . insuffisance rénale:
+  question: Avez-vous une insuffisance rénale chronique avec besoin de faire de la dialyse ?
+
+patient . cirrhose:
+  question: Avez-vous une cirrhose ?
+
+patient . enceinte:
+  question: Êtes-vous enceinte au 3ème trimestre de votre grossesse ?
+
+patient . drépanocytose:
+  question: |
+    Avez-vous une drépanocytose homozygote (forme majeure) ou avez-vous bénéficié d’une splénectomie (ablation de la rate) à cause de la drépanocytose ?
+
+patient . immunodépression:
+  question: |
+    Avez-vous une immunodépression, par exemple : médicamenteuse (chimiothérapie anti cancéreuse, traitement immunosuppresseur, biothérapie et/ou corticothérapie à dose immunosuppressive depuis plus de 15 jours) ; infection à VIH non contrôlée ou avec des CD4 <200/mm3 ; consécutive à une greffe d'organe solide ou de cellules souches hématopoïétiques ; liée à une hémopathie maligne en cours de traitement ?
+
+patient . facteur pronostique:
+  applicable si:
+    une de ces conditions:
+      - patient . age >= 65 an
+      - patient . imc >= 30
+      - patient . antécédents de maladie cardiovasculaire = oui
+      - patient . diabète mal équilibré ou avec des complications = oui
+      - patient . cancert évolutif = oui
+      - patient . maladie respiratoire chronique = oui
+      - patient . insuffisance rénale = oui
+      - patient . cirrhose = oui
+      - patient . enceinte = oui
+      - patient . drépanocytose = oui
+      - patient . immunodépression = oui
+
+résultat:
+  texte: |
+    Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène. Un dispositif national grand public de soutien psychologique au bénéfice des personnes qui en auraient besoin est accessible via le numéro vert : 0 800 130 000.
+
+résultat . patient de moins de 15 ans:
+  applicable si: patient . age < 15 an
+  remplace: résultat
+  texte: |
+    Cette application n’est pas faite pour les personnes de moins de 15 ans.
+    Prenez contact avec votre médecin généraliste au moindre doute.
+
+    En cas d’urgence, appelez le 15.
+
+résultat . tout patient avec au moins un facteur de gravité majeur:
+  applicable si: symptômes . facteurs gravité majeurs
+  remplace: résultat
+  texte: |
+    Appelez le 15.
+
+résultat . tout patient avec fièvre et toux:
+  applicable si:
+    toutes ces conditions:
+      - symptômes . toux = oui
+      - symptômes . fièvre >= 39
+
+résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
+  applicable si: patient . facteur pronostique = non
+  remplace: résultat
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile (SOS médecins, etc.)
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.

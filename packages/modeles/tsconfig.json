@@ -1,0 +1,9 @@
+{
+	"extends": "tsconfig/base.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"noEmit": true,
+		"strict": true
+	},
+	"include": ["index.d.ts", "dist/**/*.ts"]
+}
