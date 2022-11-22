@@ -3186,7 +3186,7 @@ prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-publicodes@^1.0.0-beta.55:
+publicodes@^1.0.0-beta.55, publicodes@^1.0.0-beta.60:
   version "1.0.0-beta.60"
   resolved "https://registry.yarnpkg.com/publicodes/-/publicodes-1.0.0-beta.60.tgz#571c3c0c7ee727d510da8e9eb091750117f80fce"
   integrity sha512-Lv1BYdxA/Lirw6+6mIg/F+vFSJ60gPxrZYjXWkn4NmvAIFZPB5qHDNYDoYzgQj7jIBchO9uxE0yYlQ95UiN2ZA==
