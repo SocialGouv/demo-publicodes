@@ -5,21 +5,17 @@ symptômes: oui
 symptômes . température:
   question: Quelle a été votre température la plus élevée ces dernières 48 heures ?
 
-symptômes . fièvre:
-  applicable si: symptômes . température >= 39
-  valeur: oui
-
 symptômes . toux:
   question: Avez-vous une toux ou votre toux habituelle s’est-elle modifiée ces derniers jours ?
 
-symptômes . perte goût ou odorat:
+symptômes . anosmie:
   question: Avez-vous noté une perte ou une forte diminution de votre goût ou de votre odorat ces derniers jours ?
 
-symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels:
+symptômes . douleurs:
   question: Avez-vous un mal de gorge ou des douleurs musculaires ou des courbatures inhabituelles ou des maux de tête inhabituels ces derniers jours ?
 
-symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels . notification:
-  applicable si: mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
+symptômes . douleurs . notification:
+  applicable si: douleurs = oui
   notification: |
     Si vous avez des maux de tête qui ne disparaissent pas après la prise de médicaments anti-douleurs (dont paracétamol) et que vous décririez comme intolérables : Appelez le 15
 
@@ -39,16 +35,15 @@ symptômes . alimenter ou boire impossible:
 symptômes . manque de souffle:
   question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
 
-symptômes . fievreux:
-  applicable si:
-    une de ces conditions:
-      - symptômes . température < 35.5
-      - symptômes . température >= 39
+symptômes . fièvreux:
+  somme:
+    - symptômes . température < 35.5
+    - symptômes . température >= 39
 
 symptômes . facteurs gravité mineure:
   somme:
     - symptômes . fatigue importante = oui
-    - symptômes . fievreux = oui
+    - symptômes . fièvreux > 0
 
 symptômes . facteurs gravité majeure:
   somme:
@@ -71,47 +66,38 @@ patient . poids:
 
 patient . imc:
   valeur: (poids / (taille * taille * 100))
-  #unité: kg/m²
+  #unité: kg/m² # todo
 
 patient . antécédents de maladie cardiovasculaire:
   question: |
     Avez-vous des antécédents de maladie cardiovasculaire : hypertension artérielle compliquée (avec complications cardiaques, rénales), accident vasculaire cérébral, maladie coronaire (infarctus), chirurgie cardiaque, insuffisance cardiaque avec essoufflement au moindre effort ?
-  valeur: non
 
 patient . diabète mal équilibré ou avec des complications:
   question: Avez-vous un diabète mal équilibré ou avec des complications (yeux, reins) ?
-  valeur: non
 
 patient . cancert évolutif:
   question: Avez-vous un cancer évolutif sous traitement (hors hormonothérapie) ?
-  valeur: non
 
 patient . maladie respiratoire chronique:
   question: |
     Avez-vous une maladie respiratoire chronique (bronchopneumopathie obstructive, asthme sévère, fibrose pulmonaire, syndrome d’apnées du sommeil, mucoviscidose) ou êtes-vous suivi par un pneumologue ?
-  valeur: non
 
 patient . insuffisance rénale:
   question: Avez-vous une insuffisance rénale chronique avec besoin de faire de la dialyse ?
-  valeur: non
 
 patient . cirrhose:
   question: Avez-vous une cirrhose ?
-  valeur: non
 
 patient . enceinte:
   question: Êtes-vous enceinte au 3ème trimestre de votre grossesse ?
-  valeur: non
 
 patient . drépanocytose:
   question: |
     Avez-vous une drépanocytose homozygote (forme majeure) ou avez-vous bénéficié d’une splénectomie (ablation de la rate) à cause de la drépanocytose ?
-  valeur: non
 
 patient . immunodépression:
   question: |
     Avez-vous une immunodépression, par exemple : médicamenteuse (chimiothérapie anti cancéreuse, traitement immunosuppresseur, biothérapie et/ou corticothérapie à dose immunosuppressive depuis plus de 15 jours) ; infection à VIH non contrôlée ou avec des CD4 <200/mm3 ; consécutive à une greffe d'organe solide ou de cellules souches hématopoïétiques ; liée à une hémopathie maligne en cours de traitement ?
-  valeur: non
 
 patient . facteur pronostique:
   applicable si:
@@ -128,13 +114,8 @@ patient . facteur pronostique:
       - patient . drépanocytose = oui
       - patient . immunodépression = oui
 
-# test:
-#   somme:
-#     - symptômes . toux
-#     - symptômes . fièvre
-
+# FIN8 (surveillance)
 résultat:
-  #applicable si: test
   texte: |
     Votre situation ne relève probablement pas du Covid-19.
 
@@ -167,15 +148,15 @@ résultat . tout patient avec fièvre et toux:
   applicable si:
     toutes ces conditions:
       - symptômes . toux = oui
-      - symptômes . fièvre = oui
+      - symptômes . fièvreux > 0
 
 résultat . tout patient sans fièvre:
   remplace: résultat
-  applicable si: symptômes . fièvre = non
+  est non applicable: symptômes . fièvreux
 
 # FIN6 (consultation_surveillance_3)
 résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
-  applicable si: patient . facteur pronostique = non
+  non applicable si: patient . facteur pronostique
   remplace: résultat
   texte: |
     Votre situation peut relever d’un Covid-19.
@@ -221,35 +202,33 @@ résultat . tout patient avec fièvre et toux . tout patient avec un facteur pro
     protéger vos proches.
 
 # Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
-résultat . tout patient avec fièvre ou symptomes:
+résultat . tout patient avec fièvre ou symptômes:
   remplace: résultat
   applicable si:
     une de ces conditions:
-      - symptômes . fièvre = oui
-      - toutes ces conditions:
-          - symptômes . fièvre = non
-          - une de ces conditions:
-              - symptômes . diarrhée = oui
-              - toutes ces conditions:
-                  - symptômes . toux = oui
-                  - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
-              - toutes ces conditions:
-                  - symptômes . toux = oui
-                  - symptômes . perte goût ou odorat = oui
-              - toutes ces conditions:
-                  - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
-                  - symptômes . perte goût ou odorat = oui
+      - symptômes . fièvreux > 0
+      - une de ces conditions:
+          - symptômes . diarrhée = oui
+          - toutes ces conditions:
+              - symptômes . toux = oui
+              - symptômes . douleurs = oui
+          - toutes ces conditions:
+              - symptômes . toux = oui
+              - symptômes . anosmie = oui
+          - toutes ces conditions:
+              - symptômes . douleurs = oui
+              - symptômes . anosmie = oui
 
-résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique:
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
   remplace: résultat
-  applicable si: patient . facteur pronostique = non
+  non applicable si: patient . facteur pronostique
 
-résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure:
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure:
   remplace: résultat
   applicable si: symptômes . facteurs gravité mineure = 0
 
 # FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure . moins 50 ans:
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure . moins 50 ans:
   remplace: résultat
   applicable si: patient . age < 50
   texte: |
@@ -263,7 +242,7 @@ résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . 
     protéger vos proches.
 
 # FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure . plus 50 ans:
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure . plus 50 ans:
   remplace: résultat
   applicable si: patient . age >= 50
   texte: |
@@ -279,7 +258,7 @@ résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . 
     protéger vos proches.
 
 # FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . avec facteur de gravite mineure:
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . avec facteur de gravite mineure:
   remplace: résultat
   applicable si: symptômes . facteurs gravité mineure > 0
   texte: |
@@ -295,12 +274,12 @@ résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . 
     conseillons de vous isoler et de respecter les gestes barrières pour
     protéger vos proches.
 
-résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique:
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique:
   remplace: résultat
   applicable si: patient . facteur pronostique = oui
 
 # FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique . avec facteur de gravite mineure 1:
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineure 1:
   remplace: résultat
   applicable si: symptômes . facteurs gravité mineure <= 1
   texte: |
@@ -317,7 +296,7 @@ résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique . 
     protéger vos proches.
 
 # FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique . avec facteur de gravite mineure 2:
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineure 2:
   remplace: résultat
   applicable si: symptômes . facteurs gravité mineure > 1
   texte: |
@@ -337,8 +316,8 @@ résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
   applicable si:
     une de ces conditions:
       - symptômes . toux = oui
-      - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
-      - symptômes . perte goût ou odorat = oui
+      - symptômes . douleurs = oui
+      - symptômes . anosmie = oui
 
 # FIN7 (consultation_surveillance_4)
 résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . avec facteur pronostique:
