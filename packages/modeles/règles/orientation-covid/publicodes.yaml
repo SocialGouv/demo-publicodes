@@ -1,3 +1,5 @@
+# implémentation de démo https://github.com/Delegation-numerique-en-sante/covid19-algorithme-orientation/blob/master/pseudo-code.org
+
 symptômes: oui
 
 symptômes . température:
@@ -5,6 +7,7 @@ symptômes . température:
 
 symptômes . fièvre:
   applicable si: symptômes . température >= 39
+  valeur: oui
 
 symptômes . toux:
   question: Avez-vous une toux ou votre toux habituelle s’est-elle modifiée ces derniers jours ?
@@ -36,19 +39,21 @@ symptômes . alimenter ou boire impossible:
 symptômes . manque de souffle:
   question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
 
-symptômes . facteurs gravité mineurs:
+symptômes . fievreux:
   applicable si:
     une de ces conditions:
-      - symptômes . fatigue importante = oui
-      - une de ces conditions:
-          - symptômes . température < 35.5
-          - symptômes . température >= 39
+      - symptômes . température < 35.5
+      - symptômes . température >= 39
 
-symptômes . facteurs gravité majeurs:
-  applicable si:
-    une de ces conditions:
-      - symptômes . manque de souffle = oui
-      - symptômes . alimenter ou boire impossible = oui
+symptômes . facteurs gravité mineure:
+  somme:
+    - symptômes . fatigue importante = oui
+    - symptômes . fievreux = oui
+
+symptômes . facteurs gravité majeure:
+  somme:
+    - symptômes . manque de souffle = oui
+    - symptômes . alimenter ou boire impossible = oui
 
 patient: oui
 
@@ -71,38 +76,47 @@ patient . imc:
 patient . antécédents de maladie cardiovasculaire:
   question: |
     Avez-vous des antécédents de maladie cardiovasculaire : hypertension artérielle compliquée (avec complications cardiaques, rénales), accident vasculaire cérébral, maladie coronaire (infarctus), chirurgie cardiaque, insuffisance cardiaque avec essoufflement au moindre effort ?
+  valeur: non
 
 patient . diabète mal équilibré ou avec des complications:
   question: Avez-vous un diabète mal équilibré ou avec des complications (yeux, reins) ?
+  valeur: non
 
 patient . cancert évolutif:
   question: Avez-vous un cancer évolutif sous traitement (hors hormonothérapie) ?
+  valeur: non
 
 patient . maladie respiratoire chronique:
   question: |
     Avez-vous une maladie respiratoire chronique (bronchopneumopathie obstructive, asthme sévère, fibrose pulmonaire, syndrome d’apnées du sommeil, mucoviscidose) ou êtes-vous suivi par un pneumologue ?
+  valeur: non
 
 patient . insuffisance rénale:
   question: Avez-vous une insuffisance rénale chronique avec besoin de faire de la dialyse ?
+  valeur: non
 
 patient . cirrhose:
   question: Avez-vous une cirrhose ?
+  valeur: non
 
 patient . enceinte:
   question: Êtes-vous enceinte au 3ème trimestre de votre grossesse ?
+  valeur: non
 
 patient . drépanocytose:
   question: |
     Avez-vous une drépanocytose homozygote (forme majeure) ou avez-vous bénéficié d’une splénectomie (ablation de la rate) à cause de la drépanocytose ?
+  valeur: non
 
 patient . immunodépression:
   question: |
     Avez-vous une immunodépression, par exemple : médicamenteuse (chimiothérapie anti cancéreuse, traitement immunosuppresseur, biothérapie et/ou corticothérapie à dose immunosuppressive depuis plus de 15 jours) ; infection à VIH non contrôlée ou avec des CD4 <200/mm3 ; consécutive à une greffe d'organe solide ou de cellules souches hématopoïétiques ; liée à une hémopathie maligne en cours de traitement ?
+  valeur: non
 
 patient . facteur pronostique:
   applicable si:
     une de ces conditions:
-      - patient . age >= 65 an
+      - patient . age >= 65
       - patient . imc >= 30
       - patient . antécédents de maladie cardiovasculaire = oui
       - patient . diabète mal équilibré ou avec des complications = oui
@@ -122,8 +136,16 @@ patient . facteur pronostique:
 résultat:
   #applicable si: test
   texte: |
-    Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène. Un dispositif national grand public de soutien psychologique au bénéfice des personnes qui en auraient besoin est accessible via le numéro vert : 0 800 130 000.
+    Votre situation ne relève probablement pas du Covid-19.
 
+    N’hésitez pas à contacter votre médecin en cas de doute.
+
+    Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
+    la situation.
+
+    Pour toute information concernant le Covid-19, composer le 0 800 130 000.
+
+# FIN1 (less_15)
 résultat . patient de moins de 15 ans:
   applicable si: patient . age < 15 an
   remplace: résultat
@@ -133,8 +155,9 @@ résultat . patient de moins de 15 ans:
 
     En cas d’urgence, appelez le 15.
 
-résultat . tout patient avec au moins un facteur de gravité majeur:
-  applicable si: symptômes . facteurs gravité majeurs
+# FIN5 (SAMU)
+résultat . tout patient avec au moins un facteur de gravité majeure:
+  applicable si: symptômes . facteurs gravité majeure > 0
   remplace: résultat
   texte: |
     Appelez le 15.
@@ -144,11 +167,196 @@ résultat . tout patient avec fièvre et toux:
   applicable si:
     toutes ces conditions:
       - symptômes . toux = oui
-      - symptômes . fièvre >= 39
+      - symptômes . fièvre = oui
 
+résultat . tout patient sans fièvre:
+  remplace: résultat
+  applicable si: symptômes . fièvre = non
+
+# FIN6 (consultation_surveillance_3)
 résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
   applicable si: patient . facteur pronostique = non
   remplace: résultat
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile (SOS médecins, etc.)
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique:
+  applicable si: patient . facteur pronostique = non
+  remplace: résultat
+
+# FIN7 (consultation_surveillance_4)
+résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineure 1:
+  applicable si: symptômes . facteurs gravité mineure <= 1
+  remplace: résultat
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste. Au moindre
+    doute, appelez le 15.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+# FIN4 (consultation_surveillance_2)
+résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineure 2:
+  applicable si: symptômes . facteurs gravité mineure > 1
+  remplace: résultat
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile.  Si vous n'arrivez pas à obtenir de consultation, appelez
+    le 15.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+# Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
+résultat . tout patient avec fièvre ou symptomes:
+  remplace: résultat
+  applicable si:
+    une de ces conditions:
+      - symptômes . fièvre = oui
+      - toutes ces conditions:
+          - symptômes . fièvre = non
+          - une de ces conditions:
+              - symptômes . diarrhée = oui
+              - toutes ces conditions:
+                  - symptômes . toux = oui
+                  - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
+              - toutes ces conditions:
+                  - symptômes . toux = oui
+                  - symptômes . perte goût ou odorat = oui
+              - toutes ces conditions:
+                  - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
+                  - symptômes . perte goût ou odorat = oui
+
+résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = non
+
+résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure:
+  remplace: résultat
+  applicable si: symptômes . facteurs gravité mineure = 0
+
+# FIN6 (consultation_surveillance_3)
+résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure . moins 50 ans:
+  remplace: résultat
+  applicable si: patient . age < 50
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile (SOS médecins, etc.)
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . sans facteur de gravite mineure . plus 50 ans:
+  remplace: résultat
+  applicable si: patient . age >= 50
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+    Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+    pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptomes . sans facteur pronostique . avec facteur de gravite mineure:
+  remplace: résultat
+  applicable si: symptômes . facteurs gravité mineure > 0
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile.
+
+    Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+    pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = oui
+
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique . avec facteur de gravite mineure 1:
+  remplace: résultat
+  applicable si: symptômes . facteurs gravité mineure <= 1
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile.
+
+    Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+    pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+# FIN4 (consultation_surveillance_2)
+résultat . tout patient avec fièvre ou symptomes . avec facteur pronostique . avec facteur de gravite mineure 2:
+  remplace: résultat
+  applicable si: symptômes . facteurs gravité mineure > 1
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste ou une visite
+    à domicile.
+
+    Si vous n'arrivez pas à obtenir de consultation, appelez le 15.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
+  remplace: résultat
+  applicable si:
+    une de ces conditions:
+      - symptômes . toux = oui
+      - symptômes . mal de gorge ou douleurs musculaires ou courbatures inhabituelles ou maux de tête inhabituels = oui
+      - symptômes . perte goût ou odorat = oui
+
+# FIN7 (consultation_surveillance_4)
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . avec facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = oui
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste.
+
+    Au moindre doute, appelez le 15. En attendant et pour casser les
+    chaînes de transmission, nous vous conseillons de vous isoler et de
+    respecter les gestes barrières pour protéger vos proches.
+
+# FIN6 (consultation_surveillance_3)
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . sans facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = non
   texte: |
     Votre situation peut relever d’un Covid-19.
 

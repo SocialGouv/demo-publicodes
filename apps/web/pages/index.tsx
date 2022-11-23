@@ -75,13 +75,29 @@ function Orientation() {
   console.log("missingVariables", missingVariables);
 
   const onInputChange = (inputKey: string) => (e: ChangeEvent) => {
-    const value =
-      //@ts-ignore
-      (isNaN(e.currentTarget.value) && `'${e.currentTarget.value}'`) ||
-      //@ts-ignore
-      e.currentTarget.value;
-
-    setSituation({ ...situation, [inputKey]: value });
+    //@ts-ignore
+    let value = e.currentTarget.value || "";
+    //@ts-ignore
+    if (isNaN(value)) {
+      if (value === "oui") {
+        //value = true;
+      } else if (value === "non") {
+        //value = false;
+        //pass
+      } else {
+        value = `'${value}'`;
+      }
+    } else {
+      value = parseFloat(value);
+    }
+    //   //@ts-ignore
+    //   (isNaN(e.currentTarget.value) && `'${e.currentTarget.value}'`) ||
+    //     //@ts-ignore
+    //     e.currentTarget.value ||
+    //     "";
+    if (value) {
+      setSituation({ ...situation, [inputKey]: value });
+    }
   };
   if (initialMissingVariables === null && missingVariables.length) {
     setInitialMissingVariables(
@@ -89,11 +105,12 @@ function Orientation() {
     );
   }
   const getQuestion = (key: string) => {
-    const rule = rules[key];
+    const rule = engine.getRule(key); //rules[key];
     console.log("rule", rule);
-    return (rule && rule.question) || null;
+    //@ts-ignore
+    return (rule && rule.rawNode.question) || null;
   };
-
+  console.log("situation", situation);
   return (
     <div>
       <h1>Orientation COVID</h1>
@@ -112,7 +129,21 @@ function Orientation() {
           </div>
         ))) ||
         null}
-      <h3>Résultat : {evaluated.nodeValue}</h3>
+      MAJEURS:
+      {engine.evaluate("symptômes . facteurs gravité majeure").nodeValue}
+      <h3
+        dangerouslySetInnerHTML={{
+          __html:
+            evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "",
+        }}
+      ></h3>
+      <h4>
+        Restez chez vous au maximum en attendant que les symptômes
+        disparaissent. Prenez votre température deux fois par jour. Rappel des
+        mesures d’hygiène. Un dispositif national grand public de soutien
+        psychologique au bénéfice des personnes qui en auraient besoin est
+        accessible via le numéro vert : 0 800 130 000.
+      </h4>
     </div>
   );
 }
