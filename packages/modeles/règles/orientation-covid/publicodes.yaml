@@ -1,4 +1,4 @@
-#symptômes: oui
+symptômes: oui
 
 symptômes . température:
   question: Quelle a été votre température la plus élevée ces dernières 48 heures ?
@@ -114,7 +114,13 @@ patient . facteur pronostique:
       - patient . drépanocytose = oui
       - patient . immunodépression = oui
 
+# test:
+#   somme:
+#     - symptômes . toux
+#     - symptômes . fièvre
+
 résultat:
+  #applicable si: test
   texte: |
     Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène. Un dispositif national grand public de soutien psychologique au bénéfice des personnes qui en auraient besoin est accessible via le numéro vert : 0 800 130 000.
 
@@ -134,6 +140,7 @@ résultat . tout patient avec au moins un facteur de gravité majeur:
     Appelez le 15.
 
 résultat . tout patient avec fièvre et toux:
+  remplace: résultat
   applicable si:
     toutes ces conditions:
       - symptômes . toux = oui

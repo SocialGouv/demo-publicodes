@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "next": "13.0.0",
-    "publicodes": "^1.0.0-beta.60",
+    "publicodes": "^1.0.0-beta.61",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ui": "*"

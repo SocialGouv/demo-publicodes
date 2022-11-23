@@ -8,8 +8,12 @@ patient . poids:
   question: Quel est votre poids (en kg) ?
   unité: kg
 
+patient . taille metres:
+  valeur: patient . taille
+  unité: m
+
 patient . imc:
-  valeur: poids / ((taille / 100) * (taille / 100))
+  valeur: poids / ((patient . taille metres) * (patient . taille metres))
   unité: kg / m²
 
 résultat: patient . imc
