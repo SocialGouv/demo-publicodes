@@ -11,6 +11,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
           rel="stylesheet"
         />
+        <title>Démo publi.codes</title>
       </Head>
       <Layout>
         {/* @ts-ignore */}
