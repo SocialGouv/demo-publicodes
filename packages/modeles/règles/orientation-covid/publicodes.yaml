@@ -37,11 +37,13 @@ symptômes . alimenter ou boire impossible:
 symptômes . manque de souffle:
   question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
 
+# nombre de symptomes considérés comme gravité mineure
 symptômes . facteurs gravité mineur:
   somme:
     - symptômes . fatigue importante = oui
     - symptômes . fièvreux
 
+# nombre de symptomes considérés comme gravité majeure
 symptômes . facteurs gravité majeur:
   somme:
     - symptômes . manque de souffle = oui
@@ -103,6 +105,7 @@ patient . immunodépression:
   question: |
     Avez-vous une immunodépression, par exemple : médicamenteuse (chimiothérapie anti cancéreuse, traitement immunosuppresseur, biothérapie et/ou corticothérapie à dose immunosuppressive depuis plus de 15 jours) ; infection à VIH non contrôlée ou avec des CD4 <200/mm3 ; consécutive à une greffe d'organe solide ou de cellules souches hématopoïétiques ; liée à une hémopathie maligne en cours de traitement ?
 
+# liste des facteurs qui engagent le pronostique
 patient . facteur pronostique:
   applicable si:
     une de ces conditions:
@@ -241,7 +244,7 @@ résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique .
 résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
   remplace: résultat
   non applicable si: patient . facteur pronostique
-  texte: tout patient avec fièvre ou symptômes sans facteur pronostique
+  #texte: tout patient avec fièvre ou symptômes sans facteur pronostique
 
 # FIN4 (consultation_surveillance_2)
 résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineur 2:
@@ -274,7 +277,7 @@ résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
       - symptômes . toux = oui
       - symptômes . douleurs = oui
       - symptômes . anosmie = oui
-  texte: tout patient sans fièvre avec toux ou douleurs ou anosmie
+  # texte: tout patient sans fièvre avec toux ou douleurs ou anosmie
 
 résultat . tout patient avec fièvre et toux:
   remplace: résultat
@@ -282,7 +285,7 @@ résultat . tout patient avec fièvre et toux:
     toutes ces conditions:
       - symptômes . toux = oui
       - symptômes . fièvreux
-  texte: tout patient avec fièvre et toux
+  #texte: tout patient avec fièvre et toux
 
 résultat . tout patient sans fièvre:
   remplace: résultat
@@ -306,7 +309,7 @@ résultat . tout patient avec fièvre ou symptômes:
           - toutes ces conditions:
               - symptômes . douleurs = oui
               - symptômes . anosmie = oui
-  texte: tout patient avec fièvre ou symptômes
+  #texte: tout patient avec fièvre ou symptômes
 
 # FIN8 (surveillance)
 résultat:

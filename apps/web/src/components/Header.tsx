@@ -43,46 +43,6 @@ export const SwitchThemeMode = (): JSX.Element => {
   );
 };
 
-// export const SkipLinks = (props: SkipLinksProps): JSX.Element => {
-//   return (
-//     <Skiplinks>
-//       {props.items.map((item, index) => (
-//         <SkiplinkItem key={`${index}-${item.title}`} href={item.href}>
-//           {item.title}
-//         </SkiplinkItem>
-//       ))}
-//     </Skiplinks>
-//   );
-// };
-
-// export const MegaNav = (props): JSX.Element => (
-//   <MegaNavItem
-//     title={props.title}
-//     description={props.description}
-//     closeButtonLabel={props.closeButtonLabel}
-//     linkLabel={props.linkName}
-//     link={props.linkHref}
-//   >
-//     {props.items.map((item, index) => (
-//       <MegaNavSubItem
-//         key={`${index}-${item.title}`}
-//         title={item.title}
-//         link={item.href}
-//       >
-//         {item.links.map((link, index) => (
-//           <Link
-//             key={`${index}-${link.title}`}
-//             title={link.title}
-//             href={link.href}
-//           >
-//             {link.name}
-//           </Link>
-//         ))}
-//       </MegaNavSubItem>
-//     ))}
-//   </MegaNavItem>
-// );
-
 export const Header = (): JSX.Element => {
   const router = useRouter();
   return (
