@@ -31,7 +31,7 @@ function IMC() {
   }
   const getQuestion = (key: string) => {
     const rule = rules[key];
-    console.log("rule", rule);
+    // console.log("rule", rule);
     return (rule && rule.question) || null;
   };
 
@@ -106,7 +106,7 @@ function Orientation() {
   }
   const getQuestion = (key: string) => {
     const rule = engine.getRule(key); //rules[key];
-    console.log("rule", rule);
+    // console.log("rule", rule);
     //@ts-ignore
     return (rule && rule.rawNode.question) || null;
   };

@@ -16,5 +16,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "test": "echo no test"
   }
 }

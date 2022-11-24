@@ -2,27 +2,129 @@
 
 exports[`a besoin de variables pour fonctionner 1`] = `
 {
-  "patient . age": 12,
-  "patient . antécédents de maladie cardiovasculaire": 7,
-  "patient . cancert évolutif": 7,
-  "patient . cirrhose": 7,
-  "patient . diabète mal équilibré ou avec des complications": 7,
-  "patient . drépanocytose": 7,
-  "patient . enceinte": 7,
-  "patient . immunodépression": 7,
-  "patient . insuffisance rénale": 7,
-  "patient . maladie respiratoire chronique": 7,
-  "patient . poids": 7,
-  "patient . taille": 9,
-  "symptômes . alimenter ou boire impossible": 7,
-  "symptômes . manque de souffle": 7,
+  "patient . antécédents de maladie cardiovasculaire": 127,
+  "patient . cancert évolutif": 127,
+  "patient . cirrhose": 127,
+  "patient . diabète mal équilibré ou avec des complications": 127,
+  "patient . drépanocytose": 127,
+  "patient . enceinte": 127,
+  "patient . immunodépression": 127,
+  "patient . insuffisance rénale": 127,
+  "patient . maladie respiratoire chronique": 127,
+  "patient . poids": 127,
+  "patient . taille": 163,
+  "patient . âge": 172,
+  "symptômes . alimenter ou boire impossible": 16,
+  "symptômes . anosmie": 37,
+  "symptômes . diarrhée": 16,
+  "symptômes . douleurs": 37,
+  "symptômes . fatigue": 43,
+  "symptômes . manque de souffle": 16,
+  "symptômes . température": 143,
+  "symptômes . toux": 52,
 }
 `;
 
-exports[`ne fonctionne pas si age < 15 1`] = `
+exports[`enfants < 15 ans 1`] = `
 "Cette application n’est pas faite pour les personnes de moins de 15 ans.
 Prenez contact avec votre médecin généraliste au moindre doute.
 
 En cas d’urgence, appelez le 15.
+"
+`;
+
+exports[`facteurs de gravité majeure 1`] = `
+"Appelez le 15.
+"
+`;
+
+exports[`fièvre 25 ans 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite
+à domicile (SOS médecins, etc.)
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`fièvre 55 ans 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`fièvre 70 ans 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`fièvre et toux 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite
+à domicile (SOS médecins, etc.)
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`fièvre et toux et cirrhose 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`fièvre et toux et cirrhose et fatigue importante 1`] = `
+"Votre situation peut relever d’un Covid-19.
+
+Demandez une téléconsultation ou un médecin généraliste ou une visite
+à domicile. Si vous n'arrivez pas à obtenir de consultation, appelez
+le 15.
+
+En attendant et pour casser les chaînes de transmission, nous vous
+conseillons de vous isoler et de respecter les gestes barrières pour
+protéger vos proches.
+"
+`;
+
+exports[`ne renvoie pas d'alerte avec la situation par défaut 1`] = `
+"Votre situation ne relève probablement pas du Covid-19.
+
+N’hésitez pas à contacter votre médecin en cas de doute.
+
+Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
+la situation.
+
+Pour toute information concernant le Covid-19, composer le 0 800 130 000.
 "
 `;

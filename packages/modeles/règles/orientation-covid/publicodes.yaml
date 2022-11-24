@@ -1,5 +1,7 @@
 # implémentation de démo https://github.com/Delegation-numerique-en-sante/covid19-algorithme-orientation/blob/master/pseudo-code.org
 
+### Symptômes
+
 symptômes: oui
 
 symptômes . température:
@@ -35,24 +37,29 @@ symptômes . alimenter ou boire impossible:
 symptômes . manque de souffle:
   question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
 
-symptômes . fièvreux:
-  somme:
-    - symptômes . température < 35.5
-    - symptômes . température >= 39
-
-symptômes . facteurs gravité mineure:
+symptômes . facteurs gravité mineur:
   somme:
     - symptômes . fatigue importante = oui
-    - symptômes . fièvreux > 0
+    - symptômes . fièvreux
 
-symptômes . facteurs gravité majeure:
+symptômes . facteurs gravité majeur:
   somme:
     - symptômes . manque de souffle = oui
     - symptômes . alimenter ou boire impossible = oui
 
+symptômes . fièvreux:
+  variations:
+    - si: symptômes . température < 35.5
+      alors: oui
+    - si: symptômes . température >= 39
+      alors: oui
+    - sinon: non
+
+### Patient
+
 patient: oui
 
-patient . age:
+patient . âge:
   question: Quel est votre âge ?
   unité: an
 
@@ -102,7 +109,7 @@ patient . immunodépression:
 patient . facteur pronostique:
   applicable si:
     une de ces conditions:
-      - patient . age >= 65
+      - patient . âge >= 65
       - patient . imc >= 30
       - patient . antécédents de maladie cardiovasculaire = oui
       - patient . diabète mal équilibré ou avec des complications = oui
@@ -113,138 +120,18 @@ patient . facteur pronostique:
       - patient . enceinte = oui
       - patient . drépanocytose = oui
       - patient . immunodépression = oui
+  texte: facteur pronostique
 
-# FIN8 (surveillance)
-résultat:
-  texte: |
-    Votre situation ne relève probablement pas du Covid-19.
+### MESSAGES
 
-    N’hésitez pas à contacter votre médecin en cas de doute.
-
-    Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
-    la situation.
-
-    Pour toute information concernant le Covid-19, composer le 0 800 130 000.
-
-# FIN1 (less_15)
-résultat . patient de moins de 15 ans:
-  applicable si: patient . age < 15 an
-  remplace: résultat
+messages . FIN1:
   texte: |
     Cette application n’est pas faite pour les personnes de moins de 15 ans.
     Prenez contact avec votre médecin généraliste au moindre doute.
 
     En cas d’urgence, appelez le 15.
 
-# FIN5 (SAMU)
-résultat . tout patient avec au moins un facteur de gravité majeure:
-  applicable si: symptômes . facteurs gravité majeure > 0
-  remplace: résultat
-  texte: |
-    Appelez le 15.
-
-résultat . tout patient avec fièvre et toux:
-  remplace: résultat
-  applicable si:
-    toutes ces conditions:
-      - symptômes . toux = oui
-      - symptômes . fièvreux > 0
-
-résultat . tout patient sans fièvre:
-  remplace: résultat
-  est non applicable: symptômes . fièvreux
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
-  non applicable si: patient . facteur pronostique
-  remplace: résultat
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile (SOS médecins, etc.)
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique:
-  applicable si: patient . facteur pronostique = non
-  remplace: résultat
-
-# FIN7 (consultation_surveillance_4)
-résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineure 1:
-  applicable si: symptômes . facteurs gravité mineure <= 1
-  remplace: résultat
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste. Au moindre
-    doute, appelez le 15.
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-# FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineure 2:
-  applicable si: symptômes . facteurs gravité mineure > 1
-  remplace: résultat
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile.  Si vous n'arrivez pas à obtenir de consultation, appelez
-    le 15.
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-# Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
-résultat . tout patient avec fièvre ou symptômes:
-  remplace: résultat
-  applicable si:
-    une de ces conditions:
-      - symptômes . fièvreux > 0
-      - une de ces conditions:
-          - symptômes . diarrhée = oui
-          - toutes ces conditions:
-              - symptômes . toux = oui
-              - symptômes . douleurs = oui
-          - toutes ces conditions:
-              - symptômes . toux = oui
-              - symptômes . anosmie = oui
-          - toutes ces conditions:
-              - symptômes . douleurs = oui
-              - symptômes . anosmie = oui
-
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
-  remplace: résultat
-  non applicable si: patient . facteur pronostique
-
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineure = 0
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure . moins 50 ans:
-  remplace: résultat
-  applicable si: patient . age < 50
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile (SOS médecins, etc.)
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineure . plus 50 ans:
-  remplace: résultat
-  applicable si: patient . age >= 50
+messages . FIN3:
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -257,85 +144,23 @@ résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique .
     conseillons de vous isoler et de respecter les gestes barrières pour
     protéger vos proches.
 
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . avec facteur de gravite mineure:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineure > 0
+messages . FIN4:
   texte: |
     Votre situation peut relever d’un Covid-19.
 
     Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile.
-
-    Appelez le 15 si une gêne respiratoire ou des difficultés importantes
-    pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+    à domicile. Si vous n'arrivez pas à obtenir de consultation, appelez
+    le 15.
 
     En attendant et pour casser les chaînes de transmission, nous vous
     conseillons de vous isoler et de respecter les gestes barrières pour
     protéger vos proches.
 
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique:
-  remplace: résultat
-  applicable si: patient . facteur pronostique = oui
-
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineure 1:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineure <= 1
+messages . FIN5:
   texte: |
-    Votre situation peut relever d’un Covid-19.
+    Appelez le 15.
 
-    Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile.
-
-    Appelez le 15 si une gêne respiratoire ou des difficultés importantes
-    pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-# FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineure 2:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineure > 1
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste ou une visite
-    à domicile.
-
-    Si vous n'arrivez pas à obtenir de consultation, appelez le 15.
-
-    En attendant et pour casser les chaînes de transmission, nous vous
-    conseillons de vous isoler et de respecter les gestes barrières pour
-    protéger vos proches.
-
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
-  remplace: résultat
-  applicable si:
-    une de ces conditions:
-      - symptômes . toux = oui
-      - symptômes . douleurs = oui
-      - symptômes . anosmie = oui
-
-# FIN7 (consultation_surveillance_4)
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . avec facteur pronostique:
-  remplace: résultat
-  applicable si: patient . facteur pronostique = oui
-  texte: |
-    Votre situation peut relever d’un Covid-19.
-
-    Demandez une téléconsultation ou un médecin généraliste.
-
-    Au moindre doute, appelez le 15. En attendant et pour casser les
-    chaînes de transmission, nous vous conseillons de vous isoler et de
-    respecter les gestes barrières pour protéger vos proches.
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . sans facteur pronostique:
-  remplace: résultat
-  applicable si: patient . facteur pronostique = non
+messages . FIN6:
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -345,3 +170,147 @@ résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . sans 
     En attendant et pour casser les chaînes de transmission, nous vous
     conseillons de vous isoler et de respecter les gestes barrières pour
     protéger vos proches.
+
+messages . FIN7:
+  texte: |
+    Votre situation peut relever d’un Covid-19.
+
+    Demandez une téléconsultation ou un médecin généraliste. Au moindre
+    doute, appelez le 15.
+
+    En attendant et pour casser les chaînes de transmission, nous vous
+    conseillons de vous isoler et de respecter les gestes barrières pour
+    protéger vos proches.
+
+messages . FIN8:
+  texte: |
+    Votre situation ne relève probablement pas du Covid-19.
+
+    N’hésitez pas à contacter votre médecin en cas de doute.
+
+    Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
+    la situation.
+
+    Pour toute information concernant le Covid-19, composer le 0 800 130 000.
+
+### RESULTATS
+
+# FIN1 (less_15)
+résultat . patient de moins de 15 ans:
+  applicable si: patient . âge < 15 an
+  remplace: résultat
+  valeur: messages . FIN1
+
+# FIN5 (SAMU)
+résultat . tout patient avec au moins un facteur de gravité majeur:
+  applicable si: symptômes . facteurs gravité majeur > 0
+  remplace: résultat
+  valeur: messages . FIN5
+
+# FIN4 (consultation_surveillance_2)
+résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineur 2:
+  applicable si: symptômes . facteurs gravité mineur > 1
+  remplace: résultat
+  valeur: messages . FIN4
+
+# FIN7 (consultation_surveillance_4)
+résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique:
+  applicable si: patient . facteur pronostique = oui
+  remplace: résultat
+  valeur: messages . FIN7
+
+#FIN6 (consultation_surveillance_3)
+résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
+  applicable si: patient . facteur pronostique = non
+  remplace: résultat
+  valeur: messages . FIN6
+
+# FIN6 (consultation_surveillance_3)
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur . moins 50 ans:
+  remplace: résultat
+  applicable si: patient . âge < 50
+  valeur: messages . FIN6
+
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur . plus 50 ans:
+  remplace: résultat
+  applicable si: patient . âge >= 50
+  valeur: messages . FIN3
+
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur:
+  remplace: résultat
+  texte: tout patient avec fièvre ou symptômes sans facteur pronostique sans facteur de gravite mineur
+
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
+  remplace: résultat
+  non applicable si: patient . facteur pronostique
+  texte: tout patient avec fièvre ou symptômes sans facteur pronostique
+
+# FIN4 (consultation_surveillance_2)
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineur 2:
+  remplace: résultat
+  applicable si: symptômes . facteurs gravité mineur > 1
+  valeur: messages . FIN4
+
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique
+  valeur: messages . FIN3
+
+# FIN7 (consultation_surveillance_4)
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . avec facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = oui
+  valeur: messages . FIN7
+
+# FIN6 (consultation_surveillance_3)
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . sans facteur pronostique:
+  remplace: résultat
+  applicable si: patient . facteur pronostique = non
+  valeur: messages . FIN6
+
+résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
+  remplace: résultat
+  applicable si:
+    une de ces conditions:
+      - symptômes . toux = oui
+      - symptômes . douleurs = oui
+      - symptômes . anosmie = oui
+  texte: tout patient sans fièvre avec toux ou douleurs ou anosmie
+
+résultat . tout patient avec fièvre et toux:
+  remplace: résultat
+  applicable si:
+    toutes ces conditions:
+      - symptômes . toux = oui
+      - symptômes . fièvreux
+  texte: tout patient avec fièvre et toux
+
+résultat . tout patient sans fièvre:
+  remplace: résultat
+  non applicable si: symptômes . fièvreux
+  valeur: résultat
+
+# Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
+résultat . tout patient avec fièvre ou symptômes:
+  remplace: résultat
+  applicable si:
+    une de ces conditions:
+      - symptômes . fièvreux
+      - une de ces conditions:
+          - symptômes . diarrhée = oui
+          - toutes ces conditions:
+              - symptômes . toux = oui
+              - symptômes . douleurs = oui
+          - toutes ces conditions:
+              - symptômes . toux = oui
+              - symptômes . anosmie = oui
+          - toutes ces conditions:
+              - symptômes . douleurs = oui
+              - symptômes . anosmie = oui
+  texte: tout patient avec fièvre ou symptômes
+
+# FIN8 (surveillance)
+résultat:
+  valeur: messages . FIN8
