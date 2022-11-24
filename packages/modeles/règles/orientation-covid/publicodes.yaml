@@ -197,7 +197,7 @@ messages . FIN8:
 
 # FIN1 (less_15)
 résultat . patient de moins de 15 ans:
-  applicable si: patient . âge < 15 an
+  applicable si: patient . âge < 15
   remplace: résultat
   valeur: messages . FIN1
 
