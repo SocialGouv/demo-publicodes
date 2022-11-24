@@ -6,26 +6,62 @@ import { GetStaticProps, GetStaticPaths } from "next";
 
 import { TextInput } from "@dataesr/react-dsfr";
 
+// import { useState, useEffect } from 'react';
+const usePublicodeEngine = ({
+  situation = {},
+}: {
+  situation: Record<string, any>;
+}) => {
+  // const stateSituation = { ...situation };
+  // const setSituation = () => {
+  //   //todo
+  // };
+  const [initialMissingVariables, setInitialMissingVariables] = useState<
+    null | string[]
+  >(null);
+
+  const [stateSituation, setSituation] = useState(situation);
+  //const [resultat, setResultat] = useState(null);
+  const [engine, setEngine] = useState<Engine | null>(null);
+
+  useEffect(() => {
+    console.log("usePublicodeEngine.useEffect");
+    return () => {
+      console.log("usePublicodeEngine.unsubscribe");
+    };
+  });
+
+  return {
+    engine,
+    situation: stateSituation,
+    setSituation,
+    // setRules,
+  };
+};
+
 export default function Algorithme({ algorithme }: { algorithme: string }) {
   const [situation, setSituation] = useState({});
+  //const [resultat, setResultat] = useState(null);
   const [engine, setEngine] = useState<Engine | null>(null);
   const [initialMissingVariables, setInitialMissingVariables] = useState<
     null | string[]
   >(null);
 
-  // @ts-ignore TODO
-  const rules = modeles[camelCase(algorithme)];
-
+  // update publicodes rules and reset state when algorithme is changed
   useEffect(() => {
-    const publicodes = new Engine(rules);
-    publicodes.setSituation(situation);
-    //@ts-ignore
-    setEngine(publicodes);
-  }, [algorithme, situation]);
-
-  useEffect(() => {
+    console.log("update algorithme", algorithme);
     setInitialMissingVariables(null);
+    setSituation({});
+    // @ts-ignore TODO
+    const rules = modeles[camelCase(algorithme[0])];
+    const publicodes = new Engine(rules);
+    setEngine(publicodes);
   }, [algorithme]);
+
+  // always upadte situation
+  if (engine) {
+    engine.setSituation(situation);
+  }
 
   const evaluated = engine && engine.evaluate("résultat");
   const missingVariables =
@@ -36,7 +72,11 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     let value = e.currentTarget.value || "";
     console.log("onInputChange", value);
     if (isNaN(value)) {
-      value = `'${value}'`;
+      if (value === "oui" || value === "non") {
+        // keep value as is
+      } else {
+        value = `'${value}'`;
+      }
     } else {
       value = parseFloat(value);
     }
@@ -57,7 +97,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     return (rule && rule.rawNode.question) || null;
   };
 
-  console.log({ rules, missingVariables, evaluated, situation });
+  console.log({ missingVariables, evaluated, situation });
   return (
     <div>
       <br />
@@ -97,7 +137,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const algorithme = params?.algorithme;
+    const algorithme = params?.algorithme && params?.algorithme;
     return { props: { algorithme } };
   } catch (err: any) {
     return { props: { errors: err.message } };
