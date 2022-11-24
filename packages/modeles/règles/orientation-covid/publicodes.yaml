@@ -48,12 +48,9 @@ symptômes . facteurs gravité majeur:
     - symptômes . alimenter ou boire impossible = oui
 
 symptômes . fièvreux:
-  variations:
-    - si: symptômes . température < 35.5
-      alors: oui
-    - si: symptômes . température >= 39
-      alors: oui
-    - sinon: non
+  une de ces conditions:
+    - symptômes . température < 35.5
+    - symptômes . température >= 39
 
 ### Patient
 

@@ -20,7 +20,7 @@ exports[`a besoin de variables pour fonctionner 1`] = `
   "symptômes . douleurs": 37,
   "symptômes . fatigue": 43,
   "symptômes . manque de souffle": 16,
-  "symptômes . température": 143,
+  "symptômes . température": 91,
   "symptômes . toux": 52,
 }
 `;

@@ -16,6 +16,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
   const rules = modeles[camelCase(algorithme)];
 
   const engine = new Engine(rules);
+  engine.setSituation(situation);
   const evaluated = engine.evaluate("résultat");
   const missingVariables = Object.entries(evaluated.missingVariables);
 
@@ -30,7 +31,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     }
     if (value) {
       const newSituation = { ...situation, [inputKey]: value };
-      engine.setSituation(newSituation);
+      //engine.setSituation(newSituation);
       setSituation(newSituation);
     }
   };
