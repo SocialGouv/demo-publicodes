@@ -1,5 +1,15 @@
 # implémentation de démo https://github.com/Delegation-numerique-en-sante/covid19-algorithme-orientation/blob/master/pseudo-code.org
 
+publicodes:
+  titre: Orientation COVID-19
+  références:
+    Délégation du numérique en santé: https://delegation-numerique-en-sante.github.io/covid19-algorithme-orientation/
+    Github Etalab: https://github.com/etalab/covid19-orientation
+  description: |
+    Implémentation de l'algorithme d'orientation pour les personnes se demandant si elles présentent des symptômes du Covid-19.
+
+    Cet algorithme est défini par un comité scientifique composé de médecins, appelé CovidTélé, co-piloté par l'AP-HP et l'Institut Pasteur.
+
 ### Symptômes
 
 symptômes: oui

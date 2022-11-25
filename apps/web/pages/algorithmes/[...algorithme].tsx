@@ -27,10 +27,28 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     return (rule && rule.rawNode.question) || null;
   };
 
+  const meta = engine && engine.getParsedRules()?.publicodes?.rawNode;
+
   return (
     <div>
       <br />
-      <h2>{algorithme}</h2>
+      {meta && (
+        <div>
+          <h2>{meta.titre}</h2>
+          <p>{meta.description}</p>
+          {meta.références && (
+            <div>
+              <b>Source{Object.keys(meta.références).length > 1 ? "s" : ""}:</b>{" "}
+              {Object.keys(meta.références).map((key) => (
+                <li key={key}>
+                  {/* @ts-ignore */}
+                  <a href={meta.références[key]}>{key}</a>
+                </li>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       <br />
       {(allMissingVariables &&
         allMissingVariables.length &&

@@ -1,3 +1,10 @@
+publicodes:
+  titre: Calcul de l'indice de masse corporelle
+  références:
+    Wikipedia: https://fr.wikipedia.org/wiki/Indice_de_masse_corporelle
+  description: |
+    L’indice de masse corporelle ou IMC (en anglais, body mass index ou BMI) est une grandeur qui permet d'estimer la corpulence d’une personne.
+
 patient: oui
 
 patient . taille:
@@ -16,4 +23,24 @@ patient . imc:
   valeur: poids / ((patient . taille metres) * (patient . taille metres))
   unité: kg / m²
 
-résultat: patient . imc
+résultat:
+  applicable si: patient . imc
+  texte: |
+    Votre IMC est de {{ patient . imc }}
+    Interprétation: {{ résultat . interpretation }}
+
+résultat . interpretation:
+  variations:
+    - si: patient . imc >= 40
+      alors: "'obésité morbide ou massive'"
+    - si: patient . imc >= 35
+      alors: "'obésité sévère'"
+    - si: patient . imc >= 30
+      alors: "'obésité modérée'"
+    - si: patient . imc >= 25
+      alors: "'surpoids'"
+    - si: patient . imc >= 18.5
+      alors: "'poids normal'"
+    - si: patient . imc >= 16.5
+      alors: "'maigreur'"
+    - sinon: "'dénutrition'"
