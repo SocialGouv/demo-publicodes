@@ -6,6 +6,29 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { TextInput } from "@dataesr/react-dsfr";
 
 import usePublicodesEngine from "../../src/usePublicodesEngine";
+import { Rule } from "publicodes";
+
+const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
+  return (
+    meta && (
+      <div>
+        <h2>{meta.titre}</h2>
+        <p>{meta.description}</p>
+        {meta.références && (
+          <div>
+            <b>Source{Object.keys(meta.références).length > 1 ? "s" : ""}:</b>{" "}
+            {Object.keys(meta.références).map((key) => (
+              <li key={key}>
+                {/* @ts-ignore WTF */}
+                <a href={meta.références[key]}>{key}</a>
+              </li>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  );
+};
 
 export default function Algorithme({ algorithme }: { algorithme: string }) {
   const { engine, evaluated, setSituationValue, allMissingVariables } =
@@ -15,15 +38,15 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
       situation: {},
     });
 
-  const onInputChange = (inputKey: string) => (e: ChangeEvent) => {
-    //@ts-ignore
-    let value = e.currentTarget.value || "";
-    setSituationValue(inputKey, value);
-  };
+  const onInputChange =
+    (inputKey: string): React.ChangeEventHandler<HTMLInputElement> =>
+    (e) => {
+      let value = e.currentTarget.value || "";
+      setSituationValue(inputKey, value);
+    };
 
   const getQuestion = (key: string) => {
     const rule = engine && engine.getRule(key);
-    //@ts-ignore
     return (rule && rule.rawNode.question) || null;
   };
 
@@ -32,23 +55,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
   return (
     <div>
       <br />
-      {meta && (
-        <div>
-          <h2>{meta.titre}</h2>
-          <p>{meta.description}</p>
-          {meta.références && (
-            <div>
-              <b>Source{Object.keys(meta.références).length > 1 ? "s" : ""}:</b>{" "}
-              {Object.keys(meta.références).map((key) => (
-                <li key={key}>
-                  {/* @ts-ignore */}
-                  <a href={meta.références[key]}>{key}</a>
-                </li>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <AlgorithmeHeader meta={meta} />
       <br />
       {(allMissingVariables &&
         allMissingVariables.length &&
