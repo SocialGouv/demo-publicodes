@@ -1,15 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`.imcu(32, 158) 1`] = `12.81845858035571`;
+exports[`.imcu(32, 158) 1`] = `
+"Votre IMC est de 12,82 kg / m²
+Interprétation: dénutrition
+"
+`;
 
-exports[`.imcu(45, 158) 1`] = `18.02595737862522`;
+exports[`.imcu(45, 158) 1`] = `
+"Votre IMC est de 18,03 kg / m²
+Interprétation: maigreur
+"
+`;
 
-exports[`.imcu(58, 178) 1`] = `18.30576947355132`;
+exports[`.imcu(58, 178) 1`] = `
+"Votre IMC est de 18,31 kg / m²
+Interprétation: maigreur
+"
+`;
 
-exports[`.imcu(78, 178) 1`] = `24.61810377477591`;
+exports[`.imcu(78, 178) 1`] = `
+"Votre IMC est de 24,62 kg / m²
+Interprétation: poids normal
+"
+`;
 
-exports[`.imcu(92, 158) 1`] = `36.85306841852267`;
+exports[`.imcu(92, 158) 1`] = `
+"Votre IMC est de 36,85 kg / m²
+Interprétation: obésité sévère
+"
+`;
 
-exports[`.imcu(92, 178) 1`] = `29.036737785633125`;
+exports[`.imcu(92, 178) 1`] = `
+"Votre IMC est de 29,04 kg / m²
+Interprétation: surpoids
+"
+`;
 
-exports[`.imcu(117, 158) 1`] = `46.867489184425565`;
+exports[`.imcu(117, 158) 1`] = `
+"Votre IMC est de 46,87 kg / m²
+Interprétation: obésité morbide ou massive
+"
+`;
