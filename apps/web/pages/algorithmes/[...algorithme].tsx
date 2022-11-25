@@ -1,12 +1,14 @@
-import { ChangeEvent, useEffect } from "react";
 import camelCase from "camelcase";
 import modeles from "@socialgouv/publicodes-demo-modeles";
 import { GetStaticProps, GetStaticPaths } from "next";
-
-import { TextInput } from "@dataesr/react-dsfr";
+import { stringify } from "yaml";
+import { Tabs, Tab, TextInput } from "@dataesr/react-dsfr";
 
 import usePublicodesEngine from "../../src/usePublicodesEngine";
 import { Rule } from "publicodes";
+
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { coldarkCold as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
   return (
@@ -31,9 +33,10 @@ const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
 };
 
 export default function Algorithme({ algorithme }: { algorithme: string }) {
+  const modele = modeles[camelCase(algorithme[0])];
   const { engine, evaluated, setSituationValue, allMissingVariables } =
     usePublicodesEngine({
-      rules: modeles[camelCase(algorithme[0])],
+      rules: modele,
       rule: "résultat",
       situation: {},
     });
@@ -50,29 +53,44 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     return (rule && rule.rawNode.question) || null;
   };
 
-  const meta = engine && engine.getParsedRules()?.publicodes?.rawNode;
+  const meta = engine && engine.getParsedRules()?.meta?.rawNode;
+
+  const codeString = stringify(modele);
 
   return (
     <div>
       <br />
       <AlgorithmeHeader meta={meta} />
       <br />
-      {(allMissingVariables &&
-        allMissingVariables.length &&
-        allMissingVariables.map((key) => (
-          <div key={key}>
-            {getQuestion(key) || key}
-            <br />
-            <TextInput
-              type="text"
-              key={`${algorithme}-${key}`}
-              style={{ textAlign: "center", width: 100 }}
-              onBlur={onInputChange(key)}
-            />
-            <hr />
-          </div>
-        ))) ||
-        null}
+      <Tabs defaultActiveTab={0}>
+        {/* @ts-ignore */}
+        <Tab label="Formulaire">
+          {(allMissingVariables &&
+            allMissingVariables.length &&
+            allMissingVariables.map((key) => (
+              <div key={key}>
+                {getQuestion(key) || key}
+                <br />
+                <TextInput
+                  type="text"
+                  key={`${algorithme}-${key}`}
+                  style={{ textAlign: "center", width: 100 }}
+                  onBlur={onInputChange(key)}
+                />
+                <hr />
+              </div>
+            ))) ||
+            null}
+        </Tab>
+        {/* @ts-ignore */}
+        <Tab label="Algorithme">
+          <SyntaxHighlighter language="yaml" style={syntaxStyle}>
+            {codeString}
+          </SyntaxHighlighter>
+        </Tab>
+        {/* @ts-ignore */}
+        <Tab label="Tests">Todo: lancer les tests unitaires</Tab>
+      </Tabs>
       <h3
         dangerouslySetInnerHTML={{
           __html:
@@ -93,6 +111,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const algorithme = params?.algorithme && params?.algorithme;
+
     return { props: { algorithme } };
   } catch (err: any) {
     return { props: { errors: err.message } };

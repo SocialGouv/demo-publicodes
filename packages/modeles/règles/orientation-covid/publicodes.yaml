@@ -1,6 +1,6 @@
 # implémentation de démo https://github.com/Delegation-numerique-en-sante/covid19-algorithme-orientation/blob/master/pseudo-code.org
 
-publicodes:
+meta:
   titre: Orientation COVID-19
   références:
     Délégation du numérique en santé: https://delegation-numerique-en-sante.github.io/covid19-algorithme-orientation/
