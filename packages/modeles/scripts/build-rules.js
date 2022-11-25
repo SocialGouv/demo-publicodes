@@ -49,12 +49,20 @@ function readRules(folder) {
 function writeJSFile(folder) {
   const rules = readRules(folder);
   const names = Object.keys(new Engine(rules).getParsedRules());
-  const jsString = `export default ${JSON.stringify(rules, null, 2)}`;
+  const rawYaml = fs
+    .readFileSync(path.join(publicodesDir, folder, "publicodes.yaml"), "utf-8")
+    .toString();
+
+  const jsString = `export const rules = ${JSON.stringify(rules, null, 2)};
+
+export const yaml = \`${rawYaml}\`;`;
+
   const outDir2 = path.join(outDir, folder);
   if (!fs.existsSync(outDir2)) {
     fs.mkdirSync(outDir2);
   }
   fs.writeFileSync(path.resolve(outDir2, "index.js"), jsString);
+
   fs.writeFileSync(
     path.resolve(outDir2, "index.d.ts"),
     `\nexport type Names = ${names.map((name) => `"${name}"`).join("\n  | ")}\n`
@@ -83,14 +91,15 @@ export default function writeJSFiles() {
 
 ${publicodeModeles
   .map(
-    (modeleName) => `import ${camelCase(modeleName)} from "./${modeleName}";`
+    (modeleName) =>
+      `import * as ${camelCase(modeleName)} from "./${modeleName}";`
   )
   .join("\n")}
 
 export default { ${publicodeModeles
     .map((modeleName) => camelCase(modeleName))
     .join(", ")} };
-  `;
+`;
 
   fs.writeFileSync(path.resolve(outDir, "index.js"), index);
 }

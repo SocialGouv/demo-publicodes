@@ -1,14 +1,12 @@
 import camelCase from "camelcase";
 import modeles from "@socialgouv/publicodes-demo-modeles";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { stringify } from "yaml";
 import { Tabs, Tab, TextInput } from "@dataesr/react-dsfr";
-
-import usePublicodesEngine from "../../src/usePublicodesEngine";
 import { Rule } from "publicodes";
-
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
+
+import usePublicodesEngine from "../../src/usePublicodesEngine";
 
 const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
   return (
@@ -34,9 +32,12 @@ const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
 
 export default function Algorithme({ algorithme }: { algorithme: string }) {
   const modele = modeles[camelCase(algorithme[0])];
+  const rules = modele.rules;
+  const rawYaml = modele.yaml;
+
   const { engine, evaluated, setSituationValue, allMissingVariables } =
     usePublicodesEngine({
-      rules: modele,
+      rules,
       rule: "résultat",
       situation: {},
     });
@@ -54,8 +55,6 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
   };
 
   const meta = engine && engine.getParsedRules()?.meta?.rawNode;
-
-  const codeString = stringify(modele);
 
   return (
     <div>
@@ -85,7 +84,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
         {/* @ts-ignore */}
         <Tab label="Algorithme">
           <SyntaxHighlighter language="yaml" style={syntaxStyle}>
-            {codeString}
+            {rawYaml}
           </SyntaxHighlighter>
         </Tab>
         {/* @ts-ignore */}
