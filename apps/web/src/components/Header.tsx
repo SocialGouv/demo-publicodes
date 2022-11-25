@@ -111,6 +111,16 @@ export const Header = (): JSX.Element => {
             />
           ))}
         </NavItem>
+        <NavItem
+          current={router.asPath === "/usage"}
+          asLink={
+            <div className="fr-nav__link fr-link">
+              <Link href="/usage">Usage</Link>
+            </div>
+          }
+          title="Usage"
+          link="/usage"
+        />
       </HeaderNav>
     </HeaderDSFR>
   );
