@@ -7,15 +7,9 @@ import {
   ToolItem,
   HeaderBody,
   Service,
-  HeaderOperator,
   ToolItemGroup,
   Tool,
-  MegaNavItem,
-  MegaNavSubItem,
-  // Link,
   SwitchTheme,
-  SkiplinkItem,
-  Skiplinks,
 } from "@dataesr/react-dsfr";
 
 import Link from "next/link";
@@ -53,16 +47,17 @@ export const Header = (): JSX.Element => {
           splitCharacter={10}
           asLink={
             <Link
-              href="/"
+              href="/demo-publicodes"
               className="fr-nav__link"
               legacyBehavior={false}
             ></Link>
           }
-          href="/"
+          href="/demo-publicodes"
         >
           République Française
         </Logo>
         <Service
+          link="/demo-publicodes"
           title="Fabrique numérique des ministères sociaux"
           description="démo d'algorithmes publi.codes"
         />
