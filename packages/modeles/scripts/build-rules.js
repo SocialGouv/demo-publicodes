@@ -32,9 +32,8 @@ function readRules(folder) {
       const newRules = yaml.load(fs.readFileSync(filePath, "utf-8"), {
         filename: filePath,
       });
-      const duplicatedRule = Object.keys(newRules).find(
-        (ruleName) => ruleName in rules
-      );
+      const duplicatedRule =
+        newRules && Object.keys(newRules).find((ruleName) => ruleName in rules);
       if (duplicatedRule) {
         throw new Error(
           `La règle ${duplicatedRule} a été redéfinie dans dans le fichier ${filePath}, alors qu'elle avait déjà été définie auparavant dans un autre fichier`

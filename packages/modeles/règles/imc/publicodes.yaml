@@ -1,5 +1,6 @@
 meta:
   titre: Calcul de l'indice de masse corporelle
+  statut: Expérimental
   références:
     Wikipedia: https://fr.wikipedia.org/wiki/Indice_de_masse_corporelle
   description: |

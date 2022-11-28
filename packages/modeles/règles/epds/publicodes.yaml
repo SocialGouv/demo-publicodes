@@ -1,0 +1,325 @@
+meta:
+  titre: Calcul du scoring pour le formulaire EPDS
+  statut: Expérimental
+  références:
+    GitHub: https://github.com/SocialGouv/nos1000jours-blues-epds-widget
+  description: |
+    Ce questionnaire est destiné aux femmes ayant récemment eu un bébé ou aux femmes enceintes.
+
+    Ce questionnaire a été conçu pour déterminer si vous souffrez de problèmes liés à une dépression post-partum.
+
+#
+# Calcul du scoring pour le  formulaire EPDS
+#
+
+# réponses usager
+
+question1 . reponse: "''"
+question2 . reponse: "''"
+question3 . reponse: "''"
+question4 . reponse: "''"
+question5 . reponse: "''"
+question6 . reponse: "''"
+question7 . reponse: "''"
+question8 . reponse: "''"
+question9 . reponse: "''"
+question10 . reponse: "''"
+
+# définition des questions et réponses
+
+question1:
+  question: "Je me suis senti(e) confiant(e) et joyeux(se), en pensant à l’avenir"
+question1 . reponse1:
+  texte: "Autant que d’habitude"
+question1 . reponse2:
+  texte: "Plutôt moins que d’habitude"
+question1 . reponse3:
+  texte: "Vraiment moins que d’habitude"
+question1 . reponse4:
+  texte: "Pratiquement pas"
+
+question2:
+  question: "J’ai pu rire et prendre les choses du bon côté"
+question2 . reponse1:
+  texte: "Aussi souvent que d’habitude"
+question2 . reponse2:
+  texte: "Pas tout-à-fait autant"
+question2 . reponse3:
+  texte: "Vraiment beaucoup moins souvent ces jours-ci"
+question2 . reponse4:
+  texte: "Absolument pas"
+
+question3:
+  question: "Je me suis senti(e) triste ou peu heureux (se)"
+question3 . reponse1:
+  texte: "Oui, la plupart du temps"
+question3 . reponse2:
+  texte: "Oui, très souvent"
+question3 . reponse3:
+  texte: "Pas très souvent"
+question3 . reponse4:
+  texte: "Non, pas du tout"
+
+question4:
+  question: "Je me suis senti(e) si malheureux(se) que j’ai eu des problèmes de sommeil"
+question4 . reponse1:
+  texte: "Oui, la plupart du temps"
+question4 . reponse2:
+  texte: "Oui, parfois"
+question4 . reponse3:
+  texte: "Pas très souvent"
+question4 . reponse4:
+  texte: "Non, pas du tout"
+
+question5:
+  question: "Je me suis senti(e) si malheureux(se) que j’en ai pleuré"
+question5 . reponse1:
+  texte: "Oui, la plupart du temps"
+question5 . reponse2:
+  texte: "Oui, très souvent"
+question5 . reponse3:
+  texte: "Seulement de temps en temps"
+question5 . reponse4:
+  texte: "Non, jamais"
+
+question6:
+  question: "Je me suis senti(e) inquiet(e) ou soucieux(se) sans motifs"
+question6 . reponse1:
+  texte: "Non, pas du tout"
+question6 . reponse2:
+  texte: "Presque jamais"
+question6 . reponse3:
+  texte: "Oui, parfois"
+question6 . reponse4:
+  texte: "Oui, très souvent"
+
+question7:
+  question: "Je me suis senti(e) effrayé(e) ou paniqué(e) sans vraiment de raisons"
+question7 . reponse1:
+  texte: "Oui, vraiment souvent"
+question7 . reponse2:
+  texte: "Oui, parfois"
+question7 . reponse3:
+  texte: "Non, pas très souvent"
+question7 . reponse4:
+  texte: "Non, pas du tout"
+
+question8:
+  question: "Je me suis reproché(e), sans raisons, d’être responsable quand les choses allaient mal"
+question8 . reponse1:
+  texte: "Oui, la plupart du temps"
+question8 . reponse2:
+  texte: "Oui, parfois"
+question8 . reponse3:
+  texte: "Pas très souvent"
+question8 . reponse4:
+  texte: "Non, jamais"
+
+question9:
+  question: "J’ai eu tendance à me sentir dépassé(e) par les évènements"
+question9 . reponse1:
+  texte: "Oui, la plupart du temps, je me suis senti(e) incapable de faire face aux situations"
+question9 . reponse2:
+  texte: "Oui, parfois, je ne me suis pas senti(e) aussi capable de faire face que d’habitude"
+question9 . reponse3:
+  texte: "Non, j’ai pu faire face à la plupart des situations"
+question9 . reponse4:
+  texte: "Non, je me suis senti(e) aussi efficace que d’habitude"
+
+question10:
+  question: "Il m’est arrivé de penser à me faire du mal"
+question10 . reponse1:
+  texte: "Oui, très souvent"
+question10 . reponse2:
+  texte: "Parfois"
+question10 . reponse3:
+  texte: "Presque jamais"
+question10 . reponse4:
+  texte: "Jamais"
+
+# définition du scoring des réponses
+
+question1 . score:
+  variations:
+    - si: question1 . reponse = question1 . reponse1
+      alors: 0
+    - si: question1 . reponse = question1 . reponse2
+      alors: 1
+    - si: question1 . reponse = question1 . reponse3
+      alors: 2
+    - si: question1 . reponse = question1 . reponse4
+      alors: 3
+    - sinon: 0
+
+question2 . score:
+  variations:
+    - si: question2 . reponse = question2 . reponse1
+      alors: 0
+    - si: question2 . reponse = question2 . reponse2
+      alors: 1
+    - si: question2 . reponse = question2 . reponse3
+      alors: 2
+    - si: question2 . reponse = question2 . reponse4
+      alors: 3
+    - sinon: 0
+
+question3 . score:
+  variations:
+    - si: question3 . reponse = question3 . reponse1
+      alors: 3
+    - si: question3 . reponse = question3 . reponse2
+      alors: 2
+    - si: question3 . reponse = question3 . reponse3
+      alors: 1
+    - si: question3 . reponse = question3 . reponse4
+      alors: 0
+    - sinon: 0
+
+question4 . score:
+  variations:
+    - si: question4 . reponse = question4 . reponse1
+      alors: 3
+    - si: question4 . reponse = question4 . reponse2
+      alors: 2
+    - si: question4 . reponse = question4 . reponse3
+      alors: 1
+    - si: question4 . reponse = question4 . reponse4
+      alors: 0
+    - sinon: 0
+
+question5 . score:
+  variations:
+    - si: question5 . reponse = question5 . reponse1
+      alors: 3
+    - si: question5 . reponse = question5 . reponse2
+      alors: 2
+    - si: question5 . reponse = question5 . reponse3
+      alors: 1
+    - si: question5 . reponse = question5 . reponse4
+      alors: 0
+    - sinon: 0
+
+question6 . score:
+  variations:
+    - si: question6 . reponse = question6 . reponse1
+      alors: 0
+    - si: question6 . reponse = question6 . reponse2
+      alors: 1
+    - si: question6 . reponse = question6 . reponse3
+      alors: 2
+    - si: question6 . reponse = question6 . reponse4
+      alors: 3
+    - sinon: 0
+
+question7 . score:
+  variations:
+    - si: question7 . reponse = question7 . reponse1
+      alors: 3
+    - si: question7 . reponse = question7 . reponse2
+      alors: 2
+    - si: question7 . reponse = question7 . reponse3
+      alors: 1
+    - si: question7 . reponse = question7 . reponse4
+      alors: 0
+    - sinon: 0
+
+question8 . score:
+  variations:
+    - si: question8 . reponse = question8 . reponse1
+      alors: 3
+    - si: question8 . reponse = question8 . reponse2
+      alors: 2
+    - si: question8 . reponse = question8 . reponse3
+      alors: 1
+    - si: question8 . reponse = question8 . reponse4
+      alors: 0
+    - sinon: 0
+
+question9 . score:
+  variations:
+    - si: question9 . reponse = question9 . reponse1
+      alors: 3
+    - si: question9 . reponse = question9 . reponse2
+      alors: 2
+    - si: question9 . reponse = question9 . reponse3
+      alors: 1
+    - si: question9 . reponse = question9 . reponse4
+      alors: 0
+    - sinon: 0
+
+question10 . score:
+  variations:
+    - si: question10 . reponse = question10 . reponse1
+      alors: 3
+    - si: question10 . reponse = question10 . reponse2
+      alors: 2
+    - si: question10 . reponse = question10 . reponse3
+      alors: 1
+    - si: question10 . reponse = question10 . reponse4
+      alors: 0
+    - sinon: 0
+
+score:
+  somme:
+    - question1 . score
+    - question2 . score
+    - question3 . score
+    - question4 . score
+    - question5 . score
+    - question6 . score
+    - question7 . score
+    - question8 . score
+    - question9 . score
+    - question10 . score
+
+# disgnostics
+
+diagnostic: oui
+
+diagnostic . niveau1:
+  applicable si:
+    toutes ces conditions:
+      - score < 9
+      - question10 . score < 3
+  remplace: diagnostic . résultat
+  texte: |
+    Les changements importants liés à l’arrivée d’un bébé sont des facteurs de stress dont certains signes évocateurs sont normaux durant cette période.
+
+    Parlez de vos difficultés des premiers mois est essentiel pour que le professionnel de santé qui vous suit puisse à tout moment vous accompagner.
+
+    Des aides et un accompagnement peuvent être mis en place pour vous aider durant cette période qui nécessite du soutien. En parler avec un professionnel de santé et votre entourage, c’est se soigner.
+
+    Parce que vous n’êtes pas seul(e) et qu’en parler a permi à de nombreux parents d’aller mieux.
+
+    Nous vous invitons à vous questionner de nouveau dans les 14 jours.
+
+diagnostic . niveau2:
+  applicable si:
+    toutes ces conditions:
+      - score >= 9
+      - score < 11
+  remplace: diagnostic . résultat
+  texte: |
+    Les changements importants liés à l’arrivée d’un bébé sont des facteurs de stress dont certains signes peuvent évoquer ceux de la dépression post partum.
+
+    Vous exprimez des signes évocateurs de la dépression post partum, il est donc nécessaire d'échanger avec un professionnel de santé.
+
+diagnostic . niveau3:
+  applicable si:
+    une de ces conditions:
+      - score >= 11
+      - question10 . score = 3
+  remplace: diagnostic . résultat
+  texte: |
+    Les changements importants liés à l’arrivée d’un bébé sont des facteurs de stress dont certains signes peuvent évoquer ceux de la dépression post partum.
+
+    Vous exprimez des signes évocateurs de la dépression post partum, il est donc nécessaire d'échanger avec un professionnel de santé.
+
+diagnostic . résultat:
+  texte: |
+
+résultat:
+  texte: |
+    Score EPDS: {{ score }}
+
+    {{ diagnostic . résultat }}

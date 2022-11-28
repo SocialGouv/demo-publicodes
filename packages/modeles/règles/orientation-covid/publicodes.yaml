@@ -2,6 +2,7 @@
 
 meta:
   titre: Orientation COVID-19
+  statut: Expérimental
   références:
     Délégation du numérique en santé: https://delegation-numerique-en-sante.github.io/covid19-algorithme-orientation/
     Github Etalab: https://github.com/etalab/covid19-orientation
