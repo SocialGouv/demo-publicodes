@@ -37,9 +37,11 @@ const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
 const FormEPDS = ({
   rules,
   onChange,
+  allMissingVariables,
 }: {
   rules: Rule[];
   onChange: Function;
+  allMissingVariables: string[] | null;
 }): React.ReactElement => {
   // load questions/réponses from YAML
   const questions = Object.keys(rules).filter((rule) =>
@@ -92,8 +94,88 @@ const FormEPDS = ({
   );
 };
 
+const FormOrientationCovid = ({
+  rules,
+  onChange,
+  allMissingVariables,
+}: {
+  rules: Rule[];
+  onChange: Function;
+  allMissingVariables: string[];
+}): React.ReactElement => {
+  // load questions/réponses from YAML
+  // const questions = Object.keys(rules).filter((rule) =>
+  //   rule.match(/^question\d+$/)
+  // );
+  const getRule = (key: string) => {
+    const rule = Object.entries(rules).find(([key2, value]) => key2 === key);
+    return rule && rule[1];
+  };
+
+  const onInputChange =
+    (inputKey: string): React.ChangeEventHandler<HTMLInputElement> =>
+    (e) => {
+      let value = e.currentTarget.value || "";
+      onChange(inputKey, value);
+    };
+
+  const getQuestion = (key: string) => {
+    const rule = getRule(key);
+    return (rule && rule.question) || null;
+  };
+
+  const isTextInput = (key: string) => {
+    return ["patient . âge", "patient . poids", "patient . taille"].includes(
+      key
+    );
+  };
+
+  return (
+    <div>
+      {(allMissingVariables &&
+        allMissingVariables.length &&
+        allMissingVariables.map((key) => (
+          <div key={key}>
+            <br />
+            {isTextInput(key) ? (
+              <div>
+                {getQuestion(key) || key}
+                <TextInput
+                  type="text"
+                  key={`orientation-covid-${key}`}
+                  style={{ textAlign: "center", width: 100 }}
+                  onBlur={onInputChange(key)}
+                />
+              </div>
+            ) : (
+              <div>
+                <input
+                  type="checkbox"
+                  onClick={(e) => {
+                    if (e.currentTarget.checked) {
+                      onChange(key, "oui");
+                    } else {
+                      onChange(key, "non");
+                    }
+                  }}
+                  id={`orientation-covid-${key}`}
+                />
+                <label htmlFor={`orientation-covid-${key}`}>
+                  &nbsp;{getQuestion(key) || key}
+                </label>
+              </div>
+            )}
+            <hr />
+          </div>
+        ))) ||
+        null}
+    </div>
+  );
+};
+
 const customForms = {
   epds: FormEPDS,
+  orientationCovid: FormOrientationCovid,
 } as Record<string, typeof FormEPDS>;
 
 export default function Algorithme({ algorithme }: { algorithme: string }) {
@@ -129,7 +211,6 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
 
   const CustomForm = customForms[algorithme] || null;
 
-  console.log({ situation, allMissingVariables });
   return (
     <div>
       <br />
@@ -140,6 +221,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
         <Tab label="Formulaire">
           {CustomForm ? (
             <CustomForm
+              allMissingVariables={allMissingVariables}
               rules={rules}
               onChange={(key: string, value: string) =>
                 setSituationValue(key, value)
