@@ -92,19 +92,22 @@ export const Header = (): JSX.Element => {
           link="/"
         />
         <NavItem title="Algorithmes">
-          {Object.keys(modeles).map((key) => (
-            <NavSubItem
-              key={key}
-              title={`${key}`}
-              link={`/algorithmes/${key}`}
-              current={router.asPath === `/algorithmes/${key}`}
-              asLink={
-                <Link href={`/algorithmes/${key}`} className="fr-nav__link">
-                  {key}
-                </Link>
-              }
-            />
-          ))}
+          {Object.keys(modeles).map((key) => {
+            const title = modeles[key]?.rules?.meta?.titre || key;
+            return (
+              <NavSubItem
+                key={key}
+                title={`${key}`}
+                link={`/algorithmes/${key}`}
+                current={router.asPath === `/algorithmes/${key}`}
+                asLink={
+                  <Link href={`/algorithmes/${key}`} className="fr-nav__link">
+                    {title}
+                  </Link>
+                }
+              />
+            );
+          })}
         </NavItem>
         <NavItem
           current={router.asPath === "/usage"}
