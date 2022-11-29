@@ -1,7 +1,7 @@
 import camelCase from "camelcase";
 import modeles from "@socialgouv/publicodes-demo-modeles";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { Tabs, Tab, TextInput } from "@dataesr/react-dsfr";
+import { Tabs, Tab, TextInput, Alert } from "@dataesr/react-dsfr";
 import Engine, { Rule } from "publicodes";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -263,12 +263,27 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
         {/* @ts-ignore */}
         <Tab label="Tests">Todo: lancer les tests unitaires</Tab>
       </Tabs>
-      <h5
-        dangerouslySetInnerHTML={{
-          __html:
-            evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "",
-        }}
-      ></h5>
+      {/* @ts-ignore */}
+      <Alert
+        title="Résultat"
+        type="info"
+        description={
+          <div
+            style={{ marginTop: 15 }}
+            /* TODO: markdown support */
+            dangerouslySetInnerHTML={{
+              __html:
+                evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "",
+            }}
+          ></div>
+        }
+      >
+        blabla
+      </Alert>
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }

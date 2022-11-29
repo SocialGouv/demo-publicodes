@@ -26,12 +26,15 @@ function recursiveFindYamlFile(dirPath = publicodesDir) {
     .filter(Boolean);
 }
 
-function readRules(folder) {
-  return recursiveFindYamlFile(path.join(publicodesDir, folder)).reduce(
-    (rules, filePath) => {
-      const newRules = yaml.load(fs.readFileSync(filePath, "utf-8"), {
-        filename: filePath,
-      });
+function readRawRules(folder) {
+  return recursiveFindYamlFile(path.join(publicodesDir, folder))
+    .map((fullpath) => fs.readFileSync(fullpath, "utf-8").toString())
+    .join("\n"); // YAML separator
+  /*(yaml, filePath) => {
+      const newYaml = fs.readFileSync(filePath, "utf-8").toString()
+      // const newRules = yaml.load(fs.readFileSync(filePath, "utf-8"), {
+      //   filename: filePath,
+      // });
       const duplicatedRule =
         newRules && Object.keys(newRules).find((ruleName) => ruleName in rules);
       if (duplicatedRule) {
@@ -41,20 +44,21 @@ function readRules(folder) {
       }
       return Object.assign(rules, newRules);
     },
-    {}
-  );
+    []
+  );*/
 }
 
 function writeJSFile(folder) {
-  const rules = readRules(folder);
+  const rawYamls = readRawRules(folder);
+  const rules = yaml.load(rawYamls);
   const names = Object.keys(new Engine(rules).getParsedRules());
-  const rawYaml = fs
-    .readFileSync(path.join(publicodesDir, folder, "publicodes.yaml"), "utf-8")
-    .toString();
+  // const rawYaml = fs
+  //   .readFileSync(path.join(publicodesDir, folder, "publicodes.yaml"), "utf-8")
+  //   .toString();
 
   const jsString = `export const rules = ${JSON.stringify(rules, null, 2)};
 
-export const yaml = \`${rawYaml}\`;`;
+export const yaml = \`${rawYamls}\`;`;
 
   const outDir2 = path.join(outDir, folder);
   if (!fs.existsSync(outDir2)) {
