@@ -5,7 +5,7 @@ meta:
   statut: Expérimental
   références:
     Délégation du numérique en santé: https://delegation-numerique-en-sante.github.io/covid19-algorithme-orientation/
-    Github Etalab: https://github.com/etalab/covid19-orientation
+    Github Etalab: https://github.com/Delegation-numerique-en-sante/covid19-algorithme-orientation/blob/master/pseudo-code.org
   description: |
     Implémentation de l'algorithme d'orientation pour les personnes se demandant si elles présentent des symptômes du Covid-19.
 
@@ -17,36 +17,46 @@ symptômes: oui
 
 symptômes . température:
   question: Quelle a été votre température la plus élevée ces dernières 48 heures ?
+  #valeur: 39
 
 symptômes . toux:
   question: Avez-vous une toux ou votre toux habituelle s’est-elle modifiée ces derniers jours ?
+  valeur: non
 
 symptômes . anosmie:
   question: Avez-vous noté une perte ou une forte diminution de votre goût ou de votre odorat ces derniers jours ?
+  valeur: non
 
 symptômes . douleurs:
   question: Avez-vous un mal de gorge ou des douleurs musculaires ou des courbatures inhabituelles ou des maux de tête inhabituels ces derniers jours ?
+  valeur: non
 
 symptômes . douleurs . notification:
+  valeur: non
   applicable si: douleurs = oui
   notification: |
     Si vous avez des maux de tête qui ne disparaissent pas après la prise de médicaments anti-douleurs (dont paracétamol) et que vous décririez comme intolérables : Appelez le 15
 
 symptômes . diarrhée:
   question: Avez-vous de la diarrhée ces dernières 24 heures (au moins 3 selles molles) ?
+  valeur: non
 
 symptômes . fatigue:
   question: Avez-vous une fatigue inhabituelle ces derniers jours ?
+  valeur: non
 
 symptômes . fatigue importante:
   applicable si: fatigue = oui
   question: Cette fatigue vous oblige-t-elle à vous reposer plus de la moitié de la journée ?
+  valeur: non
 
 symptômes . alimenter ou boire impossible:
   question: Êtes-vous dans l'impossibilité de vous alimenter ou de boire DEPUIS 24 HEURES OU PLUS ?
+  valeur: non
 
 symptômes . manque de souffle:
   question: Dans les dernières 24 heures, avez-vous noté un manque de souffle INHABITUEL lorsque vous parlez ou faites un petit effort ?
+  valeur: non
 
 # nombre de symptomes considérés comme gravité mineure
 symptômes . facteurs gravité mineur:
@@ -72,14 +82,17 @@ patient: oui
 patient . âge:
   question: Quel est votre âge ?
   unité: an
+  #valeur: 22
 
 patient . taille:
   question: Quelle est votre taille (en cm) ?
   unité: cm
+  #valeur: 178
 
 patient . poids:
   question: Quel est votre poids (en kg) ?
   unité: kg
+  #valeur: 78
 
 patient . imc:
   valeur: (poids / (taille * taille * 100))
@@ -88,36 +101,46 @@ patient . imc:
 patient . antécédents de maladie cardiovasculaire:
   question: |
     Avez-vous des antécédents de maladie cardiovasculaire : hypertension artérielle compliquée (avec complications cardiaques, rénales), accident vasculaire cérébral, maladie coronaire (infarctus), chirurgie cardiaque, insuffisance cardiaque avec essoufflement au moindre effort ?
+  valeur: non
 
 patient . diabète mal équilibré ou avec des complications:
   question: Avez-vous un diabète mal équilibré ou avec des complications (yeux, reins) ?
+  valeur: non
 
 patient . cancert évolutif:
   question: Avez-vous un cancer évolutif sous traitement (hors hormonothérapie) ?
+  valeur: non
 
 patient . maladie respiratoire chronique:
   question: |
     Avez-vous une maladie respiratoire chronique (bronchopneumopathie obstructive, asthme sévère, fibrose pulmonaire, syndrome d’apnées du sommeil, mucoviscidose) ou êtes-vous suivi par un pneumologue ?
+  valeur: non
 
 patient . insuffisance rénale:
   question: Avez-vous une insuffisance rénale chronique avec besoin de faire de la dialyse ?
+  valeur: non
 
 patient . cirrhose:
   question: Avez-vous une cirrhose ?
+  valeur: non
 
 patient . enceinte:
   question: Êtes-vous enceinte au 3ème trimestre de votre grossesse ?
+  valeur: non
 
 patient . drépanocytose:
   question: |
     Avez-vous une drépanocytose homozygote (forme majeure) ou avez-vous bénéficié d’une splénectomie (ablation de la rate) à cause de la drépanocytose ?
+  valeur: non
 
 patient . immunodépression:
   question: |
     Avez-vous une immunodépression, par exemple : médicamenteuse (chimiothérapie anti cancéreuse, traitement immunosuppresseur, biothérapie et/ou corticothérapie à dose immunosuppressive depuis plus de 15 jours) ; infection à VIH non contrôlée ou avec des CD4 <200/mm3 ; consécutive à une greffe d'organe solide ou de cellules souches hématopoïétiques ; liée à une hémopathie maligne en cours de traitement ?
+  valeur: non
 
 # liste des facteurs qui engagent le pronostique
-patient . facteur pronostique:
+patient . facteur pronostique positif:
+  remplace: patient . facteur pronostique
   applicable si:
     une de ces conditions:
       - patient . âge >= 65
@@ -131,7 +154,9 @@ patient . facteur pronostique:
       - patient . enceinte = oui
       - patient . drépanocytose = oui
       - patient . immunodépression = oui
-  texte: facteur pronostique
+  valeur: oui
+
+patient . facteur pronostique: non
 
 ### MESSAGES
 
@@ -206,35 +231,57 @@ messages . FIN8:
 
 ### RESULTATS
 
+# IF moins de 15 ans => FIN1
+#
 # FIN1 (less_15)
 résultat . patient de moins de 15 ans:
   applicable si: patient . âge < 15
   remplace: résultat
   valeur: messages . FIN1
 
+#  IF >= 1 facteurs de gravité majeurs => FIN5
+#
 # FIN5 (SAMU)
 résultat . tout patient avec au moins un facteur de gravité majeur:
   applicable si: symptômes . facteurs gravité majeur > 0
   remplace: résultat
   valeur: messages . FIN5
 
-# FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique . gravite mineur 2:
-  applicable si: symptômes . facteurs gravité mineur > 1
+#  IF fièvre AND toux
+#      IF 0 facteur pronostique => FIN6
+#      IF >= 1 facteurs pronostiques
+#         IF < 2 facteur de gravité mineur => FIN7
+#         IF >= 2 facteurs de gravité mineurs => FIN4
+#
+
+# FIN6 (consultation_surveillance_3)
+résultat . tout patient avec fièvre et toux . sans facteur pronostique:
+  applicable si: patient . facteur pronostique = non
   remplace: résultat
-  valeur: messages . FIN4
+  valeur: messages . FIN6
 
 # FIN7 (consultation_surveillance_4)
-résultat . tout patient avec fièvre et toux . tout patient avec un facteur pronostique:
+résultat . tout patient avec fièvre et toux . avec facteur pronostique:
   applicable si: patient . facteur pronostique = oui
   remplace: résultat
   valeur: messages . FIN7
 
-#FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre et toux . tout patient sans facteur pronostique:
-  applicable si: patient . facteur pronostique = non
+# FIN4 (consultation_surveillance_2)
+résultat . tout patient avec fièvre et toux . avec facteur pronostique . gravite mineur 2:
+  applicable si: symptômes . facteurs gravité mineur > 1
   remplace: résultat
-  valeur: messages . FIN6
+  valeur: messages . FIN4
+
+#  IF fièvre OR (diarrhée OR (toux AND douleurs) OR (toux AND anosmie) OR (douleurs AND anosmie))
+#     IF 0 facteur pronostique
+#        IF 0 facteur de gravité mineur
+#           IF moins de 50 ans => FIN6
+#           ELSE => FIN3
+#        IF >= 1 facteur de gravité mineur => FIN3
+#     IF >= 1 facteurs pronostiques
+#        IF < 2 facteur de gravité mineur => FIN3
+#        IF >= 2 facteurs de gravité mineurs => FIN4
+#
 
 # FIN6 (consultation_surveillance_3)
 résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur . moins 50 ans:
@@ -249,63 +296,36 @@ résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique .
   valeur: messages . FIN3
 
 résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur:
-  remplace: résultat
-  texte: tout patient avec fièvre ou symptômes sans facteur pronostique sans facteur de gravite mineur
+  #remplace: résultat
+  valeur: oui
+  applicable si: symptômes . facteurs gravité mineur = 0
 
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
+# FIN3 (consultation_surveillance_1)
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . avec facteur de gravite mineur:
   remplace: résultat
-  non applicable si: patient . facteur pronostique
-  #texte: tout patient avec fièvre ou symptômes sans facteur pronostique
+  applicable si: symptômes . facteurs gravité mineur >= 1
+  valeur: messages . FIN3
 
 # FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineur 2:
+résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineur:
   remplace: résultat
-  applicable si: symptômes . facteurs gravité mineur > 1
+  applicable si: symptômes . facteurs gravité mineur >= 2
   valeur: messages . FIN4
 
 # FIN3 (consultation_surveillance_1)
 résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique:
   remplace: résultat
-  applicable si: patient . facteur pronostique
+  applicable si: patient . facteur pronostique = oui
   valeur: messages . FIN3
 
-# FIN7 (consultation_surveillance_4)
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . avec facteur pronostique:
-  remplace: résultat
-  applicable si: patient . facteur pronostique = oui
-  valeur: messages . FIN7
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie . sans facteur pronostique:
-  remplace: résultat
+résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
+  valeur: oui
   applicable si: patient . facteur pronostique = non
-  valeur: messages . FIN6
-
-résultat . tout patient sans fièvre . avec toux ou douleurs ou anosmie:
-  remplace: résultat
-  applicable si:
-    une de ces conditions:
-      - symptômes . toux = oui
-      - symptômes . douleurs = oui
-      - symptômes . anosmie = oui
-  # texte: tout patient sans fièvre avec toux ou douleurs ou anosmie
-
-résultat . tout patient avec fièvre et toux:
-  remplace: résultat
-  applicable si:
-    toutes ces conditions:
-      - symptômes . toux = oui
-      - symptômes . fièvreux
-  #texte: tout patient avec fièvre et toux
-
-résultat . tout patient sans fièvre:
-  remplace: résultat
-  non applicable si: symptômes . fièvreux
-  valeur: résultat
 
 # Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
 résultat . tout patient avec fièvre ou symptômes:
-  remplace: résultat
+  # remplace: résultat
+  valeur: oui
   applicable si:
     une de ces conditions:
       - symptômes . fièvreux
@@ -320,8 +340,19 @@ résultat . tout patient avec fièvre ou symptômes:
           - toutes ces conditions:
               - symptômes . douleurs = oui
               - symptômes . anosmie = oui
-  #texte: tout patient avec fièvre ou symptômes
+
+résultat . tout patient avec fièvre et toux:
+  #remplace: résultat
+  valeur: oui
+  applicable si:
+    toutes ces conditions:
+      - symptômes . toux = oui
+      - symptômes . fièvreux = oui
+
+#résultat . tout patient avec fièvre et toux2: résultat . tout patient avec fièvre et toux
 
 # FIN8 (surveillance)
 résultat:
   valeur: messages . FIN8
+
+résultat2: résultat

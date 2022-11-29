@@ -2,7 +2,7 @@ import camelCase from "camelcase";
 import modeles from "@socialgouv/publicodes-demo-modeles";
 import { GetStaticProps, GetStaticPaths } from "next";
 import { Tabs, Tab, TextInput } from "@dataesr/react-dsfr";
-import { Rule } from "publicodes";
+import Engine, { Rule } from "publicodes";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
@@ -36,10 +36,12 @@ const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
 
 const FormEPDS = ({
   rules,
+  engine,
   onChange,
   allMissingVariables,
 }: {
   rules: Rule[];
+  engine: Engine;
   onChange: Function;
   allMissingVariables: string[] | null;
 }): React.ReactElement => {
@@ -98,26 +100,22 @@ const FormOrientationCovid = ({
   rules,
   onChange,
   allMissingVariables,
+  engine,
 }: {
+  engine: Engine;
   rules: Rule[];
   onChange: Function;
   allMissingVariables: string[];
 }): React.ReactElement => {
   // load questions/réponses from YAML
-  // const questions = Object.keys(rules).filter((rule) =>
-  //   rule.match(/^question\d+$/)
-  // );
+  const questions = Object.keys(rules).filter(
+    //@ts-ignore
+    (rule) => !!rules[rule].question
+  );
   const getRule = (key: string) => {
     const rule = Object.entries(rules).find(([key2, value]) => key2 === key);
     return rule && rule[1];
   };
-
-  const onInputChange =
-    (inputKey: string): React.ChangeEventHandler<HTMLInputElement> =>
-    (e) => {
-      let value = e.currentTarget.value || "";
-      onChange(inputKey, value);
-    };
 
   const getQuestion = (key: string) => {
     const rule = getRule(key);
@@ -125,16 +123,19 @@ const FormOrientationCovid = ({
   };
 
   const isTextInput = (key: string) => {
-    return ["patient . âge", "patient . poids", "patient . taille"].includes(
-      key
-    );
+    return [
+      "patient . âge",
+      "patient . poids",
+      "patient . taille",
+      "symptômes . température",
+    ].includes(key);
   };
 
   return (
     <div>
-      {(allMissingVariables &&
-        allMissingVariables.length &&
-        allMissingVariables.map((key) => (
+      {(questions &&
+        questions.length &&
+        questions.map((key) => (
           <div key={key}>
             <br />
             {isTextInput(key) ? (
@@ -144,7 +145,7 @@ const FormOrientationCovid = ({
                   type="text"
                   key={`orientation-covid-${key}`}
                   style={{ textAlign: "center", width: 100 }}
-                  onBlur={onInputChange(key)}
+                  onBlur={(e) => onChange(key, e.currentTarget.value)}
                 />
               </div>
             ) : (
@@ -173,6 +174,40 @@ const FormOrientationCovid = ({
   );
 };
 
+const DefaultForm = ({
+  engine,
+  rules,
+  onChange,
+  allMissingVariables,
+}: {
+  engine: Engine;
+  rules: Rule[];
+  onChange: Function;
+  allMissingVariables: string[];
+}): React.ReactElement[] | null => {
+  const getQuestion = (key: string) => {
+    const rule = engine && engine.getRule(key);
+    return (rule && rule.rawNode.question) || null;
+  };
+  return (
+    (allMissingVariables &&
+      allMissingVariables.length &&
+      allMissingVariables.map((key) => (
+        <div key={key}>
+          {getQuestion(key) || key}
+          <br />
+          <TextInput
+            type="text"
+            key={`${key}`}
+            style={{ textAlign: "center", width: 100 }}
+            onBlur={(e) => onChange(key, e.currentTarget.value)}
+          />
+          <hr />
+        </div>
+      ))) ||
+    null
+  );
+};
 const customForms = {
   epds: FormEPDS,
   orientationCovid: FormOrientationCovid,
@@ -195,22 +230,11 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     situation: {},
   });
 
-  const onInputChange =
-    (inputKey: string): React.ChangeEventHandler<HTMLInputElement> =>
-    (e) => {
-      let value = e.currentTarget.value || "";
-      setSituationValue(inputKey, value);
-    };
-
-  const getQuestion = (key: string) => {
-    const rule = engine && engine.getRule(key);
-    return (rule && rule.rawNode.question) || null;
-  };
-
   const meta = engine && engine.getParsedRules()?.meta?.rawNode;
 
-  const CustomForm = customForms[algorithme] || null;
+  const CustomForm = customForms[algorithme] || DefaultForm;
 
+  console.log({ situation, allMissingVariables });
   return (
     <div>
       <br />
@@ -219,31 +243,15 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
       <Tabs defaultActiveTab={0}>
         {/* @ts-ignore */}
         <Tab label="Formulaire">
-          {CustomForm ? (
+          {engine && (
             <CustomForm
+              engine={engine}
               allMissingVariables={allMissingVariables}
               rules={rules}
               onChange={(key: string, value: string) =>
                 setSituationValue(key, value)
               }
             />
-          ) : (
-            (allMissingVariables &&
-              allMissingVariables.length &&
-              allMissingVariables.map((key) => (
-                <div key={key}>
-                  {getQuestion(key) || key}
-                  <br />
-                  <TextInput
-                    type="text"
-                    key={`${algorithme}-${key}`}
-                    style={{ textAlign: "center", width: 100 }}
-                    onBlur={onInputChange(key)}
-                  />
-                  <hr />
-                </div>
-              ))) ||
-            null
           )}
         </Tab>
         {/* @ts-ignore */}

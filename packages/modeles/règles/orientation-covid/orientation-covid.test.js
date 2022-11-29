@@ -97,11 +97,26 @@ const tests = [
   {
     title: "fièvre et toux et cirrhose et fatigue importante",
     situation: {
-      "symptômes . température": 40, // facteur de gravité mineure
+      "symptômes . température": 40, // facteur de gravité mineur
       "symptômes . toux": "oui",
       "symptômes . fatigue": "oui",
-      "symptômes . fatigue importante": "oui", // facteur de gravité mineure
+      "symptômes . fatigue importante": "oui", // facteur de gravité mineur
       "patient . cirrhose": "oui", // facteur pronostique
+    },
+  },
+  {
+    title: "38 ans et toux",
+    situation: {
+      "symptômes . température": 38,
+      "symptômes . toux": "oui",
+    },
+  },
+  {
+    title: "38 ans et toux et facteur pronostique mineur",
+    situation: {
+      "symptômes . température": 38,
+      "symptômes . toux": "oui",
+      "patient . cirrhose": "oui", // facteur de granité mineur
     },
   },
 ];
@@ -113,7 +128,6 @@ test.each(tests)("$title", ({ title, situation }) => {
     ...situation,
   });
   const evaluated = engine.evaluate("résultat");
-  const evaluated2 = engine.evaluate("symptômes . facteurs gravité mineur");
 
   expect(evaluated.nodeValue).toMatchSnapshot();
   expect(evaluated.missingVariables).toEqual({});

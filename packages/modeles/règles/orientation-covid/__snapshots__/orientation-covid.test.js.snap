@@ -1,27 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`38 ans et toux 1`] = `
+"Votre situation ne relève probablement pas du Covid-19.
+
+N’hésitez pas à contacter votre médecin en cas de doute.
+
+Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
+la situation.
+
+Pour toute information concernant le Covid-19, composer le 0 800 130 000.
+"
+`;
+
+exports[`38 ans et toux et facteur pronostique mineur 1`] = `
+"Votre situation ne relève probablement pas du Covid-19.
+
+N’hésitez pas à contacter votre médecin en cas de doute.
+
+Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer
+la situation.
+
+Pour toute information concernant le Covid-19, composer le 0 800 130 000.
+"
+`;
+
 exports[`a besoin de variables pour fonctionner 1`] = `
 {
-  "patient . antécédents de maladie cardiovasculaire": 127,
-  "patient . cancert évolutif": 127,
-  "patient . cirrhose": 127,
-  "patient . diabète mal équilibré ou avec des complications": 127,
-  "patient . drépanocytose": 127,
-  "patient . enceinte": 127,
-  "patient . immunodépression": 127,
-  "patient . insuffisance rénale": 127,
-  "patient . maladie respiratoire chronique": 127,
-  "patient . poids": 127,
-  "patient . taille": 163,
-  "patient . âge": 172,
-  "symptômes . alimenter ou boire impossible": 16,
-  "symptômes . anosmie": 37,
-  "symptômes . diarrhée": 16,
-  "symptômes . douleurs": 37,
-  "symptômes . fatigue": 43,
-  "symptômes . manque de souffle": 16,
-  "symptômes . température": 91,
-  "symptômes . toux": 52,
+  "patient . poids": 52,
+  "patient . taille": 68,
+  "patient . âge": 65,
+  "symptômes . température": 53,
 }
 `;
 
@@ -41,8 +49,10 @@ exports[`facteurs de gravité majeure 1`] = `
 exports[`fièvre 25 ans 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste ou une visite
-à domicile (SOS médecins, etc.)
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour
@@ -93,10 +103,8 @@ protéger vos proches.
 exports[`fièvre et toux et cirrhose 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
-
-Appelez le 15 si une gêne respiratoire ou des difficultés importantes
-pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
+Demandez une téléconsultation ou un médecin généraliste. Au moindre
+doute, appelez le 15.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour
@@ -107,9 +115,8 @@ protéger vos proches.
 exports[`fièvre et toux et cirrhose et fatigue importante 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste ou une visite
-à domicile. Si vous n'arrivez pas à obtenir de consultation, appelez
-le 15.
+Demandez une téléconsultation ou un médecin généraliste. Au moindre
+doute, appelez le 15.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour
