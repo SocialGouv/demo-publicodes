@@ -235,6 +235,10 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
   const CustomForm = customForms[algorithme] || DefaultForm;
 
   console.log({ situation, allMissingVariables });
+
+  const htmlResultat =
+    evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "";
+
   return (
     <div>
       <br />
@@ -264,22 +268,21 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
         <Tab label="Tests">Todo: lancer les tests unitaires</Tab>
       </Tabs>
       {/* @ts-ignore */}
-      <Alert
-        title="Résultat"
-        type="info"
-        description={
-          <div
-            style={{ marginTop: 15 }}
-            /* TODO: markdown support */
-            dangerouslySetInnerHTML={{
-              __html:
-                evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "",
-            }}
-          ></div>
-        }
-      >
-        blabla
-      </Alert>
+      {htmlResultat && (
+        <Alert
+          title="Résultat"
+          type="info"
+          description={
+            <div
+              style={{ marginTop: 15 }}
+              /* TODO: markdown support */
+              dangerouslySetInnerHTML={{
+                __html: htmlResultat,
+              }}
+            ></div>
+          }
+        />
+      )}
       <br />
       <br />
       <br />
