@@ -12,7 +12,7 @@
     "test": "echo no test"
   },
   "dependencies": {
-    "@dataesr/react-dsfr": "3.1.12",
+    "@dataesr/react-dsfr": "^3.4.8",
     "camelcase": "^7.0.0",
     "next": "^13.0.0",
     "publicodes": "^1.0.0-beta.61",

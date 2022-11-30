@@ -1,11 +1,10 @@
 /* eslint-env node18 */
-import fs from "fs";
 import yaml from "js-yaml";
-import path from "path";
 import Engine from "publicodes";
 
-const fullpath = path.join("règles", "orientation-covid", "publicodes.yaml");
-const rules = yaml.load(fs.readFileSync(fullpath, "utf-8"));
+import modeles from "@socialgouv/publicodes-demo-modeles";
+
+const rules = yaml.load(modeles.orientationCovid.yaml);
 
 test("a besoin de variables pour fonctionner", () => {
   const engine = new Engine(rules);

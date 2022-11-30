@@ -21,44 +21,12 @@ meta:
      - La parité parmi les 10 plus hautes rémunérations.
 
 # options de calcul
-
+options: oui
 options . seuil de pertinence:
   valeur: 5
   unité: "%"
   description: |
     Par défaut, le seuil de pertinence est fixé à 5 % (pour une catégorisation en 4 CSP). Pour toute autre catégorisation, il est fixé à 2 %. Remplacer 5 % par 2 % si vous êtes dans ce cas.
-
-# inputs utilisateurs
-
-index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes . input:
-  remplace: index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes
-  valeur: 42
-  unité: €
-index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes . input:
-  remplace: index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes
-  valeur: 48
-  unité: €
-index . csp . ouvriers . moins de 30 ans . nombre salariés . hommes . input:
-  remplace: index . csp . ouvriers . moins de 30 ans . nombre salariés . hommes
-  valeur: 40
-index . csp . ouvriers . moins de 30 ans . nombre salariés . femmes . input:
-  remplace: index . csp . ouvriers . moins de 30 ans . nombre salariés . femmes
-  valeur: 30
-
-index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes . input:
-  remplace: index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes
-  valeur: 99
-  unité: €
-index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes . input:
-  remplace: index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes
-  valeur: 66
-  unité: €
-index . csp . employés . de 40 à 49 ans . nombre salariés . hommes . input:
-  remplace: index . csp . employés . de 40 à 49 ans . nombre salariés . hommes
-  valeur: 72
-index . csp . employés . de 40 à 49 ans . nombre salariés . femmes . input:
-  remplace: index . csp . employés . de 40 à 49 ans . nombre salariés . femmes
-  valeur: 30
 
 # règles
 
@@ -74,25 +42,25 @@ index . csp . indicateur calculable oui:
       - index . csp . effectifs > 0
       - index . csp . effectifs . valides >= 40% * index . csp . effectifs
 
-index . csp . indice ecart rémunération:
+index . csp . indice écart rémunération:
   valeur: 0
 
-index . csp . indice ecart rémunération valide positif:
+index . csp . indice écart rémunération valide positif:
   applicable si:
     toutes ces conditions:
       - index . csp . indicateur calculable = oui
       - index . csp . écart pondéré > 0
   valeur: index . csp . écart pondéré
-  remplace: index . csp . indice ecart rémunération
+  remplace: index . csp . indice écart rémunération
   unité: "%"
 
-index . csp . indice ecart rémunération valide negatif:
+index . csp . indice écart rémunération valide negatif:
   applicable si:
     toutes ces conditions:
       - index . csp . indicateur calculable = oui
       - index . csp . écart pondéré < 0
   valeur: index . csp . écart pondéré * -1
-  remplace: index . csp . indice ecart rémunération
+  remplace: index . csp . indice écart rémunération
   unité: "%"
 
 index . csp . note:
@@ -101,47 +69,47 @@ index . csp . note:
 index . csp . note . variation:
   remplace: index . csp . note
   variations:
-    - si: index . csp . indice ecart rémunération >= 20.1
+    - si: index . csp . indice écart rémunération >= 20.1
       alors: 0
-    - si: index . csp . indice ecart rémunération >= 19.1
+    - si: index . csp . indice écart rémunération >= 19.1
       alors: 2
-    - si: index . csp . indice ecart rémunération >= 18.1
+    - si: index . csp . indice écart rémunération >= 18.1
       alors: 5
-    - si: index . csp . indice ecart rémunération >= 17.1
+    - si: index . csp . indice écart rémunération >= 17.1
       alors: 8
-    - si: index . csp . indice ecart rémunération >= 16.1
+    - si: index . csp . indice écart rémunération >= 16.1
       alors: 11
-    - si: index . csp . indice ecart rémunération >= 15.1
+    - si: index . csp . indice écart rémunération >= 15.1
       alors: 14
-    - si: index . csp . indice ecart rémunération >= 14.1
+    - si: index . csp . indice écart rémunération >= 14.1
       alors: 17
-    - si: index . csp . indice ecart rémunération >= 13.1
+    - si: index . csp . indice écart rémunération >= 13.1
       alors: 19
-    - si: index . csp . indice ecart rémunération >= 12.1
+    - si: index . csp . indice écart rémunération >= 12.1
       alors: 21
-    - si: index . csp . indice ecart rémunération >= 11.1
+    - si: index . csp . indice écart rémunération >= 11.1
       alors: 23
-    - si: index . csp . indice ecart rémunération >= 10.1
+    - si: index . csp . indice écart rémunération >= 10.1
       alors: 25
-    - si: index . csp . indice ecart rémunération >= 9.1
+    - si: index . csp . indice écart rémunération >= 9.1
       alors: 27
-    - si: index . csp . indice ecart rémunération >= 8.1
+    - si: index . csp . indice écart rémunération >= 8.1
       alors: 29
-    - si: index . csp . indice ecart rémunération >= 7.1
+    - si: index . csp . indice écart rémunération >= 7.1
       alors: 31
-    - si: index . csp . indice ecart rémunération >= 6.1
+    - si: index . csp . indice écart rémunération >= 6.1
       alors: 33
-    - si: index . csp . indice ecart rémunération >= 5.1
+    - si: index . csp . indice écart rémunération >= 5.1
       alors: 34
-    - si: index . csp . indice ecart rémunération >= 4.1
+    - si: index . csp . indice écart rémunération >= 4.1
       alors: 35
-    - si: index . csp . indice ecart rémunération >= 3.1
+    - si: index . csp . indice écart rémunération >= 3.1
       alors: 36
-    - si: index . csp . indice ecart rémunération >= 2.1
+    - si: index . csp . indice écart rémunération >= 2.1
       alors: 37
-    - si: index . csp . indice ecart rémunération >= 1.1
+    - si: index . csp . indice écart rémunération >= 1.1
       alors: 38
-    - si: index . csp . indice ecart rémunération >= 0.1
+    - si: index . csp . indice écart rémunération >= 0.1
       alors: 39
     - sinon: 40
 
@@ -152,5 +120,5 @@ résultat:
      - TOTAL effectifs valides: {{ index . csp . effectifs . valides }}
      - TOTAL écart pondéré: {{ index . csp . écart pondéré }}
      - indicateur calculable: {{ index . csp . indicateur calculable }}
-     - indicateur d'écart de rémunération: {{ index . csp . indice ecart rémunération }}
+     - indicateur d'écart de rémunération: {{ index . csp . indice écart rémunération }}
      - Note: {{ index . csp . note }}

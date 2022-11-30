@@ -13,8 +13,8 @@ index . csp . ${csp} . ${tranche} . validite:
 index . csp . ${csp} . ${tranche} . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . nombre salariés . hommes > 0
-      - index . csp . ${csp} . ${tranche} . nombre salariés . femmes > 0
+      - index . csp . ${csp} . ${tranche} . nombre salariés . hommes >= 3
+      - index . csp . ${csp} . ${tranche} . nombre salariés . femmes >= 3
   valeur: oui
   remplace: index . csp . ${csp} . ${tranche} . validite
 
@@ -27,25 +27,23 @@ index . csp . ${csp} . ${tranche} . écart rémunération:
   unité: "%"
   arrondi: 1 décimale
 
-# todo: math.abs
-index . csp . ${csp} . ${tranche} . écart rémunération . pertinent . positif:
-  applicable si:
-    toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . écart rémunération > 0
-      - index . csp . ${csp} . ${tranche} . écart rémunération > options . seuil de pertinence
-  remplace: index . csp . ${csp} . ${tranche} . écart rémunération . pertinent
-  valeur: index . csp . ${csp} . ${tranche} . écart rémunération - options . seuil de pertinence
-
-index . csp . ${csp} . ${tranche} . écart rémunération . pertinent . negatif:
-  applicable si:
-    toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . écart rémunération < 0
-      - (index . csp . ${csp} . ${tranche} . écart rémunération  * -1) > options . seuil de pertinence
-  remplace: index . csp . ${csp} . ${tranche} . écart rémunération . pertinent
-  valeur: index . csp . ${csp} . ${tranche} . écart rémunération + options . seuil de pertinence
+index . csp . ${csp} . ${tranche} . écart rémunération . abs:
+  variations:
+    - si: index . csp . ${csp} . ${tranche} . écart rémunération > 0
+      alors: index . csp . ${csp} . ${tranche} . écart rémunération
+    - sinon: index . csp . ${csp} . ${tranche} . écart rémunération * -1
+  unité: "%"
+  arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . écart rémunération . pertinent:
-  valeur: 0
+  variations:
+    - si: index . csp . ${csp} . ${tranche} . écart rémunération . abs > options . seuil de pertinence
+      alors:
+        variations:
+          - si: index . csp . ${csp} . ${tranche} . écart rémunération > 0
+            alors: index . csp . ${csp} . ${tranche} . écart rémunération - options . seuil de pertinence
+          - sinon: index . csp . ${csp} . ${tranche} . écart rémunération + options . seuil de pertinence
+    - sinon: index . csp . ${csp} . ${tranche} . écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
@@ -62,13 +60,17 @@ index . csp . ${csp} . ${tranche} . effectifs . valides . count:
 
 index . csp . ${csp} . ${tranche} . écart pondéré:
   valeur: 0
+  unité: "%"
+  arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . écart pondéré . positif:
   remplace: index . csp . ${csp} . ${tranche} . écart pondéré
   applicable si:
     toutes ces conditions:
       - index . csp . ${csp} . ${tranche} . valide = oui
-  valeur: index . csp . ${csp} . ${tranche} . écart rémunération . pertinent  * index . csp . ${csp} . ${tranche} . effectifs / index . csp . effectifs
+  valeur: index . csp . ${csp} . ${tranche} . écart rémunération . pertinent  * index . csp . ${csp} . ${tranche} . effectifs / index . csp . effectifs . valides
+  unité: "%"
+  arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . hommes: 0
 index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . femmes: 0
@@ -82,7 +84,6 @@ const csps = [
   "techniciens et agents de maîtrise",
   "ingénieurs et cadres",
 ];
-
 const tranchesAge = [
   "moins de 30 ans",
   "de 30 à 39 ans",

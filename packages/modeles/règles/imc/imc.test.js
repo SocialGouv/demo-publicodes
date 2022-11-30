@@ -4,8 +4,8 @@ import yaml from "js-yaml";
 import path from "path";
 import Engine from "publicodes";
 
-const fullpath = path.join("règles", "imc", "publicodes.yaml");
-const rules = yaml.load(fs.readFileSync(fullpath, "utf-8"));
+import modeles from "@socialgouv/publicodes-demo-modeles";
+const rules = yaml.load(modeles.imc.yaml);
 
 const tests = [
   {

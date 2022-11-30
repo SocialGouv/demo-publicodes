@@ -342,14 +342,11 @@ résultat . tout patient avec fièvre ou symptômes:
               - symptômes . anosmie = oui
 
 résultat . tout patient avec fièvre et toux:
-  #remplace: résultat
   valeur: oui
   applicable si:
     toutes ces conditions:
       - symptômes . toux = oui
       - symptômes . fièvreux = oui
-
-#résultat . tout patient avec fièvre et toux2: résultat . tout patient avec fièvre et toux
 
 # FIN8 (surveillance)
 résultat:

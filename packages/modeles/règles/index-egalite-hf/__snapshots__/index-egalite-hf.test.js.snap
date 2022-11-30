@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`a besoin de variables pour fonctionner 1`] = `{}`;
+
+exports[`ne renvoie pas d'alerte avec la situation par défaut 1`] = `
+"INDICATEUR 1:
+ - TOTAL effectifs: 0
+ - TOTAL effectifs valides: 0
+ - TOTAL écart pondéré: 0 %
+ - indicateur calculable: non
+ - indicateur d'écart de rémunération: 0
+ - Note: 40
+"
+`;
