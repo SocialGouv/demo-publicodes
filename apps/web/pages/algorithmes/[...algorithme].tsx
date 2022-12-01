@@ -38,11 +38,14 @@ const FormEPDS = ({
   rules,
   engine,
   onChange,
+  missingVariables,
   allMissingVariables,
 }: {
   rules: Rule[];
   engine: Engine;
   onChange: Function;
+  missingVariables: string[];
+
   allMissingVariables: string[] | null;
 }): React.ReactElement => {
   // load questions/réponses from YAML
@@ -99,12 +102,14 @@ const FormEPDS = ({
 const FormOrientationCovid = ({
   rules,
   onChange,
+  missingVariables,
   allMissingVariables,
   engine,
 }: {
   engine: Engine;
   rules: Rule[];
   onChange: Function;
+  missingVariables: string[];
   allMissingVariables: string[];
 }): React.ReactElement => {
   // load questions/réponses from YAML
@@ -140,7 +145,13 @@ const FormOrientationCovid = ({
             <br />
             {isTextInput(key) ? (
               <div>
-                {getQuestion(key) || key}
+                <div
+                  style={{
+                    color: missingVariables.includes(key) ? "red" : "inherit",
+                  }}
+                >
+                  {getQuestion(key) || key}
+                </div>
                 <TextInput
                   type="text"
                   key={`orientation-covid-${key}`}
@@ -161,7 +172,12 @@ const FormOrientationCovid = ({
                   }}
                   id={`orientation-covid-${key}`}
                 />
-                <label htmlFor={`orientation-covid-${key}`}>
+                <label
+                  htmlFor={`orientation-covid-${key}`}
+                  style={{
+                    color: missingVariables.includes(key) ? "red" : "inherit",
+                  }}
+                >
                   &nbsp;{getQuestion(key) || key}
                 </label>
               </div>
@@ -178,11 +194,13 @@ const DefaultForm = ({
   engine,
   rules,
   onChange,
+  missingVariables,
   allMissingVariables,
 }: {
   engine: Engine;
   rules: Rule[];
   onChange: Function;
+  missingVariables: string[];
   allMissingVariables: string[];
 }): React.ReactElement[] | null => {
   const getQuestion = (key: string) => {
@@ -194,7 +212,13 @@ const DefaultForm = ({
       allMissingVariables.length &&
       allMissingVariables.map((key) => (
         <div key={key}>
-          {getQuestion(key) || key}
+          <div
+            style={{
+              color: missingVariables.includes(key) ? "red" : "inherit",
+            }}
+          >
+            {getQuestion(key) || key}
+          </div>
           <br />
           <TextInput
             type="text"
@@ -223,6 +247,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
     situation,
     evaluated,
     setSituationValue,
+    missingVariables,
     allMissingVariables,
   } = usePublicodesEngine({
     rules,
@@ -234,7 +259,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
 
   const CustomForm = customForms[algorithme] || DefaultForm;
 
-  console.log({ situation, allMissingVariables });
+  //console.log({ situation, missingVariables, allMissingVariables });
 
   const htmlResultat =
     evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "";
@@ -250,6 +275,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
           {engine && (
             <CustomForm
               engine={engine}
+              missingVariables={missingVariables}
               allMissingVariables={allMissingVariables}
               rules={rules}
               onChange={(key: string, value: string) =>

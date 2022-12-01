@@ -28,7 +28,23 @@ export const usePublicodesEngine = (params: {
   }, [rules]);
 
   const setSituationValue = (key: string, value: any) => {
-    if (isNaN(value)) {
+    if (value === "") {
+      // remove value from situation when empty
+      const newSituation =
+        stateSituation &&
+        Object.keys(stateSituation)
+          .filter((k) => k !== key)
+          .reduce(
+            (a, k) => ({
+              ...a,
+              [k]: stateSituation[k],
+            }),
+            {}
+          );
+      setSituation(newSituation);
+      engine && engine.setSituation(newSituation);
+      return;
+    } else if (isNaN(value)) {
       if (value === "oui" || value === "non") {
         // keep value as is
       } else {
@@ -48,17 +64,16 @@ export const usePublicodesEngine = (params: {
   const evaluated = engine && engine.evaluate(evaluateKey);
 
   const missingVariables =
-    (evaluated && Object.entries(evaluated.missingVariables)) || [];
+    (evaluated && Object.keys(evaluated.missingVariables)) || [];
 
-  if (allMissingVariables === null && Object.values(missingVariables).length) {
-    setAllMissingVariables(Object.values(missingVariables).map(([key]) => key));
+  if (allMissingVariables === null && missingVariables.length) {
+    setAllMissingVariables(missingVariables);
   }
-
-  // console.log({ allMissingVariables, stateSituation, evaluated });
 
   return {
     engine,
     evaluated,
+    missingVariables,
     situation: stateSituation,
     setSituationValue,
     allMissingVariables, // original copy of initial model missing variables
