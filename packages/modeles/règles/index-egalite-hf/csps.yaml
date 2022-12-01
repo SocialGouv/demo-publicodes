@@ -11,50 +11,50 @@ index . csp . ouvriers . moins de 30 ans . validite:
 index . csp . ouvriers . moins de 30 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . moins de 30 ans . nombre salariés . hommes >= 3
-      - index . csp . ouvriers . moins de 30 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ouvriers . moins de 30 ans . validite
+  remplace: validite
 
 index . csp . ouvriers . moins de 30 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . moins de 30 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ouvriers . moins de 30 ans . écart rémunération > 0
-      alors: index . csp . ouvriers . moins de 30 ans . écart rémunération
-    - sinon: index . csp . ouvriers . moins de 30 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . moins de 30 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ouvriers . moins de 30 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ouvriers . moins de 30 ans . écart rémunération > 0
-            alors: index . csp . ouvriers . moins de 30 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ouvriers . moins de 30 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ouvriers . moins de 30 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . moins de 30 ans . effectifs:
-  valeur: index . csp . ouvriers . moins de 30 ans . nombre salariés . hommes + index . csp . ouvriers . moins de 30 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ouvriers . moins de 30 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ouvriers . moins de 30 ans . effectifs . valides . count:
-  applicable si: index . csp . ouvriers . moins de 30 ans . validite
-  valeur: index . csp . ouvriers . moins de 30 ans . effectifs
-  remplace: index . csp . ouvriers . moins de 30 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ouvriers . moins de 30 ans . écart pondéré:
   valeur: 0
@@ -62,11 +62,11 @@ index . csp . ouvriers . moins de 30 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ouvriers . moins de 30 ans . écart pondéré . positif:
-  remplace: index . csp . ouvriers . moins de 30 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . moins de 30 ans . valide = oui
-  valeur: index . csp . ouvriers . moins de 30 ans . écart rémunération . pertinent  * index . csp . ouvriers . moins de 30 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -86,50 +86,50 @@ index . csp . ouvriers . de 30 à 39 ans . validite:
 index . csp . ouvriers . de 30 à 39 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 30 à 39 ans . nombre salariés . hommes >= 3
-      - index . csp . ouvriers . de 30 à 39 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ouvriers . de 30 à 39 ans . validite
+  remplace: validite
 
 index . csp . ouvriers . de 30 à 39 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ouvriers . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ouvriers . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ouvriers . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ouvriers . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 30 à 39 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ouvriers . de 30 à 39 ans . écart rémunération > 0
-      alors: index . csp . ouvriers . de 30 à 39 ans . écart rémunération
-    - sinon: index . csp . ouvriers . de 30 à 39 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 30 à 39 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ouvriers . de 30 à 39 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ouvriers . de 30 à 39 ans . écart rémunération > 0
-            alors: index . csp . ouvriers . de 30 à 39 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ouvriers . de 30 à 39 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ouvriers . de 30 à 39 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 30 à 39 ans . effectifs:
-  valeur: index . csp . ouvriers . de 30 à 39 ans . nombre salariés . hommes + index . csp . ouvriers . de 30 à 39 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ouvriers . de 30 à 39 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ouvriers . de 30 à 39 ans . effectifs . valides . count:
-  applicable si: index . csp . ouvriers . de 30 à 39 ans . validite
-  valeur: index . csp . ouvriers . de 30 à 39 ans . effectifs
-  remplace: index . csp . ouvriers . de 30 à 39 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ouvriers . de 30 à 39 ans . écart pondéré:
   valeur: 0
@@ -137,11 +137,11 @@ index . csp . ouvriers . de 30 à 39 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 30 à 39 ans . écart pondéré . positif:
-  remplace: index . csp . ouvriers . de 30 à 39 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 30 à 39 ans . valide = oui
-  valeur: index . csp . ouvriers . de 30 à 39 ans . écart rémunération . pertinent  * index . csp . ouvriers . de 30 à 39 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -161,50 +161,50 @@ index . csp . ouvriers . de 40 à 49 ans . validite:
 index . csp . ouvriers . de 40 à 49 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 40 à 49 ans . nombre salariés . hommes >= 3
-      - index . csp . ouvriers . de 40 à 49 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ouvriers . de 40 à 49 ans . validite
+  remplace: validite
 
 index . csp . ouvriers . de 40 à 49 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ouvriers . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ouvriers . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ouvriers . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ouvriers . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 40 à 49 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ouvriers . de 40 à 49 ans . écart rémunération > 0
-      alors: index . csp . ouvriers . de 40 à 49 ans . écart rémunération
-    - sinon: index . csp . ouvriers . de 40 à 49 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 40 à 49 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ouvriers . de 40 à 49 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ouvriers . de 40 à 49 ans . écart rémunération > 0
-            alors: index . csp . ouvriers . de 40 à 49 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ouvriers . de 40 à 49 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ouvriers . de 40 à 49 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 40 à 49 ans . effectifs:
-  valeur: index . csp . ouvriers . de 40 à 49 ans . nombre salariés . hommes + index . csp . ouvriers . de 40 à 49 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ouvriers . de 40 à 49 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ouvriers . de 40 à 49 ans . effectifs . valides . count:
-  applicable si: index . csp . ouvriers . de 40 à 49 ans . validite
-  valeur: index . csp . ouvriers . de 40 à 49 ans . effectifs
-  remplace: index . csp . ouvriers . de 40 à 49 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ouvriers . de 40 à 49 ans . écart pondéré:
   valeur: 0
@@ -212,11 +212,11 @@ index . csp . ouvriers . de 40 à 49 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 40 à 49 ans . écart pondéré . positif:
-  remplace: index . csp . ouvriers . de 40 à 49 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 40 à 49 ans . valide = oui
-  valeur: index . csp . ouvriers . de 40 à 49 ans . écart rémunération . pertinent  * index . csp . ouvriers . de 40 à 49 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -236,50 +236,50 @@ index . csp . ouvriers . de 50 ans et plus . validite:
 index . csp . ouvriers . de 50 ans et plus . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 50 ans et plus . nombre salariés . hommes >= 3
-      - index . csp . ouvriers . de 50 ans et plus . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ouvriers . de 50 ans et plus . validite
+  remplace: validite
 
 index . csp . ouvriers . de 50 ans et plus . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ouvriers . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ouvriers . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ouvriers . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ouvriers . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 50 ans et plus . écart rémunération . abs:
   variations:
-    - si: index . csp . ouvriers . de 50 ans et plus . écart rémunération > 0
-      alors: index . csp . ouvriers . de 50 ans et plus . écart rémunération
-    - sinon: index . csp . ouvriers . de 50 ans et plus . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 50 ans et plus . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ouvriers . de 50 ans et plus . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ouvriers . de 50 ans et plus . écart rémunération > 0
-            alors: index . csp . ouvriers . de 50 ans et plus . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ouvriers . de 50 ans et plus . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ouvriers . de 50 ans et plus . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 50 ans et plus . effectifs:
-  valeur: index . csp . ouvriers . de 50 ans et plus . nombre salariés . hommes + index . csp . ouvriers . de 50 ans et plus . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ouvriers . de 50 ans et plus . effectifs . valides:
   valeur: 0
 
 index . csp . ouvriers . de 50 ans et plus . effectifs . valides . count:
-  applicable si: index . csp . ouvriers . de 50 ans et plus . validite
-  valeur: index . csp . ouvriers . de 50 ans et plus . effectifs
-  remplace: index . csp . ouvriers . de 50 ans et plus . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ouvriers . de 50 ans et plus . écart pondéré:
   valeur: 0
@@ -287,11 +287,11 @@ index . csp . ouvriers . de 50 ans et plus . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ouvriers . de 50 ans et plus . écart pondéré . positif:
-  remplace: index . csp . ouvriers . de 50 ans et plus . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ouvriers . de 50 ans et plus . valide = oui
-  valeur: index . csp . ouvriers . de 50 ans et plus . écart rémunération . pertinent  * index . csp . ouvriers . de 50 ans et plus . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -312,50 +312,50 @@ index . csp . employés . moins de 30 ans . validite:
 index . csp . employés . moins de 30 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . moins de 30 ans . nombre salariés . hommes >= 3
-      - index . csp . employés . moins de 30 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . employés . moins de 30 ans . validite
+  remplace: validite
 
 index . csp . employés . moins de 30 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . employés . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . employés . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . employés . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . employés . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . moins de 30 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . employés . moins de 30 ans . écart rémunération > 0
-      alors: index . csp . employés . moins de 30 ans . écart rémunération
-    - sinon: index . csp . employés . moins de 30 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . moins de 30 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . employés . moins de 30 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . employés . moins de 30 ans . écart rémunération > 0
-            alors: index . csp . employés . moins de 30 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . employés . moins de 30 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . employés . moins de 30 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . moins de 30 ans . effectifs:
-  valeur: index . csp . employés . moins de 30 ans . nombre salariés . hommes + index . csp . employés . moins de 30 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . employés . moins de 30 ans . effectifs . valides:
   valeur: 0
 
 index . csp . employés . moins de 30 ans . effectifs . valides . count:
-  applicable si: index . csp . employés . moins de 30 ans . validite
-  valeur: index . csp . employés . moins de 30 ans . effectifs
-  remplace: index . csp . employés . moins de 30 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . employés . moins de 30 ans . écart pondéré:
   valeur: 0
@@ -363,11 +363,11 @@ index . csp . employés . moins de 30 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . employés . moins de 30 ans . écart pondéré . positif:
-  remplace: index . csp . employés . moins de 30 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . moins de 30 ans . valide = oui
-  valeur: index . csp . employés . moins de 30 ans . écart rémunération . pertinent  * index . csp . employés . moins de 30 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -387,50 +387,50 @@ index . csp . employés . de 30 à 39 ans . validite:
 index . csp . employés . de 30 à 39 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 30 à 39 ans . nombre salariés . hommes >= 3
-      - index . csp . employés . de 30 à 39 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . employés . de 30 à 39 ans . validite
+  remplace: validite
 
 index . csp . employés . de 30 à 39 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . employés . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . employés . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . employés . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . employés . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 30 à 39 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . employés . de 30 à 39 ans . écart rémunération > 0
-      alors: index . csp . employés . de 30 à 39 ans . écart rémunération
-    - sinon: index . csp . employés . de 30 à 39 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 30 à 39 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . employés . de 30 à 39 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . employés . de 30 à 39 ans . écart rémunération > 0
-            alors: index . csp . employés . de 30 à 39 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . employés . de 30 à 39 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . employés . de 30 à 39 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 30 à 39 ans . effectifs:
-  valeur: index . csp . employés . de 30 à 39 ans . nombre salariés . hommes + index . csp . employés . de 30 à 39 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . employés . de 30 à 39 ans . effectifs . valides:
   valeur: 0
 
 index . csp . employés . de 30 à 39 ans . effectifs . valides . count:
-  applicable si: index . csp . employés . de 30 à 39 ans . validite
-  valeur: index . csp . employés . de 30 à 39 ans . effectifs
-  remplace: index . csp . employés . de 30 à 39 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . employés . de 30 à 39 ans . écart pondéré:
   valeur: 0
@@ -438,11 +438,11 @@ index . csp . employés . de 30 à 39 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . employés . de 30 à 39 ans . écart pondéré . positif:
-  remplace: index . csp . employés . de 30 à 39 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 30 à 39 ans . valide = oui
-  valeur: index . csp . employés . de 30 à 39 ans . écart rémunération . pertinent  * index . csp . employés . de 30 à 39 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -462,50 +462,50 @@ index . csp . employés . de 40 à 49 ans . validite:
 index . csp . employés . de 40 à 49 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 40 à 49 ans . nombre salariés . hommes >= 3
-      - index . csp . employés . de 40 à 49 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . employés . de 40 à 49 ans . validite
+  remplace: validite
 
 index . csp . employés . de 40 à 49 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 40 à 49 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . employés . de 40 à 49 ans . écart rémunération > 0
-      alors: index . csp . employés . de 40 à 49 ans . écart rémunération
-    - sinon: index . csp . employés . de 40 à 49 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 40 à 49 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . employés . de 40 à 49 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . employés . de 40 à 49 ans . écart rémunération > 0
-            alors: index . csp . employés . de 40 à 49 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . employés . de 40 à 49 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . employés . de 40 à 49 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 40 à 49 ans . effectifs:
-  valeur: index . csp . employés . de 40 à 49 ans . nombre salariés . hommes + index . csp . employés . de 40 à 49 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . employés . de 40 à 49 ans . effectifs . valides:
   valeur: 0
 
 index . csp . employés . de 40 à 49 ans . effectifs . valides . count:
-  applicable si: index . csp . employés . de 40 à 49 ans . validite
-  valeur: index . csp . employés . de 40 à 49 ans . effectifs
-  remplace: index . csp . employés . de 40 à 49 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . employés . de 40 à 49 ans . écart pondéré:
   valeur: 0
@@ -513,11 +513,11 @@ index . csp . employés . de 40 à 49 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . employés . de 40 à 49 ans . écart pondéré . positif:
-  remplace: index . csp . employés . de 40 à 49 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 40 à 49 ans . valide = oui
-  valeur: index . csp . employés . de 40 à 49 ans . écart rémunération . pertinent  * index . csp . employés . de 40 à 49 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -537,50 +537,50 @@ index . csp . employés . de 50 ans et plus . validite:
 index . csp . employés . de 50 ans et plus . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 50 ans et plus . nombre salariés . hommes >= 3
-      - index . csp . employés . de 50 ans et plus . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . employés . de 50 ans et plus . validite
+  remplace: validite
 
 index . csp . employés . de 50 ans et plus . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . employés . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . employés . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes - index . csp . employés . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . employés . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 50 ans et plus . écart rémunération . abs:
   variations:
-    - si: index . csp . employés . de 50 ans et plus . écart rémunération > 0
-      alors: index . csp . employés . de 50 ans et plus . écart rémunération
-    - sinon: index . csp . employés . de 50 ans et plus . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 50 ans et plus . écart rémunération . pertinent:
   variations:
-    - si: index . csp . employés . de 50 ans et plus . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . employés . de 50 ans et plus . écart rémunération > 0
-            alors: index . csp . employés . de 50 ans et plus . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . employés . de 50 ans et plus . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . employés . de 50 ans et plus . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . employés . de 50 ans et plus . effectifs:
-  valeur: index . csp . employés . de 50 ans et plus . nombre salariés . hommes + index . csp . employés . de 50 ans et plus . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . employés . de 50 ans et plus . effectifs . valides:
   valeur: 0
 
 index . csp . employés . de 50 ans et plus . effectifs . valides . count:
-  applicable si: index . csp . employés . de 50 ans et plus . validite
-  valeur: index . csp . employés . de 50 ans et plus . effectifs
-  remplace: index . csp . employés . de 50 ans et plus . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . employés . de 50 ans et plus . écart pondéré:
   valeur: 0
@@ -588,11 +588,11 @@ index . csp . employés . de 50 ans et plus . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . employés . de 50 ans et plus . écart pondéré . positif:
-  remplace: index . csp . employés . de 50 ans et plus . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . employés . de 50 ans et plus . valide = oui
-  valeur: index . csp . employés . de 50 ans et plus . écart rémunération . pertinent  * index . csp . employés . de 50 ans et plus . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -613,50 +613,50 @@ index . csp . techniciens et agents de maîtrise . moins de 30 ans . validite:
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . moins de 30 ans . nombre salariés . hommes >= 3
-      - index . csp . techniciens et agents de maîtrise . moins de 30 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . techniciens et agents de maîtrise . moins de 30 ans . validite
+  remplace: validite
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . techniciens et agents de maîtrise . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . techniciens et agents de maîtrise . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . techniciens et agents de maîtrise . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . techniciens et agents de maîtrise . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération > 0
-      alors: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération
-    - sinon: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération > 0
-            alors: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs:
-  valeur: index . csp . techniciens et agents de maîtrise . moins de 30 ans . nombre salariés . hommes + index . csp . techniciens et agents de maîtrise . moins de 30 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs . valides:
   valeur: 0
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs . valides . count:
-  applicable si: index . csp . techniciens et agents de maîtrise . moins de 30 ans . validite
-  valeur: index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs
-  remplace: index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart pondéré:
   valeur: 0
@@ -664,11 +664,11 @@ index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart pond
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart pondéré . positif:
-  remplace: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . moins de 30 ans . valide = oui
-  valeur: index . csp . techniciens et agents de maîtrise . moins de 30 ans . écart rémunération . pertinent  * index . csp . techniciens et agents de maîtrise . moins de 30 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -688,50 +688,50 @@ index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . validite:
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . nombre salariés . hommes >= 3
-      - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . validite
+  remplace: validite
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération > 0
-      alors: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération
-    - sinon: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération > 0
-            alors: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs:
-  valeur: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . nombre salariés . hommes + index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs . valides:
   valeur: 0
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs . valides . count:
-  applicable si: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . validite
-  valeur: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs
-  remplace: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart pondéré:
   valeur: 0
@@ -739,11 +739,11 @@ index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart pond
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart pondéré . positif:
-  remplace: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . valide = oui
-  valeur: index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . écart rémunération . pertinent  * index . csp . techniciens et agents de maîtrise . de 30 à 39 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -763,50 +763,50 @@ index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . validite:
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . nombre salariés . hommes >= 3
-      - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . validite
+  remplace: validite
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération > 0
-      alors: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération
-    - sinon: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération > 0
-            alors: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs:
-  valeur: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . nombre salariés . hommes + index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs . valides:
   valeur: 0
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs . valides . count:
-  applicable si: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . validite
-  valeur: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs
-  remplace: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart pondéré:
   valeur: 0
@@ -814,11 +814,11 @@ index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart pond
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart pondéré . positif:
-  remplace: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . valide = oui
-  valeur: index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . écart rémunération . pertinent  * index . csp . techniciens et agents de maîtrise . de 40 à 49 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -838,50 +838,50 @@ index . csp . techniciens et agents de maîtrise . de 50 ans et plus . validite:
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . nombre salariés . hommes >= 3
-      - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . validite
+  remplace: validite
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . techniciens et agents de maîtrise . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . techniciens et agents de maîtrise . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération . abs:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération > 0
-      alors: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération
-    - sinon: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération . pertinent:
   variations:
-    - si: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération > 0
-            alors: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs:
-  valeur: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . nombre salariés . hommes + index . csp . techniciens et agents de maîtrise . de 50 ans et plus . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs . valides:
   valeur: 0
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs . valides . count:
-  applicable si: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . validite
-  valeur: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs
-  remplace: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart pondéré:
   valeur: 0
@@ -889,11 +889,11 @@ index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart po
   arrondi: 1 décimale
 
 index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart pondéré . positif:
-  remplace: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . techniciens et agents de maîtrise . de 50 ans et plus . valide = oui
-  valeur: index . csp . techniciens et agents de maîtrise . de 50 ans et plus . écart rémunération . pertinent  * index . csp . techniciens et agents de maîtrise . de 50 ans et plus . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -914,50 +914,50 @@ index . csp . ingénieurs et cadres . moins de 30 ans . validite:
 index . csp . ingénieurs et cadres . moins de 30 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . moins de 30 ans . nombre salariés . hommes >= 3
-      - index . csp . ingénieurs et cadres . moins de 30 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ingénieurs et cadres . moins de 30 ans . validite
+  remplace: validite
 
 index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ingénieurs et cadres . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ingénieurs et cadres . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ingénieurs et cadres . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ingénieurs et cadres . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération > 0
-      alors: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération
-    - sinon: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération > 0
-            alors: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . moins de 30 ans . effectifs:
-  valeur: index . csp . ingénieurs et cadres . moins de 30 ans . nombre salariés . hommes + index . csp . ingénieurs et cadres . moins de 30 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ingénieurs et cadres . moins de 30 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ingénieurs et cadres . moins de 30 ans . effectifs . valides . count:
-  applicable si: index . csp . ingénieurs et cadres . moins de 30 ans . validite
-  valeur: index . csp . ingénieurs et cadres . moins de 30 ans . effectifs
-  remplace: index . csp . ingénieurs et cadres . moins de 30 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ingénieurs et cadres . moins de 30 ans . écart pondéré:
   valeur: 0
@@ -965,11 +965,11 @@ index . csp . ingénieurs et cadres . moins de 30 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . moins de 30 ans . écart pondéré . positif:
-  remplace: index . csp . ingénieurs et cadres . moins de 30 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . moins de 30 ans . valide = oui
-  valeur: index . csp . ingénieurs et cadres . moins de 30 ans . écart rémunération . pertinent  * index . csp . ingénieurs et cadres . moins de 30 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -989,50 +989,50 @@ index . csp . ingénieurs et cadres . de 30 à 39 ans . validite:
 index . csp . ingénieurs et cadres . de 30 à 39 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 30 à 39 ans . nombre salariés . hommes >= 3
-      - index . csp . ingénieurs et cadres . de 30 à 39 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ingénieurs et cadres . de 30 à 39 ans . validite
+  remplace: validite
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ingénieurs et cadres . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ingénieurs et cadres . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ingénieurs et cadres . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ingénieurs et cadres . de 30 à 39 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération > 0
-      alors: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération
-    - sinon: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération > 0
-            alors: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs:
-  valeur: index . csp . ingénieurs et cadres . de 30 à 39 ans . nombre salariés . hommes + index . csp . ingénieurs et cadres . de 30 à 39 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs . valides . count:
-  applicable si: index . csp . ingénieurs et cadres . de 30 à 39 ans . validite
-  valeur: index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs
-  remplace: index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . écart pondéré:
   valeur: 0
@@ -1040,11 +1040,11 @@ index . csp . ingénieurs et cadres . de 30 à 39 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 30 à 39 ans . écart pondéré . positif:
-  remplace: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 30 à 39 ans . valide = oui
-  valeur: index . csp . ingénieurs et cadres . de 30 à 39 ans . écart rémunération . pertinent  * index . csp . ingénieurs et cadres . de 30 à 39 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -1064,50 +1064,50 @@ index . csp . ingénieurs et cadres . de 40 à 49 ans . validite:
 index . csp . ingénieurs et cadres . de 40 à 49 ans . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 40 à 49 ans . nombre salariés . hommes >= 3
-      - index . csp . ingénieurs et cadres . de 40 à 49 ans . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ingénieurs et cadres . de 40 à 49 ans . validite
+  remplace: validite
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ingénieurs et cadres . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ingénieurs et cadres . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ingénieurs et cadres . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ingénieurs et cadres . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération . abs:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération > 0
-      alors: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération
-    - sinon: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération > 0
-            alors: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs:
-  valeur: index . csp . ingénieurs et cadres . de 40 à 49 ans . nombre salariés . hommes + index . csp . ingénieurs et cadres . de 40 à 49 ans . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs . valides:
   valeur: 0
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs . valides . count:
-  applicable si: index . csp . ingénieurs et cadres . de 40 à 49 ans . validite
-  valeur: index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs
-  remplace: index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . écart pondéré:
   valeur: 0
@@ -1115,11 +1115,11 @@ index . csp . ingénieurs et cadres . de 40 à 49 ans . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 40 à 49 ans . écart pondéré . positif:
-  remplace: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 40 à 49 ans . valide = oui
-  valeur: index . csp . ingénieurs et cadres . de 40 à 49 ans . écart rémunération . pertinent  * index . csp . ingénieurs et cadres . de 40 à 49 ans . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 
@@ -1139,50 +1139,50 @@ index . csp . ingénieurs et cadres . de 50 ans et plus . validite:
 index . csp . ingénieurs et cadres . de 50 ans et plus . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 50 ans et plus . nombre salariés . hommes >= 3
-      - index . csp . ingénieurs et cadres . de 50 ans et plus . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ingénieurs et cadres . de 50 ans et plus . validite
+  remplace: validite
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ingénieurs et cadres . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ingénieurs et cadres . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ingénieurs et cadres . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ingénieurs et cadres . de 50 ans et plus . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération . abs:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération > 0
-      alors: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération
-    - sinon: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération > 0
-            alors: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs:
-  valeur: index . csp . ingénieurs et cadres . de 50 ans et plus . nombre salariés . hommes + index . csp . ingénieurs et cadres . de 50 ans et plus . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs . valides:
   valeur: 0
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs . valides . count:
-  applicable si: index . csp . ingénieurs et cadres . de 50 ans et plus . validite
-  valeur: index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs
-  remplace: index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . écart pondéré:
   valeur: 0
@@ -1190,11 +1190,11 @@ index . csp . ingénieurs et cadres . de 50 ans et plus . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ingénieurs et cadres . de 50 ans et plus . écart pondéré . positif:
-  remplace: index . csp . ingénieurs et cadres . de 50 ans et plus . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ingénieurs et cadres . de 50 ans et plus . valide = oui
-  valeur: index . csp . ingénieurs et cadres . de 50 ans et plus . écart rémunération . pertinent  * index . csp . ingénieurs et cadres . de 50 ans et plus . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 

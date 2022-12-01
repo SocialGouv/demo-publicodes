@@ -26,10 +26,10 @@ Pour toute information concernant le Covid-19, composer le 0 800 130 000.
 
 exports[`a besoin de variables pour fonctionner 1`] = `
 {
-  "patient . poids": 52,
-  "patient . taille": 68,
-  "patient . âge": 65,
-  "symptômes . température": 53,
+  "patient . poids": 59,
+  "patient . taille": 79,
+  "patient . âge": 68,
+  "symptômes . température": 55,
 }
 `;
 
@@ -91,8 +91,10 @@ protéger vos proches.
 exports[`fièvre et toux 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste ou une visite
-à domicile (SOS médecins, etc.)
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour
@@ -103,8 +105,10 @@ protéger vos proches.
 exports[`fièvre et toux et cirrhose 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste. Au moindre
-doute, appelez le 15.
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour
@@ -115,8 +119,10 @@ protéger vos proches.
 exports[`fièvre et toux et cirrhose et fatigue importante 1`] = `
 "Votre situation peut relever d’un Covid-19.
 
-Demandez une téléconsultation ou un médecin généraliste. Au moindre
-doute, appelez le 15.
+Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
+
+Appelez le 15 si une gêne respiratoire ou des difficultés importantes
+pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
 
 En attendant et pour casser les chaînes de transmission, nous vous
 conseillons de vous isoler et de respecter les gestes barrières pour

@@ -140,20 +140,20 @@ patient . immunodépression:
 
 # liste des facteurs qui engagent le pronostique
 patient . facteur pronostique positif:
-  remplace: patient . facteur pronostique
+  remplace: facteur pronostique
   applicable si:
     une de ces conditions:
-      - patient . âge >= 65
-      - patient . imc >= 30
-      - patient . antécédents de maladie cardiovasculaire = oui
-      - patient . diabète mal équilibré ou avec des complications = oui
-      - patient . cancert évolutif = oui
-      - patient . maladie respiratoire chronique = oui
-      - patient . insuffisance rénale = oui
-      - patient . cirrhose = oui
-      - patient . enceinte = oui
-      - patient . drépanocytose = oui
-      - patient . immunodépression = oui
+      - âge >= 65
+      - imc >= 30
+      - antécédents de maladie cardiovasculaire = oui
+      - diabète mal équilibré ou avec des complications = oui
+      - cancert évolutif = oui
+      - maladie respiratoire chronique = oui
+      - insuffisance rénale = oui
+      - cirrhose = oui
+      - enceinte = oui
+      - drépanocytose = oui
+      - immunodépression = oui
   valeur: oui
 
 patient . facteur pronostique: non
@@ -161,6 +161,8 @@ patient . facteur pronostique: non
 ### MESSAGES
 
 messages . FIN1:
+  applicable si: patient . âge < 15
+  remplace: résultat
   texte: |
     Cette application n’est pas faite pour les personnes de moins de 15 ans.
     Prenez contact avec votre médecin généraliste au moindre doute.
@@ -168,6 +170,21 @@ messages . FIN1:
     En cas d’urgence, appelez le 15.
 
 messages . FIN3:
+  remplace: résultat
+  applicable si:
+    une de ces conditions:
+      - toutes ces conditions:
+          - symptômes . fièvre ou symptômes
+          - patient . facteur pronostique = non
+          - symptômes . facteurs gravité mineur > 0
+      - toutes ces conditions:
+          - symptômes . fièvre ou symptômes
+          - patient . facteur pronostique = non
+          - symptômes . facteurs gravité mineur = 0
+          - patient . âge >= 50
+      - toutes ces conditions:
+          - symptômes . fièvre ou symptômes
+          - patient . facteur pronostique = oui
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -181,6 +198,12 @@ messages . FIN3:
     protéger vos proches.
 
 messages . FIN4:
+  remplace: résultat
+  applicable si:
+    toutes ces conditions:
+      - symptômes . fièvre ou symptômes
+      - patient . facteur pronostique = oui
+      - symptômes . facteurs gravité mineur > 1
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -193,10 +216,24 @@ messages . FIN4:
     protéger vos proches.
 
 messages . FIN5:
+  applicable si: symptômes . facteurs gravité majeur > 0
+  remplace: résultat
   texte: |
     Appelez le 15.
 
 messages . FIN6:
+  applicable si:
+    une de ces conditions:
+      - toutes ces conditions:
+          - patient . facteur pronostique = non
+          - symptômes . fièvre et toux = oui
+      - toutes ces conditions:
+          - symptômes . fièvre ou symptômes
+          - patient . facteur pronostique = non
+          - symptômes . facteurs gravité mineur = 0
+          - patient . âge < 50
+
+  remplace: résultat
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -208,6 +245,10 @@ messages . FIN6:
     protéger vos proches.
 
 messages . FIN7:
+  applicable si:
+    toutes ces conditions:
+      - symptômes . fièvre et toux = oui
+      - patient . facteur pronostique = oui
   texte: |
     Votre situation peut relever d’un Covid-19.
 
@@ -229,119 +270,24 @@ messages . FIN8:
 
     Pour toute information concernant le Covid-19, composer le 0 800 130 000.
 
-### RESULTATS
-
-# IF moins de 15 ans => FIN1
-#
-# FIN1 (less_15)
-résultat . patient de moins de 15 ans:
-  applicable si: patient . âge < 15
-  remplace: résultat
-  valeur: messages . FIN1
-
-#  IF >= 1 facteurs de gravité majeurs => FIN5
-#
-# FIN5 (SAMU)
-résultat . tout patient avec au moins un facteur de gravité majeur:
-  applicable si: symptômes . facteurs gravité majeur > 0
-  remplace: résultat
-  valeur: messages . FIN5
-
-#  IF fièvre AND toux
-#      IF 0 facteur pronostique => FIN6
-#      IF >= 1 facteurs pronostiques
-#         IF < 2 facteur de gravité mineur => FIN7
-#         IF >= 2 facteurs de gravité mineurs => FIN4
-#
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre et toux . sans facteur pronostique:
-  applicable si: patient . facteur pronostique = non
-  remplace: résultat
-  valeur: messages . FIN6
-
-# FIN7 (consultation_surveillance_4)
-résultat . tout patient avec fièvre et toux . avec facteur pronostique:
-  applicable si: patient . facteur pronostique = oui
-  remplace: résultat
-  valeur: messages . FIN7
-
-# FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre et toux . avec facteur pronostique . gravite mineur 2:
-  applicable si: symptômes . facteurs gravité mineur > 1
-  remplace: résultat
-  valeur: messages . FIN4
-
-#  IF fièvre OR (diarrhée OR (toux AND douleurs) OR (toux AND anosmie) OR (douleurs AND anosmie))
-#     IF 0 facteur pronostique
-#        IF 0 facteur de gravité mineur
-#           IF moins de 50 ans => FIN6
-#           ELSE => FIN3
-#        IF >= 1 facteur de gravité mineur => FIN3
-#     IF >= 1 facteurs pronostiques
-#        IF < 2 facteur de gravité mineur => FIN3
-#        IF >= 2 facteurs de gravité mineurs => FIN4
-#
-
-# FIN6 (consultation_surveillance_3)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur . moins 50 ans:
-  remplace: résultat
-  applicable si: patient . âge < 50
-  valeur: messages . FIN6
-
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur . plus 50 ans:
-  remplace: résultat
-  applicable si: patient . âge >= 50
-  valeur: messages . FIN3
-
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . sans facteur de gravite mineur:
-  #remplace: résultat
-  valeur: oui
-  applicable si: symptômes . facteurs gravité mineur = 0
-
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique . avec facteur de gravite mineur:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineur >= 1
-  valeur: messages . FIN3
-
-# FIN4 (consultation_surveillance_2)
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique . avec facteur de gravite mineur:
-  remplace: résultat
-  applicable si: symptômes . facteurs gravité mineur >= 2
-  valeur: messages . FIN4
-
-# FIN3 (consultation_surveillance_1)
-résultat . tout patient avec fièvre ou symptômes . avec facteur pronostique:
-  remplace: résultat
-  applicable si: patient . facteur pronostique = oui
-  valeur: messages . FIN3
-
-résultat . tout patient avec fièvre ou symptômes . sans facteur pronostique:
-  valeur: oui
-  applicable si: patient . facteur pronostique = non
-
-# Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie) ou (douleurs et anosmie)))
-résultat . tout patient avec fièvre ou symptômes:
-  # remplace: résultat
+symptômes . fièvre ou symptômes:
   valeur: oui
   applicable si:
     une de ces conditions:
-      - symptômes . fièvreux
+      - fièvreux
       - une de ces conditions:
-          - symptômes . diarrhée = oui
+          - diarrhée = oui
           - toutes ces conditions:
-              - symptômes . toux = oui
-              - symptômes . douleurs = oui
+              - toux = oui
+              - douleurs = oui
           - toutes ces conditions:
-              - symptômes . toux = oui
-              - symptômes . anosmie = oui
+              - toux = oui
+              - anosmie = oui
           - toutes ces conditions:
-              - symptômes . douleurs = oui
-              - symptômes . anosmie = oui
+              - douleurs = oui
+              - anosmie = oui
 
-résultat . tout patient avec fièvre et toux:
+symptômes . fièvre et toux:
   valeur: oui
   applicable si:
     toutes ces conditions:
@@ -351,5 +297,3 @@ résultat . tout patient avec fièvre et toux:
 # FIN8 (surveillance)
 résultat:
   valeur: messages . FIN8
-
-résultat2: résultat

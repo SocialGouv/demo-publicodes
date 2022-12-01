@@ -13,50 +13,50 @@ index . csp . ${csp} . ${tranche} . validite:
 index . csp . ${csp} . ${tranche} . valide:
   applicable si:
     toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . nombre salariés . hommes >= 3
-      - index . csp . ${csp} . ${tranche} . nombre salariés . femmes >= 3
+      - nombre salariés . hommes >= 3
+      - nombre salariés . femmes >= 3
   valeur: oui
-  remplace: index . csp . ${csp} . ${tranche} . validite
+  remplace: validite
 
 index . csp . ${csp} . ${tranche} . écart rémunération:
   applicable si:
     toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . hommes > 0
-      - index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . femmes > 0
-  valeur: (index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . hommes - index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . femmes) / index . csp . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . hommes
+      - remunération annuelle brute moyenne par EQTP . hommes > 0
+      - remunération annuelle brute moyenne par EQTP . femmes > 0
+  valeur: (remunération annuelle brute moyenne par EQTP . hommes - remunération annuelle brute moyenne par EQTP . femmes) / remunération annuelle brute moyenne par EQTP . hommes
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . écart rémunération . abs:
   variations:
-    - si: index . csp . ${csp} . ${tranche} . écart rémunération > 0
-      alors: index . csp . ${csp} . ${tranche} . écart rémunération
-    - sinon: index . csp . ${csp} . ${tranche} . écart rémunération * -1
+    - si: écart rémunération > 0
+      alors: écart rémunération
+    - sinon: écart rémunération * -1
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . écart rémunération . pertinent:
   variations:
-    - si: index . csp . ${csp} . ${tranche} . écart rémunération . abs > options . seuil de pertinence
+    - si: abs > options . seuil de pertinence
       alors:
         variations:
-          - si: index . csp . ${csp} . ${tranche} . écart rémunération > 0
-            alors: index . csp . ${csp} . ${tranche} . écart rémunération - options . seuil de pertinence
-          - sinon: index . csp . ${csp} . ${tranche} . écart rémunération + options . seuil de pertinence
-    - sinon: index . csp . ${csp} . ${tranche} . écart rémunération
+          - si: écart rémunération > 0
+            alors: écart rémunération - options . seuil de pertinence
+          - sinon: écart rémunération + options . seuil de pertinence
+    - sinon: écart rémunération
   unité: "%"
   arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . effectifs:
-  valeur: index . csp . ${csp} . ${tranche} . nombre salariés . hommes + index . csp . ${csp} . ${tranche} . nombre salariés . femmes
+  valeur: nombre salariés . hommes + nombre salariés . femmes
 
 index . csp . ${csp} . ${tranche} . effectifs . valides:
   valeur: 0
 
 index . csp . ${csp} . ${tranche} . effectifs . valides . count:
-  applicable si: index . csp . ${csp} . ${tranche} . validite
-  valeur: index . csp . ${csp} . ${tranche} . effectifs
-  remplace: index . csp . ${csp} . ${tranche} . effectifs . valides
+  applicable si: validite
+  valeur: effectifs
+  remplace: effectifs . valides
 
 index . csp . ${csp} . ${tranche} . écart pondéré:
   valeur: 0
@@ -64,11 +64,11 @@ index . csp . ${csp} . ${tranche} . écart pondéré:
   arrondi: 1 décimale
 
 index . csp . ${csp} . ${tranche} . écart pondéré . positif:
-  remplace: index . csp . ${csp} . ${tranche} . écart pondéré
+  remplace: écart pondéré
   applicable si:
     toutes ces conditions:
-      - index . csp . ${csp} . ${tranche} . valide = oui
-  valeur: index . csp . ${csp} . ${tranche} . écart rémunération . pertinent  * index . csp . ${csp} . ${tranche} . effectifs / index . csp . effectifs . valides
+      - valide = oui
+  valeur: écart rémunération . pertinent  * effectifs / index . csp . effectifs . valides
   unité: "%"
   arrondi: 1 décimale
 

@@ -18,14 +18,14 @@ patient . poids:
   question: Quel est votre poids (en kg) ?
   unité: kg
 
-# Convertit la taille en mèters
-patient . taille metres:
-  valeur: patient . taille
+# Convertit la taille en mètres
+patient . taille mètres:
+  valeur: taille
   unité: m
 
 # Calcul l'IMC à partir de la taille en mètres
 patient . imc:
-  valeur: poids / ((patient . taille metres) * (patient . taille metres))
+  valeur: poids / ((taille mètres) * (taille mètres))
   unité: kg / m²
 
 # Affiche le résultat

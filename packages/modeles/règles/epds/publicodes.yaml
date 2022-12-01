@@ -141,121 +141,121 @@ question10 . reponse4:
 
 question1 . score:
   variations:
-    - si: question1 . reponse = question1 . reponse1
+    - si: reponse = reponse1
       alors: 0
-    - si: question1 . reponse = question1 . reponse2
+    - si: reponse = reponse2
       alors: 1
-    - si: question1 . reponse = question1 . reponse3
+    - si: reponse = reponse3
       alors: 2
-    - si: question1 . reponse = question1 . reponse4
+    - si: reponse = reponse4
       alors: 3
     - sinon: 0
 
 question2 . score:
   variations:
-    - si: question2 . reponse = question2 . reponse1
+    - si: reponse = reponse1
       alors: 0
-    - si: question2 . reponse = question2 . reponse2
+    - si: reponse = reponse2
       alors: 1
-    - si: question2 . reponse = question2 . reponse3
+    - si: reponse = reponse3
       alors: 2
-    - si: question2 . reponse = question2 . reponse4
+    - si: reponse = reponse4
       alors: 3
     - sinon: 0
 
 question3 . score:
   variations:
-    - si: question3 . reponse = question3 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question3 . reponse = question3 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question3 . reponse = question3 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question3 . reponse = question3 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question4 . score:
   variations:
-    - si: question4 . reponse = question4 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question4 . reponse = question4 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question4 . reponse = question4 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question4 . reponse = question4 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question5 . score:
   variations:
-    - si: question5 . reponse = question5 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question5 . reponse = question5 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question5 . reponse = question5 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question5 . reponse = question5 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question6 . score:
   variations:
-    - si: question6 . reponse = question6 . reponse1
+    - si: reponse = reponse1
       alors: 0
-    - si: question6 . reponse = question6 . reponse2
+    - si: reponse = reponse2
       alors: 1
-    - si: question6 . reponse = question6 . reponse3
+    - si: reponse = reponse3
       alors: 2
-    - si: question6 . reponse = question6 . reponse4
+    - si: reponse = reponse4
       alors: 3
     - sinon: 0
 
 question7 . score:
   variations:
-    - si: question7 . reponse = question7 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question7 . reponse = question7 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question7 . reponse = question7 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question7 . reponse = question7 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question8 . score:
   variations:
-    - si: question8 . reponse = question8 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question8 . reponse = question8 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question8 . reponse = question8 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question8 . reponse = question8 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question9 . score:
   variations:
-    - si: question9 . reponse = question9 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question9 . reponse = question9 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question9 . reponse = question9 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question9 . reponse = question9 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
 question10 . score:
   variations:
-    - si: question10 . reponse = question10 . reponse1
+    - si: reponse = reponse1
       alors: 3
-    - si: question10 . reponse = question10 . reponse2
+    - si: reponse = reponse2
       alors: 2
-    - si: question10 . reponse = question10 . reponse3
+    - si: reponse = reponse3
       alors: 1
-    - si: question10 . reponse = question10 . reponse4
+    - si: reponse = reponse4
       alors: 0
     - sinon: 0
 
