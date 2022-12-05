@@ -2,8 +2,12 @@
 
 Exemples d'implémentation de règles publi.codes
 
+https://github.com/SocialGouv/demo-publicodes
+
 - [x] modeles utilisables JS/TS
 - [x] test unitaires des modèles
-- [ ] webapp de démo / documentation des modèles
+- [x] webapp de démo
+- [ ] documentation des modèles
 - [ ] publication npm du modèle sur `@socialgouv/demo-publicodes-modeles`
-- [ ] gh actions : test + semantic-release
+- [x] gh actions : test
+- [ ] gh actions : semantic-release
