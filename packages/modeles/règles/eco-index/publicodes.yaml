@@ -1,0 +1,207 @@
+meta:
+  titre: Calcul de l'eco-index d'une page web
+  statut: Expérimental
+  références:
+    ecoindex.fr: https://www.ecoindex.fr/comment-ca-marche/
+    GitHub: https://github.com/cnumr/GreenIT-Analysis/blob/master/script/ecoIndex.js
+  description: |
+    EcoIndex permet de prendre conscience de l’impact environnemental d’internet et de proposer des solutions concrètes.
+
+    Plusieurs critères sont pris en compte par notre méthode de calcul :
+      - La complexité de la page
+      - Le poids des données transférées 
+      - Le nombre de requêtes HTTP
+
+input: oui
+
+# input utilisateurs
+input . dom: 0
+input . req: 0
+input . size: 0
+
+quantiles: oui
+
+ecoindex:
+  valeur: (100 - (5 * (3 * quantiles . dom + 2 * quantiles . req + quantiles . size)) / 6)
+  arrondi: oui
+
+ecoindex . grade:
+  variations:
+    - si: ecoindex > 75
+      alors: "'A'"
+    - si: ecoindex > 65
+      alors: "'B'"
+    - si: ecoindex > 50
+      alors: "'C'"
+    - si: ecoindex > 35
+      alors: "'D'"
+    - si: ecoindex > 20
+      alors: "'E'"
+    - si: ecoindex > 5
+      alors: "'F'"
+    - sinon: "'G'"
+
+emissions gaz:
+  valeur: (2 + (2 * (50 - ecoindex)) / 100)
+  arrondi: 2 décimales
+  unité: gCO2e
+
+consommation eau:
+  valeur: (3 + (3 * (50 - ecoindex)) / 100)
+  arrondi: 2 décimales
+  unité: cl
+
+quantiles . dom:
+  variations:
+    - si: input . dom < 47
+      alors: 0 + (input . dom) / (47)
+    - si: input . dom < 75
+      alors: 1 + (input . dom - 47) / (75 - 47)
+    - si: input . dom < 159
+      alors: 2 + (input . dom - 75) / (159 - 75)
+    - si: input . dom < 233
+      alors: 3 + (input . dom - 159) / (233 - 159)
+    - si: input . dom < 298
+      alors: 4 + (input . dom - 233) / (298 - 233)
+    - si: input . dom < 358
+      alors: 5 + (input . dom - 298) / (358 - 298)
+    - si: input . dom < 417
+      alors: 6 + (input . dom - 358) / (417 - 358)
+    - si: input . dom < 476
+      alors: 7 + (input . dom - 417) / (476 - 417)
+    - si: input . dom < 537
+      alors: 8 + (input . dom - 476) / (537 - 476)
+    - si: input . dom < 603
+      alors: 9 + (input . dom - 537) / (603 - 537)
+    - si: input . dom < 674
+      alors: 10 + (input . dom - 603) / (674 - 603)
+    - si: input . dom < 753
+      alors: 11 + (input . dom - 674) / (753 - 674)
+    - si: input . dom < 843
+      alors: 12 + (input . dom - 753) / (843 - 753)
+    - si: input . dom < 949
+      alors: 13 + (input . dom - 843) / (949 - 843)
+    - si: input . dom < 1076
+      alors: 14 + (input . dom - 949) / (1076 - 949)
+    - si: input . dom < 1237
+      alors: 15 + (input . dom - 1076) / (1237 - 1076)
+    - si: input . dom < 1459
+      alors: 16 + (input . dom - 1237) / (1459 - 1237)
+    - si: input . dom < 1801
+      alors: 17 + (input . dom - 1459) / (1801 - 1459)
+    - si: input . dom < 2479
+      alors: 18 + (input . dom - 1801) / (2479 - 1801)
+    - si: input . dom < 594601
+      alors: 19 + (input . dom - 2479) / (594601 - 2479)
+    - sinon: 20
+
+quantiles . req:
+  variations:
+    - si: input . req < 2
+      alors: 0 + (input . req) / (2)
+    - si: input . req < 15
+      alors: 1 + (input . req - 2) / (15 - 2)
+    - si: input . req < 25
+      alors: 2 + (input . req - 15) / (25 - 15)
+    - si: input . req < 34
+      alors: 3 + (input . req - 25) / (34 - 25)
+    - si: input . req < 42
+      alors: 4 + (input . req - 34) / (42 - 34)
+    - si: input . req < 49
+      alors: 5 + (input . req - 42) / (49 - 42)
+    - si: input . req < 56
+      alors: 6 + (input . req - 49) / (56 - 49)
+    - si: input . req < 63
+      alors: 7 + (input . req - 56) / (63 - 56)
+    - si: input . req < 70
+      alors: 8 + (input . req - 63) / (70 - 63)
+    - si: input . req < 78
+      alors: 9 + (input . req - 70) / (78 - 70)
+    - si: input . req < 86
+      alors: 10 + (input . req - 78) / (86 - 78)
+    - si: input . req < 95
+      alors: 11 + (input . req - 86) / (95 - 86)
+    - si: input . req < 105
+      alors: 12 + (input . req - 95) / (105 - 95)
+    - si: input . req < 117
+      alors: 13 + (input . req - 105) / (117 - 105)
+    - si: input . req < 130
+      alors: 14 + (input . req - 117) / (130 - 117)
+    - si: input . req < 147
+      alors: 15 + (input . req - 130) / (147 - 130)
+    - si: input . req < 170
+      alors: 16 + (input . req - 147) / (170 - 147)
+    - si: input . req < 205
+      alors: 17 + (input . req - 170) / (205 - 170)
+    - si: input . req < 281
+      alors: 18 + (input . req - 205) / (281 - 205)
+    - si: input . req < 3920
+      alors: 19 + (input . req - 281) / (3920 - 281)
+    - sinon: 20
+
+quantiles . size:
+  variations:
+    - si: input . size < 1.37
+      alors: 0 + input . size / 1.37
+    - si: input . size < 144.7
+      alors: 1 + (input . size - 1.37) / (144.7 - 1.37)
+    - si: input . size < 319.53
+      alors: 2 + (input . size - 144.7) / (319.53 - 144.7)
+    - si: input . size < 479.46
+      alors: 3 + (input . size - 319.53) / (479.46 - 319.53)
+    - si: input . size < 631.97
+      alors: 4 + (input . size - 479.46) / (631.97 - 479.46)
+    - si: input . size < 783.38
+      alors: 5 + (input . size - 631.97) / (783.38 - 631.97)
+    - si: input . size < 937.91
+      alors: 6 + (input . size - 783.38) / (937.91 - 783.38)
+    - si: input . size < 1098.62
+      alors: 7 + (input . size - 937.91) / (1098.62 - 937.91)
+    - si: input . size < 1265.47
+      alors: 8 + (input . size - 1098.62) / (1265.47 - 1098.62)
+    - si: input . size < 1448.32
+      alors: 9 + (input . size - 1265.47) / (1448.32 - 1265.47)
+    - si: input . size < 1648.27
+      alors: 10 + (input . size - 1448.32) / (1648.27 - 1448.32)
+    - si: input . size < 1876.08
+      alors: 11 + (input . size - 1648.27) / (1876.08 - 1648.27)
+    - si: input . size < 2142.06
+      alors: 12 + (input . size - 1876.08) / (2142.06 - 1876.08)
+    - si: input . size < 2465.37
+      alors: 13 + (input . size - 2142.06) / (2465.37 - 2142.06)
+    - si: input . size < 2866.31
+      alors: 14 + (input . size - 2465.37) / (2866.31 - 2465.37)
+    - si: input . size < 3401.59
+      alors: 15 + (input . size - 2866.31) / (3401.59 - 2866.31)
+    - si: input . size < 4155.73
+      alors: 16 + (input . size - 3401.59) / (4155.73 - 3401.59)
+    - si: input . size < 5400.08
+      alors: 17 + (input . size - 4155.73) / (5400.08 - 4155.73)
+    - si: input . size < 8037.54
+      alors: 18 + (input . size - 5400.08) / (8037.54 - 5400.08)
+    - si: input . size < 223212.26
+      alors: 19 + (input . size - 8037.54) / (223212.26 - 8037.54)
+    - sinon: 20
+
+emissions . km:
+  valeur: emissions gaz * 1000 / 90 # 90g CO2 /km (gCO2e)
+  arrondi: 1 décimale
+  unité: km
+
+emissions . douches:
+  valeur: ((consommation eau / 100) * 1000) / 60 # 60L / douche
+  arrondi: 1 décimale
+  unité: douche(s)
+
+résultat:
+  texte: |
+    Note eco-index: {{ ecoindex }}
+    Grade eco-index: {{ ecoindex . grade }}
+
+    Par visite:
+     - Emissions de gaz: {{ emissions gaz }}
+     - Consommation d'eau: {{ consommation eau }}
+
+    Pour un total de 1000 visites par mois, ceci correspond à:
+    - {{ emissions . km }} en voiture (Peugeot 208 5P 1.6 BlueHDi FAP (75ch) BVM5)
+    - et {{ emissions . douches }}.
