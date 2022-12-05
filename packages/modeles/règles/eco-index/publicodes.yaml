@@ -15,9 +15,14 @@ meta:
 input: oui
 
 # input utilisateurs
-input . dom: 0
-input . req: 0
-input . size: 0
+input . dom:
+  question: Combien d'éléments DOM sont affichés dans la page ?
+
+input . req:
+  question: Combien de requêtes HTTP sont nécessaires pour charger la page ?
+
+input . size:
+  question: Quel est le poids complet du téléchargement de la page et ses ressources ?
 
 quantiles: oui
 
@@ -50,6 +55,16 @@ consommation eau:
   valeur: (3 + (3 * (50 - ecoindex)) / 100)
   arrondi: 2 décimales
   unité: cl
+
+emissions . km:
+  valeur: emissions gaz * 1000 / 90 # 90g CO2 /km (gCO2e)
+  arrondi: 1 décimale
+  unité: km
+
+emissions . douches:
+  valeur: ((consommation eau / 100) * 1000) / 60 # 60L / douche
+  arrondi: 1 décimale
+  unité: douche(s)
 
 quantiles . dom:
   variations:
@@ -183,17 +198,12 @@ quantiles . size:
       alors: 19 + (input . size - 8037.54) / (223212.26 - 8037.54)
     - sinon: 20
 
-emissions . km:
-  valeur: emissions gaz * 1000 / 90 # 90g CO2 /km (gCO2e)
-  arrondi: 1 décimale
-  unité: km
-
-emissions . douches:
-  valeur: ((consommation eau / 100) * 1000) / 60 # 60L / douche
-  arrondi: 1 décimale
-  unité: douche(s)
-
 résultat:
+  applicable si:
+    toutes ces conditions:
+      - input . dom
+      - input . req
+      - input . size
   texte: |
     Note eco-index: {{ ecoindex }}
     Grade eco-index: {{ ecoindex . grade }}

@@ -207,6 +207,7 @@ const DefaultForm = ({
     const rule = engine && engine.getRule(key);
     return (rule && rule.rawNode.question) || null;
   };
+  // console.log({ missingVariables, allMissingVariables, rules });
   return (
     (allMissingVariables &&
       allMissingVariables.length &&
