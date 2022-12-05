@@ -2,7 +2,7 @@
 
 Exemples d'implémentation de règles publi.codes
 
-https://github.com/SocialGouv/demo-publicodes
+https://socialgouv.github.io/demo-publicodes/
 
 - [x] modeles utilisables JS/TS
 - [x] test unitaires des modèles
