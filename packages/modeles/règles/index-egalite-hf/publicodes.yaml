@@ -113,6 +113,43 @@ index . écart rémunérations . note . variation:
       alors: 39
     - sinon: 40
 
+index . écart augmentations . calculable: non
+
+index . écart augmentations . calculable oui:
+  applicable si:
+    toutes ces conditions:
+      - effectifs . valides >= 0.4 * effectifs
+      - une de ces conditions:
+          - écart . hommes > 0
+          - écart . femmes > 0
+  remplace: calculable
+  valeur: oui
+
+index . écart augmentations . indice écart augmentations: 0
+
+index . écart augmentations . indice écart augmentations calcul:
+  applicable si: calculable
+  remplace: indice écart augmentations
+  unité: "%"
+  variations:
+    - si: écart pondéré >= 0
+      alors: écart pondéré
+    - sinon: -1 * écart pondéré
+
+index . écart augmentations . note:
+  applicable si:
+    toutes ces conditions:
+      - calculable
+      - écart rémunérations . calculable
+  variations:
+    - si: indice écart augmentations  < 2.1
+      alors: 20
+    - si: indice écart augmentations  < 5.1
+      alors: 10
+    - si: indice écart augmentations  < 10.1
+      alors: 5
+    - sinon: 0
+
 résultat:
   texte: |
     INDICATEUR 1:

@@ -12,28 +12,7 @@ test("a besoin de variables pour fonctionner", () => {
   expect(evaluated.missingVariables).toMatchSnapshot();
 });
 
-const defaultSituation = {
-  // "patient . âge": 25,
-  // "patient . antécédents de maladie cardiovasculaire": "non",
-  // "patient . cancert évolutif": "non",
-  // "patient . cirrhose": "non",
-  // "patient . diabète mal équilibré ou avec des complications": "non",
-  // "patient . drépanocytose": "non",
-  // "patient . enceinte": "non",
-  // "patient . immunodépression": "non",
-  // "patient . insuffisance rénale": "non",
-  // "patient . maladie respiratoire chronique": "non",
-  // "patient . poids": 80,
-  // "patient . taille": 180,
-  // "symptômes . alimenter ou boire impossible": "non",
-  // "symptômes . anosmie": "non",
-  // "symptômes . diarrhée": "non",
-  // "symptômes . douleurs": "non",
-  // "symptômes . fatigue": "non",
-  // "symptômes . manque de souffle": "non",
-  // "symptômes . température": 38,
-  // "symptômes . toux": "non",
-};
+const defaultSituation = {};
 
 test("ne renvoie pas d'alerte avec la situation par défaut", () => {
   const engine = new Engine(rules);
@@ -43,7 +22,7 @@ test("ne renvoie pas d'alerte avec la situation par défaut", () => {
   expect(evaluated.missingVariables).toEqual({});
 });
 
-const tests = [
+const testsRemunerations = [
   {
     title: "options . seuil de pertinence par défaut",
     situation: {
@@ -55,8 +34,6 @@ const tests = [
       "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 66,
       "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
       "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
-      "index . écart augmentations . employés . hommes": 20,
-      "index . écart augmentations . employés . femmes": 10,
     },
     expected: {
       "index . écart rémunérations . effectifs . valides": "172",
@@ -160,19 +137,82 @@ const tests = [
   },
 ];
 
-test.each(tests)("$title", ({ title, situation, expected }) => {
-  const engine = new Engine(rules);
-  engine.setSituation({
-    ...defaultSituation,
-    ...situation,
-  });
-  Object.keys(expected).forEach((key) => {
-    const evaluated = engine.evaluate(key);
-    expect(`${key}: ${formatValue(evaluated)}`).toEqual(
-      `${key}: ${expected[key]}`
-    );
-  });
+const testsAugmentations = [
+  {
+    title: "test 1",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+    },
+    expected: {
+      "index . écart augmentations . effectifs . valides": "172",
+      "index . écart augmentations . ouvriers . écart pondéré": "-4,07\u00A0%",
+      "index . écart augmentations . employés . écart pondéré": "11,86\u00A0%",
+      "index . écart augmentations . écart pondéré": "7,79\u00A0%",
+      "index . écart augmentations . calculable": "oui",
+      "index . écart augmentations . indice écart augmentations": "7,79\u00A0%",
+      "index . écart augmentations . note": "5",
+    },
+  },
+  {
+    title: "test 2",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 4,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 3,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+    },
+    expected: {
+      "index . écart augmentations . calculable": "oui",
+      "index . écart augmentations . indice écart augmentations": "20\u00A0%",
+      "index . écart augmentations . note": "0",
+    },
+  },
+  {
+    title: "test 3 : non calculable",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 4,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 3,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 7,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+    },
+    expected: {
+      "index . écart augmentations . calculable": "non",
+      "index . écart augmentations . indice écart augmentations": "0",
+      "index . écart augmentations . note": "Non applicable",
+    },
+  },
+];
 
-  //expect(evaluated.nodeValue).toMatchSnapshot();
-  //expect(evaluated.missingVariables).toEqual({});
-});
+const runTests = (name, testsArray) => {
+  test.each(testsArray)(`${name}: $title`, ({ situation, expected }) => {
+    const engine = new Engine(rules);
+    engine.setSituation({
+      ...defaultSituation,
+      ...situation,
+    });
+    Object.keys(expected).forEach((key) => {
+      const evaluated = engine.evaluate(key);
+      expect(`${key}: ${formatValue(evaluated)}`).toEqual(
+        `${key}: ${expected[key]}`
+      );
+    });
+  });
+};
+
+runTests("testsRemunerations", testsRemunerations);
+runTests("testsAugmentations", testsAugmentations);

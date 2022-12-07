@@ -5,15 +5,15 @@ generate repetitive YAML rules for a given CSP
 const csps = [
   "ouvriers",
   "employés",
-  //"techniciens et agents de maîtrise",
-  // "ingénieurs et cadres",
+  "techniciens et agents de maîtrise",
+  "ingénieurs et cadres",
 ];
 
 const tranchesAge = [
   "moins de 30 ans",
-  //"de 30 à 39 ans",
-  //"de 40 à 49 ans",
-  //"de 50 ans et plus",
+  "de 30 à 39 ans",
+  "de 40 à 49 ans",
+  "de 50 ans et plus",
 ];
 
 const getCSPTrancheRules = (csp, tranche) => `
@@ -141,10 +141,12 @@ index . écart augmentations . ${csp}: oui
 index . écart augmentations . ${csp} . hommes:
   question: taux d'augmentation pour les hommes (proportion de salariés augmentés)
   valeur: 0
+  unité: "%"
 
 index . écart augmentations . ${csp} . femmes:
   question: taux d'augmentation pour les femmes (proportion de salariés augmentés)
   valeur: 0
+  unité: "%"
 
 index . écart augmentations . ${csp} . valide:
   toutes ces conditions:
@@ -169,11 +171,12 @@ index . écart augmentations . ${csp} . écart:
   somme:
       - index . écart augmentations . ${csp} . hommes
       - -1 * index . écart augmentations . ${csp} . femmes
-
+  unité: "%"
+  
 index . écart augmentations . ${csp} . écart pondéré:
-    applicable si: index . écart augmentations . ${csp} . valide
-    valeur : index . écart augmentations . ${csp} . écart * index . écart augmentations . ${csp} . effectifs . valides / index . écart augmentations . effectifs . valides
-
+  applicable si: index . écart augmentations . ${csp} . valide
+  valeur : index . écart augmentations . ${csp} . écart * index . écart augmentations . ${csp} . effectifs . valides / index . écart augmentations . effectifs . valides
+  unité: "%"
     
 index . écart rémunérations . ${csp} . effectifs . hommes:
   somme:
@@ -264,45 +267,10 @@ index . écart augmentations . écart . femmes :
  
 
 index . écart augmentations . écart pondéré:
+  unité: "%"
   somme:
 ${csps.map((csp) => `    - ${csp} . écart pondéré`).join("\n")} 
  
-
-index . écart augmentations . calculable: non
-
-index . écart augmentations . calculable oui:
-  applicable si: 
-    toutes ces conditions:
-      - effectifs . valides >= 0.4 * effectifs
-      - une de ces conditions:
-        - écart . hommes > 0
-        - écart . femmes > 0
-  remplace: calculable
-  valeur: oui
-
-index . écart augmentations . indice écart augmentations: 0
-
-index . écart augmentations . indice écart augmentations calcul:
-  applicable si: calculable
-  remplace: indice écart augmentations
-  variations:
-    - si: écart pondéré >= 0
-      alors: écart pondéré
-    - sinon: -1 * écart pondéré
-
-index . écart augmentations . note:
-  applicable si:
-    toutes ces conditions:
-      - calculable
-      - écart rémunérations . calculable
-  variations:
-    - si: indice écart augmentations < 2.1
-      alors: 20
-    - si: indice écart augmentations < 5.1
-      alors: 10
-    - si: indice écart augmentations < 10.1
-      alors: 5
-    - sinon: 0
 
 
 
