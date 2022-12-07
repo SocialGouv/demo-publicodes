@@ -135,6 +135,29 @@ const testsRemunerations = [
       "index . écart rémunérations . note": "27",
     },
   },
+  {
+    title: "exemple 4",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes": 42,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes": 48,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes": 99,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 88,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+    },
+    expected: {
+      "index . écart rémunérations . effectifs . valides": "172",
+      "index . écart rémunérations . ouvriers . moins de 30 ans . écart rémunération":
+        "-14,3\u00A0%",
+      "index . écart rémunérations . ouvriers . moins de 30 ans . écart pondéré":
+        "-3,8\u00A0%",
+      "index . écart rémunérations . écart pondéré": "-0,2\u00A0%",
+      "index . écart rémunérations . indice écart rémunérations": "0,2\u00A0%",
+      "index . écart rémunérations . note": "39",
+    },
+  },
 ];
 
 const testsAugmentations = [
@@ -266,34 +289,169 @@ const testsHautesRémunérations = [
   {
     title: "test 1",
     situation: {
-      "index . hautes remunérations . femmes": 5,
-      "index . hautes remunérations . hommes": 5,
+      "index . hautes rémunérations . femmes": 5,
+      "index . hautes rémunérations . hommes": 5,
     },
     expected: {
-      "index . hautes remunérations . calculable": "oui",
-      "index . hautes remunérations . note": "10",
+      "index . hautes rémunérations . calculable": "oui",
+      "index . hautes rémunérations . note": "10",
     },
   },
   {
     title: "test 2",
     situation: {
-      "index . hautes remunérations . femmes": 2,
-      "index . hautes remunérations . hommes": 5,
+      "index . hautes rémunérations . femmes": 2,
+      "index . hautes rémunérations . hommes": 5,
     },
     expected: {
-      "index . hautes remunérations . calculable": "non",
-      "index . hautes remunérations . note": "Non applicable",
+      "index . hautes rémunérations . calculable": "non",
+      "index . hautes rémunérations . note": "Non applicable",
     },
   },
   {
     title: "test 3",
     situation: {
-      "index . hautes remunérations . femmes": 2,
-      "index . hautes remunérations . hommes": 8,
+      "index . hautes rémunérations . femmes": 2,
+      "index . hautes rémunérations . hommes": 8,
     },
     expected: {
-      "index . hautes remunérations . calculable": "oui",
-      "index . hautes remunérations . note": "5",
+      "index . hautes rémunérations . calculable": "oui",
+      "index . hautes rémunérations . note": "5",
+    },
+  },
+];
+
+const testsNote = [
+  {
+    title: "test 1",
+    situation: {
+      "index . hautes rémunérations . femmes": 5,
+      "index . hautes rémunérations . hommes": 5,
+    },
+    expected: {
+      "index . note": "Non applicable",
+    },
+  },
+  {
+    title: "test 2",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes": 42,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes": 48,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes": 99,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 66,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+      "index . écart promotions . ouvriers . hommes": 20,
+      "index . écart promotions . ouvriers . femmes": 30,
+      "index . écart promotions . employés . hommes": 30,
+      "index . écart promotions . employés . femmes": 20,
+      "index . maternité . nombre total": 40,
+      "index . maternité . nombre augmentés": 30,
+      "index . hautes rémunérations . femmes": 2,
+      "index . hautes rémunérations . hommes": 8,
+    },
+    expected: {
+      "index . note": "46",
+    },
+  },
+  {
+    title: "test 2",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes": 42,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes": 48,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes": 99,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 66,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+      "index . écart promotions . ouvriers . hommes": 20,
+      "index . écart promotions . ouvriers . femmes": 30,
+      "index . écart promotions . employés . hommes": 30,
+      "index . écart promotions . employés . femmes": 20,
+      "index . maternité . nombre total": 40,
+      "index . maternité . nombre augmentés": 30,
+      "index . hautes rémunérations . femmes": 5,
+      "index . hautes rémunérations . hommes": 5,
+    },
+    expected: {
+      "index . note": "51",
+    },
+  },
+  {
+    title: "test 3",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes": 42,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes": 48,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes": 99,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 88,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 30,
+      "index . écart promotions . ouvriers . hommes": 20,
+      "index . écart promotions . ouvriers . femmes": 30,
+      "index . écart promotions . employés . hommes": 30,
+      "index . écart promotions . employés . femmes": 20,
+      "index . maternité . nombre total": 40,
+      "index . maternité . nombre augmentés": 30,
+      "index . hautes rémunérations . femmes": 5,
+      "index . hautes rémunérations . hommes": 5,
+    },
+    expected: {
+      "index . écart rémunérations . note": 39,
+      "index . écart augmentations . note": 10,
+      "index . écart promotions . note": 15,
+      "index . maternité . note": 0,
+      "index . hautes rémunérations . note": 10,
+      "index . note": "74",
+    },
+  },
+  {
+    title: "test 4",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . hommes": 42,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . remunération annuelle brute moyenne par EQTP . femmes": 48,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . hommes": 99,
+      "index . écart rémunérations . employés . de 40 à 49 ans . remunération annuelle brute moyenne par EQTP . femmes": 88,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart augmentations . ouvriers . hommes": 20,
+      "index . écart augmentations . ouvriers . femmes": 30,
+      "index . écart augmentations . employés . hommes": 30,
+      "index . écart augmentations . employés . femmes": 10,
+      "index . écart promotions . ouvriers . hommes": 20,
+      "index . écart promotions . ouvriers . femmes": 30,
+      "index . écart promotions . employés . hommes": 30,
+      "index . écart promotions . employés . femmes": 20,
+      "index . maternité . nombre total": 40,
+      "index . maternité . nombre augmentés": 30,
+      "index . hautes rémunérations . femmes": 5,
+      "index . hautes rémunérations . hommes": 5,
+    },
+    expected: {
+      "index . écart rémunérations . note": 39,
+      "index . écart augmentations . note": 20,
+      "index . écart promotions . note": 15,
+      "index . maternité . note": 0,
+      "index . hautes rémunérations . note": 10,
+      "index . note": "84",
     },
   },
 ];
@@ -319,3 +477,4 @@ runTests("testsAugmentations", testsAugmentations);
 runTests("testsPromotions", testsPromotions);
 runTests("testsMaternité", testsMaternité);
 runTests("testsHautesRémunérations", testsHautesRémunérations);
+runTests("testsNote", testsNote);

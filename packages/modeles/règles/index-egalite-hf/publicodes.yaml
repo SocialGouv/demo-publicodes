@@ -133,6 +133,17 @@ index . écart augmentations . note:
       - calculable
       - écart rémunérations . calculable
   variations:
+    - si:
+        toutes ces conditions:
+          - index . écart rémunérations . note < 40
+          - une de ces conditions:
+              - toutes ces conditions:
+                  - index . écart rémunérations . écart pondéré > 0
+                  - index . écart augmentations . écart pondéré < 0
+              - toutes ces conditions:
+                  - index . écart rémunérations . écart pondéré < 0
+                  - index . écart augmentations . écart pondéré > 0
+      alors: 20
     - si: indice écart augmentations < 2.1
       alors: 20
     - si: indice écart augmentations < 5.1
@@ -218,30 +229,30 @@ index . maternité . note:
       alors: 15
     - sinon: 0
 
-index . hautes remunérations: oui
-index . hautes remunérations . femmes:
+index . hautes rémunérations: oui
+index . hautes rémunérations . femmes:
   question: Nombre de salariés femmes parmi les 10 plus hautes rémunérations*
   valeur: 0
-index . hautes remunérations . hommes:
+index . hautes rémunérations . hommes:
   question: Nombre de salariés hommes parmi les 10 plus hautes rémunérations*
   valeur: 0
 
-index . hautes remunérations . salariés:
+index . hautes rémunérations . salariés:
   valeur: hommes + femmes
 
-index . hautes remunérations . salariés . sous représentés:
-  applicable si: salariés = 10
+index . hautes rémunérations . salariés . sous représentés:
+  applicable si: calculable
   le minimum de:
     - hommes
     - femmes
 
-index . hautes remunérations . calculable:
+index . hautes rémunérations . calculable:
   variations:
     - si: salariés = 10
       alors: oui
     - sinon: non
 
-index . hautes remunérations . note:
+index . hautes rémunérations . note:
   applicable si: calculable
   variations:
     - si: salariés . sous représentés <= 2
@@ -249,6 +260,21 @@ index . hautes remunérations . note:
     - si: salariés . sous représentés <= 4
       alors: 10
     - sinon: 10
+
+index . note:
+  applicable si:
+    toutes ces conditions:
+      - index . écart rémunérations . calculable
+      - index . écart augmentations . calculable
+      - index . écart promotions . calculable
+      - index . maternité . calculable
+      - index . hautes rémunérations . calculable
+  somme:
+    - index . écart rémunérations . note
+    - index . écart augmentations . note
+    - index . écart promotions . note
+    - index . maternité . note
+    - index . hautes rémunérations . note
 
 résultat:
   texte: |
@@ -276,5 +302,7 @@ résultat:
      - indicateur d'maternité: {{ index . maternité . indice augmentations }}
      - Note: {{ index . maternité . note }}
     INDICATEUR 5:
-     - calculable: {{ index . hautes remunérations . calculable }}
-     - Note: {{ index . hautes remunérations . note }}
+     - calculable: {{ index . hautes rémunérations . calculable }}
+     - Note: {{ index . hautes rémunérations . note }}
+
+    NOTE TOTALE : {{ index . note }}
