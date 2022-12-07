@@ -32,42 +32,34 @@ options . seuil de pertinence:
 
 index: oui
 
-index . écart rémunérations . calculable: non
-
-index . écart rémunérations . calculable oui:
-  valeur: oui
-  remplace: index . écart rémunérations . calculable
-  applicable si:
-    toutes ces conditions:
-      - index . écart rémunérations . effectifs > 0
-      - index . écart rémunérations . effectifs . valides >= 40% * index . écart rémunérations . effectifs
+index . écart rémunérations . calculable:
+  variations:
+    - si:
+        toutes ces conditions:
+          - index . écart rémunérations . effectifs > 0
+          - index . écart rémunérations . effectifs . valides >= 40% * index . écart rémunérations . effectifs
+      alors: oui
+    - sinon: non
 
 index . écart rémunérations . indice écart rémunérations:
-  valeur: 0
-
-index . écart rémunérations . indice écart rémunérations valide positif:
-  applicable si:
-    toutes ces conditions:
-      - index . écart rémunérations . calculable = oui
-      - index . écart rémunérations . écart pondéré > 0
-  valeur: index . écart rémunérations . écart pondéré
-  remplace: index . écart rémunérations . indice écart rémunérations
   unité: "%"
-
-index . écart rémunérations . indice écart rémunérations valide negatif:
-  applicable si:
-    toutes ces conditions:
-      - index . écart rémunérations . calculable = oui
-      - index . écart rémunérations . écart pondéré < 0
-  valeur: index . écart rémunérations . écart pondéré * -1
-  remplace: index . écart rémunérations . indice écart rémunérations
-  unité: "%"
+  variations:
+    - si:
+        toutes ces conditions:
+          - index . écart rémunérations . calculable = oui
+          - index . écart rémunérations . écart pondéré > 0
+      alors: index . écart rémunérations . écart pondéré
+    - si:
+        toutes ces conditions:
+          - index . écart rémunérations . calculable = oui
+          - index . écart rémunérations . écart pondéré < 0
+      alors: index . écart rémunérations . écart pondéré * -1
+    - sinon: 0
 
 index . écart rémunérations . note:
-  valeur: 0
-
-index . écart rémunérations . note . variation:
-  remplace: index . écart rémunérations . note
+  applicable si:
+    toutes ces conditions:
+      - calculable
   variations:
     - si: index . écart rémunérations . indice écart rémunérations >= 20.1
       alors: 0
@@ -113,28 +105,27 @@ index . écart rémunérations . note . variation:
       alors: 39
     - sinon: 40
 
-index . écart augmentations . calculable: non
+index . écart augmentations . calculable:
+  variations:
+    - si:
+        toutes ces conditions:
+          - effectifs . valides >= 0.4 * effectifs
+          - une de ces conditions:
+              - écart . hommes > 0
+              - écart . femmes > 0
+      alors: oui
+    - sinon: non
 
-index . écart augmentations . calculable oui:
-  applicable si:
-    toutes ces conditions:
-      - effectifs . valides >= 0.4 * effectifs
-      - une de ces conditions:
-          - écart . hommes > 0
-          - écart . femmes > 0
-  remplace: calculable
-  valeur: oui
-
-index . écart augmentations . indice écart augmentations: 0
-
-index . écart augmentations . indice écart augmentations calcul:
-  applicable si: calculable
-  remplace: indice écart augmentations
+index . écart augmentations . indice écart augmentations:
   unité: "%"
   variations:
-    - si: écart pondéré >= 0
-      alors: écart pondéré
-    - sinon: -1 * écart pondéré
+    - si: calculable
+      alors:
+        variations:
+          - si: écart pondéré >= 0
+            alors: écart pondéré
+          - sinon: -1 * écart pondéré
+    - sinon: 0
 
 index . écart augmentations . note:
   applicable si:
@@ -142,13 +133,122 @@ index . écart augmentations . note:
       - calculable
       - écart rémunérations . calculable
   variations:
-    - si: indice écart augmentations  < 2.1
+    - si: indice écart augmentations < 2.1
       alors: 20
-    - si: indice écart augmentations  < 5.1
+    - si: indice écart augmentations < 5.1
       alors: 10
-    - si: indice écart augmentations  < 10.1
+    - si: indice écart augmentations < 10.1
       alors: 5
     - sinon: 0
+
+index . écart promotions . calculable:
+  variations:
+    - si:
+        toutes ces conditions:
+          - effectifs . valides >= 0.4 * effectifs
+          - une de ces conditions:
+              - écart . hommes > 0
+              - écart . femmes > 0
+      alors: oui
+    - sinon: non
+
+index . écart promotions . indice écart promotions:
+  unité: "%"
+  variations:
+    - si: calculable
+      alors:
+        variations:
+          - si: écart pondéré >= 0
+            alors: écart pondéré
+          - sinon: -1 * écart pondéré
+    - sinon: 0
+
+index . écart promotions . note:
+  applicable si:
+    toutes ces conditions:
+      - calculable
+      - écart rémunérations . calculable
+  variations:
+    - si: indice écart promotions < 2.1
+      alors: 15
+    - si: indice écart promotions < 5.1
+      alors: 10
+    - si: indice écart promotions < 10.1
+      alors: 5
+    - sinon: 0
+
+index . maternité: oui
+
+index . maternité . nombre total:
+  question: nombre total de salariés de retour de congé maternité/adoption
+  valeur: 0
+
+index . maternité . nombre augmentés:
+  question: nombre total de salariés de retour de congé maternité/adoption qui ont été adoptés
+  valeur: 0
+
+index . maternité . taux augmentés:
+  unité: "%"
+  variations:
+    - si:
+        toutes ces conditions:
+          - nombre augmentés > 0
+          - nombre total > 0
+          - nombre augmentés <= nombre total
+      alors: nombre augmentés / nombre total
+    - sinon: 0
+
+index . maternité . calculable:
+  variations:
+    - si: nombre total > 0
+      alors: oui
+    - sinon: non
+
+index . maternité . indice augmentations:
+  unité: "%"
+  variations:
+    - si: calculable
+      alors: taux augmentés
+    - sinon: 0
+
+index . maternité . note:
+  applicable si: nombre total > 0
+  variations:
+    - si: indice augmentations >= 100
+      alors: 15
+    - sinon: 0
+
+index . hautes remunérations: oui
+index . hautes remunérations . femmes:
+  question: Nombre de salariés femmes parmi les 10 plus hautes rémunérations*
+  valeur: 0
+index . hautes remunérations . hommes:
+  question: Nombre de salariés hommes parmi les 10 plus hautes rémunérations*
+  valeur: 0
+
+index . hautes remunérations . salariés:
+  valeur: hommes + femmes
+
+index . hautes remunérations . salariés . sous représentés:
+  applicable si: salariés = 10
+  le minimum de:
+    - hommes
+    - femmes
+
+index . hautes remunérations . calculable:
+  variations:
+    - si: salariés = 10
+      alors: oui
+    - sinon: non
+
+index . hautes remunérations . note:
+  applicable si: calculable
+  variations:
+    - si: salariés . sous représentés <= 2
+      alors: 5
+    - si: salariés . sous représentés <= 4
+      alors: 10
+    - sinon: 10
 
 résultat:
   texte: |
@@ -162,4 +262,19 @@ résultat:
     INDICATEUR 2:
      - TOTAL effectifs valides: {{ index . écart augmentations . effectifs . valides }}
      - ECART: {{ index . écart augmentations . ouvriers . écart }}
+     - calculable: {{ index . écart augmentations . calculable }}
+     - indicateur d'écart d'augmentations: {{ index . écart augmentations . indice écart augmentations }}
      - Note: {{ index . écart augmentations . note }}
+    INDICATEUR 3:
+     - TOTAL effectifs valides: {{ index . écart promotions . effectifs . valides }}
+     - ECART: {{ index . écart promotions . ouvriers . écart }}
+     - calculable: {{ index . écart promotions . calculable }}
+     - indicateur d'écart promotions: {{ index . écart promotions . indice écart promotions }}
+     - Note: {{ index . écart promotions . note }}
+    INDICATEUR 4:
+     - calculable: {{ index . maternité . calculable }}
+     - indicateur d'maternité: {{ index . maternité . indice augmentations }}
+     - Note: {{ index . maternité . note }}
+    INDICATEUR 5:
+     - calculable: {{ index . hautes remunérations . calculable }}
+     - Note: {{ index . hautes remunérations . note }}

@@ -192,8 +192,108 @@ const testsAugmentations = [
     },
     expected: {
       "index . écart augmentations . calculable": "non",
-      "index . écart augmentations . indice écart augmentations": "0",
+      "index . écart augmentations . indice écart augmentations": "0\u00A0%",
       "index . écart augmentations . note": "Non applicable",
+    },
+  },
+];
+
+const testsPromotions = [
+  {
+    title: "test 1",
+    situation: {
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . hommes": 40,
+      "index . écart rémunérations . ouvriers . moins de 30 ans . nombre salariés . femmes": 30,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . hommes": 72,
+      "index . écart rémunérations . employés . de 40 à 49 ans . nombre salariés . femmes": 30,
+      "index . écart promotions . ouvriers . hommes": 20,
+      "index . écart promotions . ouvriers . femmes": 30,
+      "index . écart promotions . employés . hommes": 30,
+      "index . écart promotions . employés . femmes": 20,
+    },
+    expected: {
+      "index . écart promotions . effectifs . valides": "172",
+      "index . écart promotions . ouvriers . écart pondéré": "-4,07\u00A0%",
+      "index . écart promotions . employés . écart pondéré": "5,93\u00A0%",
+      "index . écart promotions . écart pondéré": "1,86\u00A0%",
+      "index . écart promotions . calculable": "oui",
+      "index . écart promotions . indice écart promotions": "1,86\u00A0%",
+      "index . écart promotions . note": "15",
+    },
+  },
+];
+
+const testsMaternité = [
+  {
+    title: "test 1",
+    situation: {
+      "index . maternité . nombre total": 40,
+      "index . maternité . nombre augmentés": 30,
+    },
+    expected: {
+      "index . maternité . calculable": "oui",
+      "index . maternité . indice augmentations": "75\u00A0%",
+      "index . maternité . note": "0",
+    },
+  },
+  {
+    title: "test 2",
+    situation: {
+      "index . maternité . nombre total": 0,
+      "index . maternité . nombre augmentés": 30,
+    },
+    expected: {
+      "index . maternité . calculable": "non",
+      "index . maternité . indice augmentations": "0\u00A0%",
+      "index . maternité . note": "Non applicable",
+    },
+  },
+  {
+    title: "test 3",
+    situation: {
+      "index . maternité . nombre total": 30,
+      "index . maternité . nombre augmentés": 30,
+    },
+    expected: {
+      "index . maternité . calculable": "oui",
+      "index . maternité . indice augmentations": "100\u00A0%",
+      "index . maternité . note": "15",
+    },
+  },
+];
+
+const testsHautesRémunérations = [
+  {
+    title: "test 1",
+    situation: {
+      "index . hautes remunérations . femmes": 5,
+      "index . hautes remunérations . hommes": 5,
+    },
+    expected: {
+      "index . hautes remunérations . calculable": "oui",
+      "index . hautes remunérations . note": "10",
+    },
+  },
+  {
+    title: "test 2",
+    situation: {
+      "index . hautes remunérations . femmes": 2,
+      "index . hautes remunérations . hommes": 5,
+    },
+    expected: {
+      "index . hautes remunérations . calculable": "non",
+      "index . hautes remunérations . note": "Non applicable",
+    },
+  },
+  {
+    title: "test 3",
+    situation: {
+      "index . hautes remunérations . femmes": 2,
+      "index . hautes remunérations . hommes": 8,
+    },
+    expected: {
+      "index . hautes remunérations . calculable": "oui",
+      "index . hautes remunérations . note": "5",
     },
   },
 ];
@@ -216,3 +316,6 @@ const runTests = (name, testsArray) => {
 
 runTests("testsRemunerations", testsRemunerations);
 runTests("testsAugmentations", testsAugmentations);
+runTests("testsPromotions", testsPromotions);
+runTests("testsMaternité", testsMaternité);
+runTests("testsHautesRémunérations", testsHautesRémunérations);

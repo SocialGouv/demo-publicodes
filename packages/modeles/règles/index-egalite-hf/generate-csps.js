@@ -22,15 +22,9 @@ index . écart rémunérations . ${csp} . ${tranche} . remunération annuelle br
 index . écart rémunérations . ${csp} . ${tranche} . nombre salariés: oui
 
 index . écart rémunérations . ${csp} . ${tranche} . validite:
-  valeur: non
-
-index . écart rémunérations . ${csp} . ${tranche} . valide:
-  applicable si:
-    toutes ces conditions:
-      - nombre salariés . hommes >= 3
-      - nombre salariés . femmes >= 3
-  valeur: oui
-  remplace: validite
+  toutes ces conditions:
+    - nombre salariés . hommes >= 3
+    - nombre salariés . femmes >= 3
 
 index . écart rémunérations . ${csp} . ${tranche} . écart rémunération:
   applicable si:
@@ -62,29 +56,23 @@ index . écart rémunérations . ${csp} . ${tranche} . écart rémunération . p
   arrondi: 1 décimale
 
 index . écart rémunérations . ${csp} . ${tranche} . effectifs:
-  valeur: nombre salariés . hommes + nombre salariés . femmes
+  somme:
+    - nombre salariés . hommes
+    - nombre salariés . femmes
 
 index . écart rémunérations . ${csp} . ${tranche} . effectifs . valides:
-  valeur: 0
-
-index . écart rémunérations . ${csp} . ${tranche} . effectifs . valides . count:
-  applicable si: validite
-  valeur: effectifs
-  remplace: effectifs . valides
+  variations:
+    - si: validite
+      alors: effectifs
+    - sinon: 0
 
 index . écart rémunérations . ${csp} . ${tranche} . écart pondéré:
-  valeur: 0
   unité: "%"
   arrondi: 1 décimale
-
-index . écart rémunérations . ${csp} . ${tranche} . écart pondéré . positif:
-  remplace: écart pondéré
-  applicable si:
-    toutes ces conditions:
-      - valide = oui
-  valeur: écart rémunération . pertinent  * effectifs / index . écart rémunérations . effectifs . valides
-  unité: "%"
-  arrondi: 1 décimale
+  variations:
+    - si: validite
+      alors: écart rémunération . pertinent * effectifs / index . écart rémunérations . effectifs . valides
+    - sinon: 0
 
 index . écart rémunérations . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . hommes: 0
 index . écart rémunérations . ${csp} . ${tranche} . remunération annuelle brute moyenne par EQTP . femmes: 0
@@ -110,32 +98,23 @@ ${CSPrules}
 
 index . écart rémunérations . écart pondéré:
   somme:
-${cspTranches
-  .map((rule) => `    - index . écart rémunérations . ${rule} . écart pondéré`)
-  .join("\n")}
+${cspTranches.map((rule) => `    - ${rule} . écart pondéré`).join("\n")}
 
 index . écart rémunérations . effectifs:
   somme:
-${cspTranches
-  .map((rule) => `    - index . écart rémunérations . ${rule} . effectifs`)
-  .join("\n")}
+${cspTranches.map((rule) => `    - ${rule} . effectifs`).join("\n")}
 
 index . écart rémunérations . effectifs . valides:
   somme:
-${cspTranches
-  .map(
-    (rule) =>
-      `    - index . écart rémunérations . ${rule} . effectifs . valides`
-  )
-  .join("\n")}
+${cspTranches.map((rule) => `    - ${rule} . effectifs . valides`).join("\n")}
 
 
 index . écart augmentations: oui
- 
+index . écart promotions: oui
+
   ${csps
     .map(
       (csp) => `
-  
 index . écart augmentations . ${csp}: oui
 
 index . écart augmentations . ${csp} . hommes:
@@ -158,7 +137,7 @@ index . écart augmentations . ${csp} . effectifs:
 
 index . écart augmentations . ${csp} . effectifs . valides:
     applicable si: valide
-    remplace: index . écart augmentations . ${csp} . effectifs
+    remplace: effectifs
     somme:
     - index . écart rémunérations . ${csp} . effectifs . hommes
     - index . écart rémunérations . ${csp} . effectifs . femmes
@@ -166,40 +145,76 @@ index . écart augmentations . ${csp} . effectifs . valides:
 index . écart augmentations . ${csp} . écart:
   applicable si:
     toutes ces conditions:
-      - index . écart augmentations . ${csp} . hommes >= 0
-      - index . écart augmentations . ${csp} . femmes >= 0
+      - hommes >= 0
+      - femmes >= 0
   somme:
-      - index . écart augmentations . ${csp} . hommes
-      - -1 * index . écart augmentations . ${csp} . femmes
+      - hommes
+      - -1 * femmes
   unité: "%"
   
 index . écart augmentations . ${csp} . écart pondéré:
-  applicable si: index . écart augmentations . ${csp} . valide
-  valeur : index . écart augmentations . ${csp} . écart * index . écart augmentations . ${csp} . effectifs . valides / index . écart augmentations . effectifs . valides
+  applicable si: valide
+  valeur : écart * effectifs . valides / index . écart augmentations . effectifs . valides
+  unité: "%"
+
+index . écart promotions . ${csp}: oui
+
+index . écart promotions . ${csp} . hommes:
+  question: taux d'augmentation pour les hommes (proportion de salariés augmentés)
+  valeur: 0
+  unité: "%"
+
+index . écart promotions . ${csp} . femmes:
+  question: taux d'augmentation pour les femmes (proportion de salariés augmentés)
+  valeur: 0
+  unité: "%"
+
+index . écart promotions . ${csp} . valide:
+  toutes ces conditions:
+    - index . écart rémunérations . ${csp} . effectifs . hommes >= 10 
+    - index . écart rémunérations . ${csp} . effectifs . femmes >= 10 
+
+index . écart promotions . ${csp} . effectifs:
+    valeur: 0
+
+index . écart promotions . ${csp} . effectifs . valides:
+    applicable si: valide
+    remplace: effectifs
+    somme:
+    - index . écart rémunérations . ${csp} . effectifs . hommes
+    - index . écart rémunérations . ${csp} . effectifs . femmes
+
+index . écart promotions . ${csp} . écart:
+  applicable si:
+    toutes ces conditions:
+      - hommes >= 0
+      - femmes >= 0
+  somme:
+      - hommes
+      - -1 * femmes
+  unité: "%"
+  
+index . écart promotions . ${csp} . écart pondéré:
+  applicable si: valide
+  valeur : écart * effectifs . valides / index . écart promotions . effectifs . valides
   unité: "%"
     
 index . écart rémunérations . ${csp} . effectifs . hommes:
   somme:
 ${tranchesAge
-  .map(
-    (tranche) =>
-      `    - index . écart rémunérations . ${csp} . ${tranche} . nombre salariés . hommes`
-  )
+  .map((tranche) => `    - ${tranche} . nombre salariés . hommes`)
   .join("\n")}
 
 index . écart rémunérations . ${csp} . effectifs . femmes:
   somme:
 ${tranchesAge
-  .map(
-    (tranche) =>
-      `    - index . écart rémunérations . ${csp} . ${tranche} . nombre salariés . femmes`
-  )
+  .map((tranche) => `    - ${tranche} . nombre salariés . femmes`)
   .join("\n")}
 
 index . écart rémunérations . ${csp} . effectifs:
   somme:
-    - index . écart rémunérations . ${csp} . effectifs . hommes
-    - index . écart rémunérations . ${csp} . effectifs . femmes
+    - hommes
+    - femmes
   `
     )
     .join("\n")}
@@ -207,11 +222,7 @@ index . écart rémunérations . ${csp} . effectifs:
 
 index . écart augmentations . effectifs . valides:
   somme:
-${csps
-  .map(
-    (csp) => `    - index . écart augmentations . ${csp} . effectifs . valides`
-  )
-  .join("\n")}
+${csps.map((csp) => `    - ${csp} . effectifs . valides`).join("\n")}
   
 
 index . écart augmentations . effectifs:
@@ -249,7 +260,7 @@ ${csps
   .join("\n")} 
 
 index . écart augmentations . écart . hommes : 
-  valeur: index . écart augmentations . écart . hommes . somme / index . écart augmentations . effectifs . hommes
+  valeur: écart . hommes . somme / effectifs . hommes
   unité: "%"
 
 index . écart augmentations . écart . femmes . somme:
@@ -262,11 +273,74 @@ ${csps
   .join("\n")} 
 
 index . écart augmentations . écart . femmes : 
-  valeur: index . écart augmentations . écart . femmes . somme / index . écart augmentations . effectifs . femmes
+  valeur: écart . femmes . somme / effectifs . femmes
   unité: "%"
  
 
 index . écart augmentations . écart pondéré:
+  unité: "%"
+  somme:
+${csps.map((csp) => `    - ${csp} . écart pondéré`).join("\n")} 
+ 
+
+index . écart promotions . effectifs . valides:
+  somme:
+${csps.map((csp) => `    - ${csp} . effectifs . valides`).join("\n")}
+  
+
+index . écart promotions . effectifs:
+  somme:
+${csps
+  .map((csp) => `    - index . écart rémunérations . ${csp} . effectifs`)
+  .join("\n")}
+
+index . écart promotions . effectifs . hommes:
+  somme:
+${csps
+  .map(
+    (csp) => `    - index . écart rémunérations . ${csp} . effectifs . hommes`
+  )
+  .join("\n")} 
+
+index . écart promotions . effectifs . femmes:
+  somme:
+${csps
+  .map(
+    (csp) => `    - index . écart rémunérations . ${csp} . effectifs . femmes`
+  )
+  .join("\n")} 
+
+ 
+index . écart promotions . écart: oui
+
+index . écart promotions . écart . hommes . somme:
+  somme:
+${csps
+  .map(
+    (csp) =>
+      `    - ${csp} . hommes / 100 * index . écart rémunérations . ${csp} . effectifs . hommes`
+  )
+  .join("\n")} 
+
+index . écart promotions . écart . hommes : 
+  valeur: écart . hommes . somme / effectifs . hommes
+  unité: "%"
+
+index . écart promotions . écart . femmes . somme:
+  somme:
+${csps
+  .map(
+    (csp) =>
+      `    - ${csp} . femmes / 100 * index . écart rémunérations . ${csp} . effectifs . femmes`
+  )
+  .join("\n")} 
+
+index . écart promotions . écart . femmes : 
+  valeur: écart . femmes . somme / effectifs . femmes
+  unité: "%"
+ 
+
+index . écart promotions . écart pondéré:
   unité: "%"
   somme:
 ${csps.map((csp) => `    - ${csp} . écart pondéré`).join("\n")} 

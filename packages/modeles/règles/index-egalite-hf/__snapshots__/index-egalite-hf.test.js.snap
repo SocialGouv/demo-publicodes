@@ -8,11 +8,26 @@ exports[`ne renvoie pas d'alerte avec la situation par défaut 1`] = `
  - TOTAL effectifs valides: 0
  - TOTAL écart pondéré: 0 %
  - calculable: non
- - indicateur d'écart de rémunération: 0
- - Note: 40
+ - indicateur d'écart de rémunération: 0 %
+ - Note: Non applicable
 INDICATEUR 2:
  - TOTAL effectifs valides: 0
  - ECART: 0 %
+ - calculable: non
+ - indicateur d'écart d'augmentations: 0 %
+ - Note: Non applicable
+INDICATEUR 3:
+ - TOTAL effectifs valides: 0
+ - ECART: 0 %
+ - calculable: non
+ - indicateur d'écart promotions: 0 %
+ - Note: Non applicable
+INDICATEUR 4:
+ - calculable: non
+ - indicateur d'maternité: 0 %
+ - Note: Non applicable
+INDICATEUR 5:
+ - calculable: non
  - Note: Non applicable
 "
 `;
