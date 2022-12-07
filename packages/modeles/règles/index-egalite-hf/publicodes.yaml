@@ -32,93 +32,97 @@ options . seuil de pertinence:
 
 index: oui
 
-index . csp . indicateur calculable: non
+index . écart rémunérations . calculable: non
 
-index . csp . indicateur calculable oui:
+index . écart rémunérations . calculable oui:
   valeur: oui
-  remplace: index . csp . indicateur calculable
+  remplace: index . écart rémunérations . calculable
   applicable si:
     toutes ces conditions:
-      - index . csp . effectifs > 0
-      - index . csp . effectifs . valides >= 40% * index . csp . effectifs
+      - index . écart rémunérations . effectifs > 0
+      - index . écart rémunérations . effectifs . valides >= 40% * index . écart rémunérations . effectifs
 
-index . csp . indice écart rémunération:
+index . écart rémunérations . indice écart rémunérations:
   valeur: 0
 
-index . csp . indice écart rémunération valide positif:
+index . écart rémunérations . indice écart rémunérations valide positif:
   applicable si:
     toutes ces conditions:
-      - index . csp . indicateur calculable = oui
-      - index . csp . écart pondéré > 0
-  valeur: index . csp . écart pondéré
-  remplace: index . csp . indice écart rémunération
+      - index . écart rémunérations . calculable = oui
+      - index . écart rémunérations . écart pondéré > 0
+  valeur: index . écart rémunérations . écart pondéré
+  remplace: index . écart rémunérations . indice écart rémunérations
   unité: "%"
 
-index . csp . indice écart rémunération valide negatif:
+index . écart rémunérations . indice écart rémunérations valide negatif:
   applicable si:
     toutes ces conditions:
-      - index . csp . indicateur calculable = oui
-      - index . csp . écart pondéré < 0
-  valeur: index . csp . écart pondéré * -1
-  remplace: index . csp . indice écart rémunération
+      - index . écart rémunérations . calculable = oui
+      - index . écart rémunérations . écart pondéré < 0
+  valeur: index . écart rémunérations . écart pondéré * -1
+  remplace: index . écart rémunérations . indice écart rémunérations
   unité: "%"
 
-index . csp . note:
+index . écart rémunérations . note:
   valeur: 0
 
-index . csp . note . variation:
-  remplace: index . csp . note
+index . écart rémunérations . note . variation:
+  remplace: index . écart rémunérations . note
   variations:
-    - si: index . csp . indice écart rémunération >= 20.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 20.1
       alors: 0
-    - si: index . csp . indice écart rémunération >= 19.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 19.1
       alors: 2
-    - si: index . csp . indice écart rémunération >= 18.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 18.1
       alors: 5
-    - si: index . csp . indice écart rémunération >= 17.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 17.1
       alors: 8
-    - si: index . csp . indice écart rémunération >= 16.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 16.1
       alors: 11
-    - si: index . csp . indice écart rémunération >= 15.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 15.1
       alors: 14
-    - si: index . csp . indice écart rémunération >= 14.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 14.1
       alors: 17
-    - si: index . csp . indice écart rémunération >= 13.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 13.1
       alors: 19
-    - si: index . csp . indice écart rémunération >= 12.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 12.1
       alors: 21
-    - si: index . csp . indice écart rémunération >= 11.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 11.1
       alors: 23
-    - si: index . csp . indice écart rémunération >= 10.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 10.1
       alors: 25
-    - si: index . csp . indice écart rémunération >= 9.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 9.1
       alors: 27
-    - si: index . csp . indice écart rémunération >= 8.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 8.1
       alors: 29
-    - si: index . csp . indice écart rémunération >= 7.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 7.1
       alors: 31
-    - si: index . csp . indice écart rémunération >= 6.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 6.1
       alors: 33
-    - si: index . csp . indice écart rémunération >= 5.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 5.1
       alors: 34
-    - si: index . csp . indice écart rémunération >= 4.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 4.1
       alors: 35
-    - si: index . csp . indice écart rémunération >= 3.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 3.1
       alors: 36
-    - si: index . csp . indice écart rémunération >= 2.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 2.1
       alors: 37
-    - si: index . csp . indice écart rémunération >= 1.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 1.1
       alors: 38
-    - si: index . csp . indice écart rémunération >= 0.1
+    - si: index . écart rémunérations . indice écart rémunérations >= 0.1
       alors: 39
     - sinon: 40
 
 résultat:
   texte: |
     INDICATEUR 1:
-     - TOTAL effectifs: {{ index . csp . effectifs }}
-     - TOTAL effectifs valides: {{ index . csp . effectifs . valides }}
-     - TOTAL écart pondéré: {{ index . csp . écart pondéré }}
-     - indicateur calculable: {{ index . csp . indicateur calculable }}
-     - indicateur d'écart de rémunération: {{ index . csp . indice écart rémunération }}
-     - Note: {{ index . csp . note }}
+     - TOTAL effectifs: {{ index . écart rémunérations . effectifs }}
+     - TOTAL effectifs valides: {{ index . écart rémunérations . effectifs . valides }}
+     - TOTAL écart pondéré: {{ index . écart rémunérations . écart pondéré }}
+     - calculable: {{ index . écart rémunérations . calculable }}
+     - indicateur d'écart de rémunération: {{ index . écart rémunérations . indice écart rémunérations }}
+     - Note: {{ index . écart rémunérations . note }}
+    INDICATEUR 2:
+     - TOTAL effectifs valides: {{ index . écart augmentations . effectifs . valides }}
+     - ECART: {{ index . écart augmentations . ouvriers . écart }}
+     - Note: {{ index . écart augmentations . note }}
