@@ -14,12 +14,12 @@ test("a besoin de variables pour fonctionner", () => {
 
 const defaultSituation = {};
 
-test("ne renvoie pas d'alerte avec la situation par défaut", () => {
+test("ne renvoie rien par défaut", () => {
   const engine = new Engine(rules);
   engine.setSituation(defaultSituation);
   const evaluated = engine.evaluate("résultat");
   expect(evaluated.nodeValue).toMatchSnapshot();
-  expect(evaluated.missingVariables).toEqual({});
+  expect(evaluated.missingVariables).toMatchSnapshot();
 });
 
 const tests = [

@@ -149,7 +149,7 @@ question1 . score:
       alors: 2
     - si: reponse = reponse4
       alors: 3
-    - sinon: 0
+    # - sinon: 0
 
 question2 . score:
   variations:
@@ -260,6 +260,18 @@ question10 . score:
     - sinon: 0
 
 score:
+  applicable si:
+    toutes ces conditions:
+      - question1 . reponse
+      - question2 . reponse != "''"
+      - question3 . reponse != "''"
+      - question4 . reponse != "''"
+      - question5 . reponse != "''"
+      - question6 . reponse != "''"
+      - question7 . reponse != "''"
+      - question8 . reponse != "''"
+      - question9 . reponse != "''"
+      - question10 . reponse != "''"
   somme:
     - question1 . score
     - question2 . score
@@ -319,6 +331,18 @@ diagnostic . résultat:
   texte: |
 
 résultat:
+  applicable si:
+    toutes ces conditions:
+      - question1 . reponse != "''"
+      - question2 . reponse != "''"
+      - question3 . reponse != "''"
+      - question4 . reponse != "''"
+      - question5 . reponse != "''"
+      - question6 . reponse != "''"
+      - question7 . reponse != "''"
+      - question8 . reponse != "''"
+      - question9 . reponse != "''"
+      - question10 . reponse != "''"
   texte: |
     Score EPDS: {{ score }}
 

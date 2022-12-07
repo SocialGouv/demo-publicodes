@@ -38,7 +38,7 @@ const tests = [
   },
 ];
 
-test.each(tests)(".imcu($poids, $taille)", ({ poids, taille }) => {
+test.each(tests)(".imc($poids, $taille)", ({ poids, taille }) => {
   const engine = new Engine(rules);
   engine.setSituation({
     "patient . poids": poids,

@@ -260,7 +260,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
 
   const CustomForm = customForms[algorithme] || DefaultForm;
 
-  //console.log({ situation, missingVariables, allMissingVariables });
+  console.log({ situation, missingVariables, allMissingVariables });
 
   const htmlResultat =
     evaluated?.nodeValue?.toString().replace(/\n/g, "<br/>") || "";

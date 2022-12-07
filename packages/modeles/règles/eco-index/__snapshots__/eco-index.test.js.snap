@@ -1,17 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`a besoin de variables pour fonctionner 1`] = `{}`;
+exports[`a besoin de variables pour fonctionner 1`] = `
+{
+  "input . dom": 2,
+  "input . req": 2,
+  "input . size": 2,
+}
+`;
 
-exports[`ne renvoie pas d'alerte avec la situation par défaut 1`] = `
-"Note eco-index: 100
-Grade eco-index: A
+exports[`ne renvoie rien par défaut 1`] = `undefined`;
 
-Par visite:
- - Emissions de gaz: 1 gCO2e
- - Consommation d'eau: 1,5 cl
-
-Pour un total de 1000 visites par mois, ceci correspond à:
-- 11,1 km en voiture (Peugeot 208 5P 1.6 BlueHDi FAP (75ch) BVM5)
-- et 0,3 douche(s).
-"
+exports[`ne renvoie rien par défaut 2`] = `
+{
+  "input . dom": 2,
+  "input . req": 2,
+  "input . size": 2,
+}
 `;
