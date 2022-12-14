@@ -27,251 +27,150 @@ question10 . reponse: "''"
 
 # définition des questions et réponses
 
+# définition du scoring des réponses
+
 question1:
   question: "Je me suis senti(e) confiant(e) et joyeux(se), en pensant à l’avenir"
-question1 . reponse1:
-  texte: "Autant que d’habitude"
-question1 . reponse2:
-  texte: "Plutôt moins que d’habitude"
-question1 . reponse3:
-  texte: "Vraiment moins que d’habitude"
-question1 . reponse4:
-  texte: "Pratiquement pas"
-
-question2:
-  question: "J’ai pu rire et prendre les choses du bon côté"
-question2 . reponse1:
-  texte: "Aussi souvent que d’habitude"
-question2 . reponse2:
-  texte: "Pas tout-à-fait autant"
-question2 . reponse3:
-  texte: "Vraiment beaucoup moins souvent ces jours-ci"
-question2 . reponse4:
-  texte: "Absolument pas"
-
-question3:
-  question: "Je me suis senti(e) triste ou peu heureux (se)"
-question3 . reponse1:
-  texte: "Oui, la plupart du temps"
-question3 . reponse2:
-  texte: "Oui, très souvent"
-question3 . reponse3:
-  texte: "Pas très souvent"
-question3 . reponse4:
-  texte: "Non, pas du tout"
-
-question4:
-  question: "Je me suis senti(e) si malheureux(se) que j’ai eu des problèmes de sommeil"
-question4 . reponse1:
-  texte: "Oui, la plupart du temps"
-question4 . reponse2:
-  texte: "Oui, parfois"
-question4 . reponse3:
-  texte: "Pas très souvent"
-question4 . reponse4:
-  texte: "Non, pas du tout"
-
-question5:
-  question: "Je me suis senti(e) si malheureux(se) que j’en ai pleuré"
-question5 . reponse1:
-  texte: "Oui, la plupart du temps"
-question5 . reponse2:
-  texte: "Oui, très souvent"
-question5 . reponse3:
-  texte: "Seulement de temps en temps"
-question5 . reponse4:
-  texte: "Non, jamais"
-
-question6:
-  question: "Je me suis senti(e) inquiet(e) ou soucieux(se) sans motifs"
-question6 . reponse1:
-  texte: "Non, pas du tout"
-question6 . reponse2:
-  texte: "Presque jamais"
-question6 . reponse3:
-  texte: "Oui, parfois"
-question6 . reponse4:
-  texte: "Oui, très souvent"
-
-question7:
-  question: "Je me suis senti(e) effrayé(e) ou paniqué(e) sans vraiment de raisons"
-question7 . reponse1:
-  texte: "Oui, vraiment souvent"
-question7 . reponse2:
-  texte: "Oui, parfois"
-question7 . reponse3:
-  texte: "Non, pas très souvent"
-question7 . reponse4:
-  texte: "Non, pas du tout"
-
-question8:
-  question: "Je me suis reproché(e), sans raisons, d’être responsable quand les choses allaient mal"
-question8 . reponse1:
-  texte: "Oui, la plupart du temps"
-question8 . reponse2:
-  texte: "Oui, parfois"
-question8 . reponse3:
-  texte: "Pas très souvent"
-question8 . reponse4:
-  texte: "Non, jamais"
-
-question9:
-  question: "J’ai eu tendance à me sentir dépassé(e) par les évènements"
-question9 . reponse1:
-  texte: "Oui, la plupart du temps, je me suis senti(e) incapable de faire face aux situations"
-question9 . reponse2:
-  texte: "Oui, parfois, je ne me suis pas senti(e) aussi capable de faire face que d’habitude"
-question9 . reponse3:
-  texte: "Non, j’ai pu faire face à la plupart des situations"
-question9 . reponse4:
-  texte: "Non, je me suis senti(e) aussi efficace que d’habitude"
-
-question10:
-  question: "Il m’est arrivé de penser à me faire du mal"
-question10 . reponse1:
-  texte: "Oui, très souvent"
-question10 . reponse2:
-  texte: "Parfois"
-question10 . reponse3:
-  texte: "Presque jamais"
-question10 . reponse4:
-  texte: "Jamais"
-
-# définition du scoring des réponses
 
 question1 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Autant que d’habitude"
       alors: 0
-    - si: reponse = reponse2
+    - si: reponse = "Plutôt moins que d’habitude"
       alors: 1
-    - si: reponse = reponse3
+    - si: reponse = "Vraiment moins que d’habitude"
       alors: 2
-    - si: reponse = reponse4
+    - si: reponse = "Pratiquement pas"
       alors: 3
-    # - sinon: 0
+
+question2:
+  question: "J’ai pu rire et prendre les choses du bon côté"
 
 question2 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Aussi souvent que d’habitude"
       alors: 0
-    - si: reponse = reponse2
+    - si: reponse = "Pas tout-à-fait autant"
       alors: 1
-    - si: reponse = reponse3
+    - si: reponse = "Vraiment beaucoup moins souvent ces jours-ci"
       alors: 2
-    - si: reponse = reponse4
+    - si: reponse = "Absolument pas"
       alors: 3
     - sinon: 0
+
+question3:
+  question: "Je me suis senti(e) triste ou peu heureux (se)"
 
 question3 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, la plupart du temps"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, très souvent"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Pas très souvent"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Non, pas du tout"
       alors: 0
-    - sinon: 0
+
+question4:
+  question: "Je me suis senti(e) si malheureux(se) que j’ai eu des problèmes de sommeil"
 
 question4 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, la plupart du temps"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, parfois"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Pas très souvent"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Non, pas du tout"
       alors: 0
-    - sinon: 0
+
+question5:
+  question: "Je me suis senti(e) si malheureux(se) que j’en ai pleuré"
 
 question5 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, la plupart du temps"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, très souvent"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Seulement de temps en temps"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse =  "Non, jamais"
       alors: 0
-    - sinon: 0
+
+question6:
+  question: "Je me suis senti(e) inquiet(e) ou soucieux(se) sans motifs"
 
 question6 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Non, pas du tout"
       alors: 0
-    - si: reponse = reponse2
+    - si: reponse = "Presque jamais"
       alors: 1
-    - si: reponse = reponse3
+    - si: reponse = "Oui, parfois"
       alors: 2
-    - si: reponse = reponse4
+    - si: reponse = "Oui, très souvent"
       alors: 3
-    - sinon: 0
+
+question7:
+  question: "Je me suis senti(e) effrayé(e) ou paniqué(e) sans vraiment de raisons"
 
 question7 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, vraiment souvent"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, parfois"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Non, pas très souvent"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Non, pas du tout"
       alors: 0
-    - sinon: 0
+
+question8:
+  question: "Je me suis reproché(e), sans raisons, d’être responsable quand les choses allaient mal"
 
 question8 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, la plupart du temps"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, parfois"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Pas très souvent"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Non, jamais"
       alors: 0
-    - sinon: 0
+
+question9:
+  question: "J’ai eu tendance à me sentir dépassé(e) par les évènements"
 
 question9 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, la plupart du temps, je me suis senti(e) incapable de faire face aux situations"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse = "Oui, parfois, je ne me suis pas senti(e) aussi capable de faire face que d’habitude"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Non, j’ai pu faire face à la plupart des situations"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Non, je me suis senti(e) aussi efficace que d’habitude"
       alors: 0
-    - sinon: 0
+
+question10:
+  question: "Il m’est arrivé de penser à me faire du mal"
 
 question10 . score:
   variations:
-    - si: reponse = reponse1
+    - si: reponse = "Oui, très souvent"
       alors: 3
-    - si: reponse = reponse2
+    - si: reponse =  "Parfois"
       alors: 2
-    - si: reponse = reponse3
+    - si: reponse = "Presque jamais"
       alors: 1
-    - si: reponse = reponse4
+    - si: reponse = "Jamais"
       alors: 0
-    - sinon: 0
 
 score:
-  applicable si:
-    toutes ces conditions:
-      - question1 . reponse
-      - question2 . reponse != "''"
-      - question3 . reponse != "''"
-      - question4 . reponse != "''"
-      - question5 . reponse != "''"
-      - question6 . reponse != "''"
-      - question7 . reponse != "''"
-      - question8 . reponse != "''"
-      - question9 . reponse != "''"
-      - question10 . reponse != "''"
   somme:
     - question1 . score
     - question2 . score
@@ -331,18 +230,6 @@ diagnostic . résultat:
   texte: |
 
 résultat:
-  applicable si:
-    toutes ces conditions:
-      - question1 . reponse != "''"
-      - question2 . reponse != "''"
-      - question3 . reponse != "''"
-      - question4 . reponse != "''"
-      - question5 . reponse != "''"
-      - question6 . reponse != "''"
-      - question7 . reponse != "''"
-      - question8 . reponse != "''"
-      - question9 . reponse != "''"
-      - question10 . reponse != "''"
   texte: |
     Score EPDS: {{ score }}
 
