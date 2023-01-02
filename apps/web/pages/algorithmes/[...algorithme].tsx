@@ -1,12 +1,13 @@
 import camelCase from "camelcase";
 import modeles from "@socialgouv/publicodes-demo-modeles";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { Tabs, Tab, TextInput, Alert } from "@dataesr/react-dsfr";
+import { Tabs, Tab, TextInput, Alert, Button } from "@dataesr/react-dsfr";
 import Engine, { Rule } from "publicodes";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import usePublicodesEngine from "../../src/usePublicodesEngine";
+import Link from "next/link";
 
 const AlgorithmeHeader = ({ meta }: { meta: Rule | null }) => {
   return (
@@ -287,6 +288,15 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
         </Tab>
         {/* @ts-ignore */}
         <Tab label="Algorithme">
+          Editer sur{" "}
+          <Link
+            target="_blank"
+            href={`https://publi.codes/studio/résultat?code=${encodeURIComponent(
+              rawYaml
+            )}`}
+          >
+            publi.codes/studio
+          </Link>
           <SyntaxHighlighter language="yaml" style={syntaxStyle}>
             {rawYaml}
           </SyntaxHighlighter>
