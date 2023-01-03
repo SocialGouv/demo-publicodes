@@ -46,7 +46,6 @@ const FormEPDS = ({
   engine: Engine;
   onChange: Function;
   missingVariables: string[];
-
   allMissingVariables: string[] | null;
 }): React.ReactElement => {
   // load questions/réponses from YAML
@@ -291,7 +290,7 @@ export default function Algorithme({ algorithme }: { algorithme: string }) {
           Editer sur{" "}
           <Link
             target="_blank"
-            href={`https://publi.codes/studio/résultat?code=${encodeURIComponent(
+            href={`https://publi.codes/studio/résultat#${encodeURIComponent(
               rawYaml
             )}`}
           >
