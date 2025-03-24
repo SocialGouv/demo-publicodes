@@ -14,7 +14,7 @@
   "dependencies": {
     "@dataesr/react-dsfr": "3.1.12",
     "camelcase": "^7.0.0",
-    "next": "^13.0.0",
+    "next": "^13.5.9",
     "publicodes": "^1.0.0-beta.61",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
